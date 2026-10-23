@@ -28,6 +28,43 @@ export interface StudentProgress {
   completedTasks: Record<string, boolean>; // e.g. "4-senin": true
 }
 
+export interface LiveSessionSyncData {
+  currentStep: number; // 1: Tantangan Awal, 2: Pembelajaran Interaktif, 3: Kuis Logika (10 Soal), 4: Refleksi & Penuntasan
+  subStep: number;
+  tutorStepTitle: string;
+  pushedCode: string | null;
+  tutorNote: string;
+  studentLiveCode: string;
+  studentExecutionOutput: string;
+  studentOutputSuccess: boolean | null;
+  studentQuizAnswers: Record<number, number>;
+  studentQuizScore: number;
+  quizSubmitted: boolean;
+  quizScores?: Record<number, boolean>;
+  quizTotalAnswered?: number;
+  quizCorrectCount?: number;
+  helpRequested: boolean;
+  sessionCompleted: boolean;
+  lastUpdated: number;
+}
+
+export const DEFAULT_LIVE_SYNC: LiveSessionSyncData = {
+  currentStep: 1,
+  subStep: 1,
+  tutorStepTitle: "Tahap 1: Tantangan Uji Coba Awal",
+  pushedCode: null,
+  tutorNote: "Silakan coba selesaikan tantangan awal di bawah. Mentor memantau caramu berpikir dan menulis kode.",
+  studentLiveCode: "def hitung_diskon(total):\n    # Tuliskan logikamu di sini:\n    pass\n",
+  studentExecutionOutput: "",
+  studentOutputSuccess: null,
+  studentQuizAnswers: {},
+  studentQuizScore: 0,
+  quizSubmitted: false,
+  helpRequested: false,
+  sessionCompleted: false,
+  lastUpdated: Date.now(),
+};
+
 export interface RoleCredentials {
   email: string;
   secret: string; // PIN or Password
@@ -73,6 +110,10 @@ interface SessionContextType {
   studentLiveCode: string;
   updateStudentLiveCode: (code: string) => void;
   isMounted: boolean;
+  liveSync: LiveSessionSyncData;
+  updateLiveSync: (partial: Partial<LiveSessionSyncData>) => Promise<void>;
+  tutorAdvanceStep: (step: number, subStep?: number, title?: string, note?: string) => Promise<void>;
+  isDevelopmentUnlocked: boolean;
 }
 
 export const USERS: Record<UserRole, UserProfile> = {
@@ -234,13 +275,67 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     });
   };
 
+  const [liveSync, setLiveSync] = useState<LiveSessionSyncData>(DEFAULT_LIVE_SYNC);
+
+  // Cross-window realtime synchronization polling
+  useEffect(() => {
+    const fetchSync = async () => {
+      try {
+        const res = await fetch("/api/v1/sync/live-session", { cache: "no-store" });
+        if (res.ok) {
+          const json = await res.json();
+          if (json.success && json.data) {
+            setLiveSync((prev) => {
+              if (json.data.lastUpdated !== prev.lastUpdated) {
+                if (json.data.pushedCode && json.data.pushedCode !== pushedCode) {
+                  setPushedCode(json.data.pushedCode);
+                }
+                if (json.data.studentLiveCode && role === "tutor") {
+                  setStudentLiveCode(json.data.studentLiveCode);
+                }
+                return json.data;
+              }
+              return prev;
+            });
+          }
+        }
+      } catch {}
+    };
+
+    fetchSync();
+    const interval = setInterval(fetchSync, 1200);
+    return () => clearInterval(interval);
+  }, [pushedCode, role]);
+
+  const updateLiveSync = async (partial: Partial<LiveSessionSyncData>) => {
+    setLiveSync((prev) => ({ ...prev, ...partial }));
+    try {
+      await fetch("/api/v1/sync/live-session", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(partial),
+      });
+    } catch {}
+  };
+
+  const tutorAdvanceStep = async (step: number, subStep = 1, title = "", note = "") => {
+    await updateLiveSync({
+      currentStep: step,
+      subStep,
+      tutorStepTitle: title,
+      tutorNote: note,
+    });
+  };
+
   const pushCodeToStudent = (code: string) => {
     setPushedCode(code);
     setStudentLiveCode(code);
+    updateLiveSync({ pushedCode: code, studentLiveCode: code });
   };
 
   const updateStudentLiveCode = (code: string) => {
     setStudentLiveCode(code);
+    updateLiveSync({ studentLiveCode: code });
   };
 
   return (
@@ -262,6 +357,10 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         studentLiveCode,
         updateStudentLiveCode,
         isMounted,
+        liveSync,
+        updateLiveSync,
+        tutorAdvanceStep,
+        isDevelopmentUnlocked: true,
       }}
     >
       {children}

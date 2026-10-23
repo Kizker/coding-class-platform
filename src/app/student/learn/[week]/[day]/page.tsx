@@ -7,6 +7,7 @@ import { CodeEditor } from "@/components/editor/CodeEditor";
 import { ConsoleOutput } from "@/components/editor/ConsoleOutput";
 import { useAutoSaveDraft } from "@/hooks/useAutoSaveDraft";
 import { useSession } from "@/lib/auth/sessionContext";
+import confetti from "canvas-confetti";
 import {
   Play,
   Check,
@@ -19,6 +20,10 @@ import {
   Zap,
   Clock,
   Sparkles,
+  ArrowLeft,
+  RotateCcw,
+  AlertCircle,
+  FileText,
 } from "lucide-react";
 import Link from "next/link";
 
@@ -31,7 +36,8 @@ export default function StudentLearnPage({
   const weekNum = parseInt(resolvedParams.week, 10) || 1;
   const dayKey = (resolvedParams.day || "senin").toLowerCase();
 
-  const { progress, updateProgress, pushedCode, setTaskCompleted } = useSession();
+  const { progress, updateProgress, pushedCode, setTaskCompleted, isTaskCompleted } =
+    useSession();
   const { isRunning, runCode } = usePyodide();
 
   const weekData = CURRICULUM_DATA.find((w) => w.week === weekNum) || CURRICULUM_DATA[0];
@@ -44,10 +50,10 @@ export default function StudentLearnPage({
       title: `Latihan Pekan ${weekNum}`,
       durationMinutes: 15,
       points: 20,
-      theoryMarkdown: "Materi koding harian.",
+      theoryMarkdown: "Materi koding harian mandiri.",
       challengeInstructions: "Tuliskan kode Python sesuai petunjuk di bawah ini.",
       starterCode: "# Ketik kodemu di sini:\nprint('Semangat Belajar!')\n",
-      hints: ["Gunakan fungsi print()."],
+      hints: ["Gunakan fungsi print() untuk mencetak luaran."],
       testAssertions: "assert 'Semangat' in stdout",
       expectedOutput: "Semangat Belajar!",
     };
@@ -61,7 +67,7 @@ export default function StudentLearnPage({
   const [activeTab, setActiveTab] = useState<"challenge" | "theory" | "hints">("challenge");
   const [activeHintIndex, setActiveHintIndex] = useState<number>(0);
   const [lastResult, setLastResult] = useState<ExecutionResult | null>(null);
-  const [isPassed, setIsPassed] = useState<boolean>(false);
+  const [isPassed, setIsPassed] = useState<boolean>(isTaskCompleted(weekNum, dayKey));
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [pushedAlert, setPushedAlert] = useState<string | null>(null);
 
@@ -91,119 +97,149 @@ export default function StudentLearnPage({
         completedAssignments: progress.completedAssignments + 1,
       });
       setTaskCompleted(weekNum, dayKey, true);
+      confetti({
+        particleCount: 80,
+        spread: 60,
+        origin: { y: 0.6 },
+      });
     }
   };
 
+  const dayLabelMap: Record<string, string> = {
+    senin: "Senin",
+    selasa: "Selasa",
+    rabu: "Rabu",
+    kamis: "Kamis",
+    jumat: "Jumat",
+    sabtu: "Sabtu",
+    minggu: "Minggu",
+  };
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* Studio Header Bar */}
-      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <Link
-            href="/student/assignments"
-            className="text-slate-600 hover:text-blue-600 transition flex items-center space-x-1 font-bold"
-          >
-            <span>&larr; TUGAS_INDEX</span>
-          </Link>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-500 font-semibold">
-            PEKAN_{weekNum.toString().padStart(2, "0")}
-          </span>
-          <span className="text-slate-300">/</span>
-          <span className="text-blue-700 font-bold uppercase">
-            {assignment.day} ({assignment.type})
-          </span>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-900 font-bold hidden sm:inline font-sans">
-            {assignment.title}
-          </span>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <span className="text-slate-600 font-semibold flex items-center space-x-1">
-            <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-            <span>BOBOT:</span>
-            <strong className="text-blue-700">+{assignment.points} XP</strong>
-          </span>
-          <span className="text-slate-300">|</span>
-          <span className="text-slate-600 font-semibold flex items-center space-x-1">
-            <Clock className="w-3.5 h-3.5 text-slate-400" />
-            <span>EST:</span>
-            <strong className="text-slate-900">{assignment.durationMinutes}M</strong>
-          </span>
-        </div>
-      </div>
-
-      {/* Tutor Pushed Code Banner Alert */}
-      {pushedAlert && (
-        <div className="bg-amber-50 border-b border-amber-200 px-4 py-2.5 text-xs font-mono text-amber-900 flex items-center justify-between shadow-2xs">
-          <div className="flex items-center space-x-2">
-            <Bell className="w-4 h-4 text-amber-700 animate-bounce" />
-            <span className="font-semibold">{pushedAlert}</span>
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FAFAF9] text-stone-900 flex flex-col font-sans antialiased">
+      {/* ======================================================== */}
+      {/* 1. QUIET HEADER (HUMAN-CENTRIC CONTEXT BAR)              */}
+      {/* ======================================================== */}
+      <header className="bg-white border-b border-stone-200/80 px-4 sm:px-6 lg:px-8 py-3 sticky top-14 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+          {/* Breadcrumbs */}
+          <div className="flex items-center space-x-2.5">
+            <Link
+              href="/student/assignments"
+              className="text-stone-500 hover:text-stone-900 transition flex items-center space-x-1.5 font-medium"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Daftar Tugas</span>
+            </Link>
+            <span className="text-stone-300">/</span>
+            <span className="text-stone-500 font-medium">Pekan {weekNum}</span>
+            <span className="text-stone-300">/</span>
+            <span className="font-semibold text-stone-900">
+              {dayLabelMap[dayKey] || dayKey} &bull; {assignment.title}
+            </span>
           </div>
-          <button
-            onClick={() => setPushedAlert(null)}
-            className="text-amber-700 hover:text-amber-900 font-bold underline text-[11px] cursor-pointer"
-          >
-            Tutup
-          </button>
+
+          {/* Points & Duration Badges */}
+          <div className="flex items-center space-x-3">
+            <span className="text-stone-600 font-medium flex items-center space-x-1.5 bg-stone-50 px-2.5 py-1 rounded-lg border border-stone-200/60">
+              <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+              <span>+{assignment.points} XP</span>
+            </span>
+            <span className="text-stone-600 font-medium flex items-center space-x-1.5 bg-stone-50 px-2.5 py-1 rounded-lg border border-stone-200/60">
+              <Clock className="w-3.5 h-3.5 text-stone-400" />
+              <span>{assignment.durationMinutes} Menit</span>
+            </span>
+            {isPassed && (
+              <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/80 font-semibold flex items-center space-x-1">
+                <Check className="w-3 h-3 text-emerald-600" />
+                <span>Selesai</span>
+              </span>
+            )}
+          </div>
+        </div>
+      </header>
+
+      {/* Tutor Pushed Code Subtle Toast */}
+      {pushedAlert && (
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
+          <div className="bg-stone-900 text-stone-100 px-4 py-3 rounded-xl text-xs flex items-center justify-between shadow-sm animate-fadeIn">
+            <div className="flex items-center space-x-2.5">
+              <Bell className="w-4 h-4 text-amber-400 shrink-0" />
+              <span className="font-medium">{pushedAlert}</span>
+            </div>
+            <button
+              onClick={() => setPushedAlert(null)}
+              className="text-stone-400 hover:text-white text-xs font-medium ml-4 cursor-pointer"
+            >
+              Tutup
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Split Screen Grid (5 : 7) */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-        {/* LEFT PANE: Materi & Panduan */}
-        <div className="lg:col-span-5 border-r border-slate-200 bg-slate-50 flex flex-col justify-between overflow-y-auto">
-          {/* Tab Navigation with Uniform Buttons */}
-          <div className="flex border-b border-slate-200 bg-white p-2.5 gap-2 text-xs font-mono">
+      {/* ======================================================== */}
+      {/* 2. SPLIT WORKSPACE (5 : 7 GRID)                          */}
+      {/* ======================================================== */}
+      <main className="max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* LEFT PANE (5/12): Panduan & Teori */}
+        <section className="lg:col-span-5 bg-white border border-stone-200/80 rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
+          {/* Calm, Human-Centric Tab Navigation */}
+          <div className="flex p-1 bg-stone-100 rounded-xl text-xs">
             <button
               onClick={() => setActiveTab("challenge")}
-              className={`flex-1 py-2 px-3 rounded-xl font-bold transition text-center cursor-pointer ${
+              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
                 activeTab === "challenge"
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80"
+                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                  : "text-stone-600 hover:text-stone-900"
               }`}
             >
-              01 // TANTANGAN
+              Instruksi Tantangan
             </button>
             <button
               onClick={() => setActiveTab("theory")}
-              className={`flex-1 py-2 px-3 rounded-xl font-bold transition text-center cursor-pointer ${
+              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
                 activeTab === "theory"
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80"
+                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                  : "text-stone-600 hover:text-stone-900"
               }`}
             >
-              02 // TEORI
+              Ringkasan Teori
             </button>
             <button
               onClick={() => setActiveTab("hints")}
-              className={`flex-1 py-2 px-3 rounded-xl font-bold transition text-center cursor-pointer ${
+              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
                 activeTab === "hints"
-                  ? "bg-blue-600 text-white shadow-xs"
-                  : "bg-slate-100 text-slate-600 hover:text-slate-900 hover:bg-slate-200/80"
+                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
+                  : "text-stone-600 hover:text-stone-900"
               }`}
             >
-              03 // PETUNJUK ({assignment.hints.length})
+              Petunjuk ({assignment.hints.length})
             </button>
           </div>
 
-          {/* Tab Content Body - Uniform Inner Boxes */}
-          <div className="p-5 sm:p-6 space-y-5 flex-1">
+          {/* Tab Content */}
+          <div className="space-y-4 pt-1">
             {activeTab === "challenge" && (
-              <div className="space-y-4">
-                {/* Challenge Box */}
-                <div className="ui-card-inner bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold text-blue-700 tracking-wider uppercase flex items-center space-x-1.5">
-                      <BookOpen className="w-3.5 h-3.5" />
-                      <span>INSTRUKSI TANTANGAN:</span>
+              <div className="space-y-4 animate-fadeIn">
+                <div className="space-y-2">
+                  <div className="flex items-center justify-between text-xs">
+                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
+                      Latihan Mandiri 15 Menit
                     </span>
-                    <span className="text-[11px] font-mono px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 font-bold border border-blue-200">
-                      PR 15 MENIT
-                    </span>
+                    <span className="text-emerald-700 font-semibold">+{assignment.points} XP</span>
                   </div>
-                  <p className="text-slate-800 text-xs sm:text-sm leading-relaxed font-sans">
+                  <h1 className="text-lg font-bold text-stone-900 tracking-tight leading-snug">
+                    {assignment.title}
+                  </h1>
+                </div>
+
+                {/* Challenge Box */}
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-2">
+                  <span className="text-xs font-semibold text-stone-900 flex items-center space-x-1.5">
+                    <BookOpen className="w-3.5 h-3.5 text-stone-500" />
+                    <span>Petunjuk Pengerjaan:</span>
+                  </span>
+                  <p className="text-xs text-stone-700 leading-relaxed font-sans">
                     {assignment.challengeInstructions}
                   </p>
                 </div>
@@ -211,18 +247,11 @@ export default function StudentLearnPage({
                 {/* Target Output Terminal */}
                 {assignment.expectedOutput && (
                   <div className="space-y-2">
-                    <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
-                      TARGET KELUARAN TERMINAL:
+                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                      Target Keluaran Terminal yang Diharapkan:
                     </span>
-                    <div className="rounded-2xl border border-slate-800 bg-slate-900 overflow-hidden shadow-xs">
-                      <div className="px-3.5 py-2 border-b border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
-                        <span className="flex items-center space-x-1.5 font-bold">
-                          <Terminal className="w-3 h-3 text-slate-400" />
-                          <span>STDOUT_EXPECTED</span>
-                        </span>
-                        <span>PYTHON RUNTIME</span>
-                      </div>
-                      <pre className="p-4 text-emerald-400 font-mono text-xs whitespace-pre-wrap leading-relaxed">
+                    <div className="rounded-xl border border-stone-800 bg-stone-900 p-4 text-stone-100 font-mono text-xs overflow-x-auto shadow-inner">
+                      <pre className="text-emerald-400 whitespace-pre-wrap leading-relaxed">
                         {assignment.expectedOutput}
                       </pre>
                     </div>
@@ -232,12 +261,13 @@ export default function StudentLearnPage({
             )}
 
             {activeTab === "theory" && (
-              <div className="space-y-3">
-                <div className="ui-card-inner bg-white border border-slate-200 rounded-2xl p-5 sm:p-6 shadow-xs space-y-3">
-                  <span className="text-xs font-mono font-bold text-blue-700 tracking-wider uppercase block">
-                    RINGKASAN TEORI LOGIKA:
+              <div className="space-y-3 animate-fadeIn">
+                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-2">
+                  <span className="text-xs font-semibold text-stone-900 flex items-center space-x-1.5">
+                    <FileText className="w-3.5 h-3.5 text-stone-500" />
+                    <span>Konsep &amp; Nalar Logika:</span>
                   </span>
-                  <div className="text-xs sm:text-sm text-slate-700 font-sans leading-relaxed whitespace-pre-wrap">
+                  <div className="text-xs text-stone-700 leading-relaxed font-sans whitespace-pre-wrap">
                     {assignment.theoryMarkdown}
                   </div>
                 </div>
@@ -245,36 +275,36 @@ export default function StudentLearnPage({
             )}
 
             {activeTab === "hints" && (
-              <div className="space-y-3">
-                <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block">
-                  PETUNJUK BERTAHAP NALAR KODING:
+              <div className="space-y-3 animate-fadeIn">
+                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                  Petunjuk Bertahap Nalar Koding:
                 </span>
-                <div className="space-y-3 font-mono">
+                <div className="space-y-2.5">
                   {assignment.hints.map((hint, idx) => (
                     <div
                       key={idx}
-                      className={`p-4 rounded-2xl border transition-all ${
+                      className={`p-3.5 rounded-xl border transition-all ${
                         idx <= activeHintIndex
-                          ? "bg-white border-blue-200 shadow-xs text-slate-800 ring-1 ring-blue-100"
-                          : "bg-slate-100/70 border-slate-200 text-slate-400"
+                          ? "bg-white border-stone-300 shadow-2xs text-stone-900"
+                          : "bg-stone-50 border-stone-200/70 text-stone-400"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-[11px] font-bold mb-1.5">
-                        <span className="text-blue-700">PETUNJUK #{idx + 1}</span>
+                      <div className="flex items-center justify-between text-xs font-medium mb-1">
+                        <span className="font-semibold text-stone-900">Petunjuk #{idx + 1}</span>
                         {idx > activeHintIndex && (
                           <button
                             onClick={() => setActiveHintIndex(idx)}
-                            className="text-blue-600 hover:text-blue-800 font-bold underline text-[11px] cursor-pointer"
+                            className="text-stone-600 hover:text-stone-900 font-medium underline text-xs cursor-pointer"
                           >
-                            BUKA KUNCI &rarr;
+                            Buka Petunjuk &rarr;
                           </button>
                         )}
                       </div>
                       {idx <= activeHintIndex ? (
-                        <p className="font-sans text-xs text-slate-700 leading-relaxed">{hint}</p>
+                        <p className="text-xs text-stone-600 leading-relaxed">{hint}</p>
                       ) : (
-                        <p className="font-sans text-xs italic text-slate-400">
-                          Klik &quot;Buka Kunci&quot; jika kamu menemui jalan buntu.
+                        <p className="text-xs italic text-stone-400">
+                          Klik &ldquo;Buka Petunjuk&rdquo; jika kamu menemui jalan buntu.
                         </p>
                       )}
                     </div>
@@ -284,119 +314,162 @@ export default function StudentLearnPage({
             )}
           </div>
 
-          {/* Footer status */}
-          <div className="p-3.5 bg-white border-t border-slate-200 text-[11px] font-mono text-slate-500 flex items-center justify-between">
-            <span className="flex items-center space-x-1.5 font-bold">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-600" />
-              <span>DRAFT: LOCAL_STORAGE_SYNC</span>
+          {/* Footer note */}
+          <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
+            <span className="flex items-center space-x-1.5">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <span>Penyimpanan Draf Otomatis</span>
             </span>
-            <span>PYTHON_3.11</span>
+            <span>Python 3.11</span>
           </div>
-        </div>
+        </section>
 
-        {/* RIGHT PANE: Workspace Koding Siswa */}
-        <div className="lg:col-span-7 flex flex-col p-4 sm:p-6 space-y-4 bg-slate-50 overflow-y-auto">
-          {/* Action Bar */}
-          <div className="flex items-center justify-between gap-3 flex-wrap">
-            <div className="flex items-center space-x-2.5 font-mono text-xs">
+        {/* RIGHT PANE (7/12): Editor & Terminal */}
+        <section className="lg:col-span-7 bg-white border border-stone-200/80 rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col">
+          {/* Action Header */}
+          <div className="px-5 py-3 border-b border-stone-100 flex items-center justify-between text-xs flex-wrap gap-2">
+            <div className="flex items-center space-x-2 font-mono text-stone-700 font-medium">
+              <span>main.py</span>
+              <span className="text-stone-300">&bull;</span>
+              <span className="text-[11px] text-stone-400 font-sans">
+                {isSaved ? "Tersimpan" : "Mengetik..."}
+              </span>
+            </div>
+
+            <div className="flex items-center space-x-2.5">
+              <button
+                onClick={resetToInitial}
+                title="Pulihkan kode awal"
+                className="text-stone-400 hover:text-stone-700 transition flex items-center space-x-1 text-xs cursor-pointer"
+              >
+                <RotateCcw className="w-3.5 h-3.5" />
+                <span className="hidden sm:inline">Pulihkan</span>
+              </button>
+
               <button
                 onClick={handleRunCode}
                 disabled={isRunning}
-                className="h-10 px-5 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 disabled:opacity-50 transition-all flex items-center space-x-2 cursor-pointer shadow-xs hover:shadow-sm"
+                className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-50"
               >
-                <Play className="w-4 h-4 fill-current" />
-                <span>{isRunning ? "MENGEKSEKUSI..." : "JALANKAN KODE"}</span>
+                <Play className="w-3.5 h-3.5 fill-current text-stone-600" />
+                <span>{isRunning ? "Mengeksekusi..." : "Jalankan Kode"}</span>
               </button>
 
               <button
                 onClick={handleSubmitTask}
                 disabled={isRunning}
-                className="h-10 px-5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold disabled:opacity-50 transition-all flex items-center space-x-2 cursor-pointer shadow-xs hover:shadow-sm"
+                className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer disabled:opacity-50"
               >
-                <Check className="w-4 h-4" />
-                <span>KUMPULKAN TUGAS</span>
+                <Check className="w-3.5 h-3.5" />
+                <span>Kumpulkan Tugas</span>
               </button>
             </div>
-
-            {isPassed && (
-              <span className="font-mono text-xs text-emerald-800 font-bold bg-emerald-50 border border-emerald-200 px-3 py-1.5 rounded-xl flex items-center space-x-1.5 shadow-2xs">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-                <span>EVALUASI: TERVERIFIKASI (PASSED)</span>
-              </span>
-            )}
           </div>
 
-          {/* Monaco Code Editor (Standardized rounded-2xl) */}
-          <div className="flex-1 min-h-[360px]">
+          {/* Monaco Editor */}
+          <div className="min-h-[360px]">
             <CodeEditor
               value={code}
               onChange={setCode}
               onReset={resetToInitial}
               isSaved={isSaved}
               lastSavedAt={lastSavedAt}
-              height="380px"
+              height="360px"
+              hideHeader={true}
+              hideBorder={true}
             />
           </div>
 
-          {/* Terminal Console Output (Standardized rounded-2xl) */}
-          <div className="min-h-[160px]">
-            <ConsoleOutput
-              stdout={lastResult?.stdout || ""}
-              stderr={lastResult?.stderr || ""}
-              isSuccess={lastResult?.isSuccess ?? null}
-              friendlyError={lastResult?.friendlyError ?? null}
-              isRunning={isRunning}
-              executionTimeMs={lastResult?.executionTimeMs}
-            />
-          </div>
-        </div>
-      </div>
+          {/* Terminal Console Output */}
+          <div className="border-t border-stone-200/80 bg-stone-50/70 p-4 sm:p-5 flex flex-col space-y-2">
+            <div className="flex items-center justify-between text-xs text-stone-600 font-medium">
+              <div className="flex items-center space-x-2">
+                <Terminal className="w-3.5 h-3.5 text-stone-500" />
+                <span className="text-stone-900 font-semibold">Hasil Program</span>
+              </div>
+              {lastResult && (
+                <span
+                  className={
+                    lastResult.isSuccess
+                      ? "text-emerald-700 font-semibold flex items-center space-x-1"
+                      : "text-rose-700 font-semibold flex items-center space-x-1"
+                  }
+                >
+                  {lastResult.isSuccess ? (
+                    <>
+                      <Check className="w-3.5 h-3.5" />
+                      <span>Sesuai Ekspektasi</span>
+                    </>
+                  ) : (
+                    <>
+                      <AlertCircle className="w-3.5 h-3.5" />
+                      <span>Perlu Diperiksa</span>
+                    </>
+                  )}
+                </span>
+              )}
+            </div>
 
-      {/* Confirmation Modal - Standardized Dialog */}
+            <div className="p-3.5 rounded-xl bg-white border border-stone-200/70 font-mono text-xs text-stone-800 min-h-[90px] max-h-[220px] overflow-y-auto">
+              {lastResult ? (
+                <pre className="whitespace-pre-wrap leading-relaxed">
+                  {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa keluaran)"}
+                </pre>
+              ) : (
+                <p className="text-stone-400 font-sans text-xs italic">
+                  Tekan tombol &ldquo;Jalankan Kode&rdquo; untuk melihat luaran programmu di sini.
+                </p>
+              )}
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* Confirmation Modal */}
       {showConfirmation && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="bg-white border border-emerald-300 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
-            <div className="flex items-center justify-between font-mono text-xs">
-              <span className="text-emerald-700 uppercase tracking-widest font-extrabold flex items-center space-x-1.5">
+          <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+            <div className="flex items-center justify-between text-xs">
+              <span className="text-emerald-700 font-semibold flex items-center space-x-1.5">
                 <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
-                <span>STATUS // MISI TUNTAS</span>
+                <span>Tugas Terverifikasi</span>
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-100 text-emerald-800 font-bold">
+              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
                 100 / 100
               </span>
             </div>
 
-            <h3 className="text-xl font-extrabold text-slate-900 tracking-tight">
-              Tugas Berhasil Terverifikasi!
+            <h3 className="text-xl font-bold text-stone-900 tracking-tight">
+              Latihan Berhasil Diselesaikan!
             </h3>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans">
-              Hebat! Kode programmu telah lolos seluruh unit pengujian logika otomatis. Skor dan streak harianmu sudah dicatat ke sistem.
+            <p className="text-xs text-stone-600 leading-relaxed font-sans">
+              Kerja bagus! Kodemu telah berhasil lolos seluruh kriteria pengujian logika. Poin pengalaman dan catatan progresmu telah tersimpan.
             </p>
 
-            <div className="grid grid-cols-2 gap-3.5 py-1 font-mono text-xs">
-              <div className="p-4 bg-blue-50/70 rounded-2xl border border-blue-200 text-center space-y-1">
-                <span className="text-slate-500 text-[10px] block font-bold">HADIAH PENGALAMAN</span>
-                <span className="text-blue-700 font-extrabold text-lg">+{assignment.points} XP</span>
+            <div className="grid grid-cols-2 gap-3 py-1 text-xs">
+              <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200/70 text-center space-y-1">
+                <span className="text-stone-500 text-[11px] block font-medium">Poin Hadiah</span>
+                <span className="text-stone-900 font-bold text-lg">+{assignment.points} XP</span>
               </div>
-              <div className="p-4 bg-amber-50/70 rounded-2xl border border-amber-200 text-center space-y-1">
-                <span className="text-slate-500 text-[10px] block font-bold">STREAK HARIAN</span>
-                <span className="text-amber-800 font-extrabold text-lg">{progress.streakDays} HARI</span>
+              <div className="p-4 bg-amber-50/60 rounded-2xl border border-amber-200/60 text-center space-y-1">
+                <span className="text-amber-800 text-[11px] block font-medium">Streak Belajar</span>
+                <span className="text-amber-900 font-bold text-lg">{progress.streakDays} Hari</span>
               </div>
             </div>
 
-            <div className="flex gap-2.5 pt-2 font-mono text-xs">
+            <div className="flex gap-2.5 pt-2 text-xs">
               <button
                 onClick={() => setShowConfirmation(false)}
-                className="flex-1 py-3 rounded-xl border border-slate-200 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold transition cursor-pointer"
+                className="flex-1 py-3 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-medium transition cursor-pointer"
               >
-                TUTUP
+                Tutup
               </button>
               <Link
                 href="/student/assignments"
-                className="flex-1 py-3 rounded-xl bg-blue-600 text-white font-bold hover:bg-blue-700 transition text-center shadow-xs flex items-center justify-center space-x-1"
+                className="flex-1 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-semibold transition text-center shadow-2xs flex items-center justify-center space-x-1.5"
               >
-                <span>TUGAS BERIKUTNYA</span>
+                <span>Tugas Selanjutnya</span>
                 <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
