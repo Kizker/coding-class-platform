@@ -1,0 +1,3 @@
+(()=>{"use strict";module.exports=[32755,a=>{var b=a.i(3445);let c={name:"chevron-right",size:24,node:[["path",{d:"m9 18 6-6-6-6",key:"mthhwq"}]]};c.node;let d=(0,b.f)(c);a.s(["f",0,d],32755)},50359,a=>{var b=a.i(3445);let c={name:"clock",size:24,node:[["circle",{cx:"12",cy:"12",r:"10",key:"1mglay"}],["path",{d:"M12 6v6l4 2",key:"mmk7yg"}]]};c.node;let d=(0,b.f)(c);a.s(["f",0,d],50359)},64985,a=>{var b=a.i(3445);let c={name:"zap",size:24,node:[["path",{d:"M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z",key:"1v7up4"}]]};c.node;let d=(0,b.f)(c);a.s(["f",0,d],64985)}]})();
+
+//# sourceMappingURL=0977_lucide-react_dist_esm_icons_0iyhb3n28nhl9._.js.map

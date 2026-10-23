@@ -15,6 +15,10 @@ node_modules/
 
 # Production & Build Outputs
 .next/
+!.next/standalone
+!.next/standalone/**
+!.next/static
+!.next/static/**
 out/
 build/
 dist/
