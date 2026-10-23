@@ -75,40 +75,40 @@ export function Navbar() {
                   <>
                     <Link
                       href="/tutor/dashboard"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/tutor/dashboard"
-                          ? "bg-amber-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
-                      Command Center
+                      Dashboard
                     </Link>
                     <Link
-                      href="/tutor/studio/1/jumat"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      href="/tutor/studio/4/jumat"
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname.startsWith("/tutor/studio")
-                          ? "bg-amber-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
-                      Teaching Studio
+                      Studio Mengajar
                     </Link>
                     <Link
                       href="/tutor/grading"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/tutor/grading"
-                          ? "bg-amber-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Evaluasi PR
                     </Link>
                     <Link
                       href="/tutor/reports"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/tutor/reports"
-                          ? "bg-amber-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Rapor WhatsApp
@@ -120,40 +120,40 @@ export function Navbar() {
                   <>
                     <Link
                       href="/parent/overview"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/parent/overview"
-                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Ringkasan
                     </Link>
                     <Link
                       href="/parent/reports"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/parent/reports"
-                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Catatan Pengajar
                     </Link>
                     <Link
                       href="/parent/showcase"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/parent/showcase"
-                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Karya Anak
                     </Link>
                     <Link
                       href="/parent/schedule"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/parent/schedule"
-                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Jadwal Sesi

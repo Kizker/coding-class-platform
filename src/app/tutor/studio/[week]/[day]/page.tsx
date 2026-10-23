@@ -5,15 +5,20 @@ import Link from "next/link";
 import { CURRICULUM_DATA } from "@/data/curriculum";
 import { CodeEditor } from "@/components/editor/CodeEditor";
 import { useSession } from "@/lib/auth/sessionContext";
+import confetti from "canvas-confetti";
 import {
   Send,
   Check,
   Clock,
   Eye,
+  ArrowLeft,
   ArrowRight,
   Terminal,
-  Activity,
   CheckCircle2,
+  Sparkles,
+  Award,
+  ChevronRight,
+  MessageSquare,
 } from "lucide-react";
 
 export default function TutorTeachingStudioPage({
@@ -25,7 +30,8 @@ export default function TutorTeachingStudioPage({
   const weekNum = parseInt(resolvedParams.week, 10) || 1;
   const dayKey = (resolvedParams.day || "jumat").toLowerCase();
 
-  const { pushCodeToStudent, studentLiveCode, progress, updateProgress } = useSession();
+  const { pushCodeToStudent, studentLiveCode, progress, updateProgress, setTaskCompleted } =
+    useSession();
 
   const weekData = CURRICULUM_DATA.find((w) => w.week === weekNum) || CURRICULUM_DATA[0];
   const sessionData =
@@ -33,7 +39,7 @@ export default function TutorTeachingStudioPage({
     weekData.liveSessions[0] || {
       id: `live-default`,
       day: dayKey as any,
-      sessionNumber: 1,
+      sessionNumber: (weekNum - 1) * 2 + (dayKey === "jumat" ? 1 : 2),
       title: "Sesi Tatap Muka Langsung",
       durationMinutes: 120,
       conceptIntro: "Materi inti pembelajaran 2 jam.",
@@ -45,7 +51,7 @@ export default function TutorTeachingStudioPage({
 
   const [tutorCode, setTutorCode] = useState<string>(
     sessionData.guidedSteps[0]?.tutorCode ||
-      `# Kode Peraga Pengajar:\ndef hitung_diskon(total_belanja):\n    if total_belanja >= 100000:\n        return total_belanja * 0.1\n    return 0\n\nbelanja = 120000\ndiskon = hitung_diskon(belanja)\nprint(f"Total: {belanja}, Diskon: {diskon}")`
+      `# Kode Peraga Pengajar:\ndef hitung_luas(panjang, lebar):\n    return panjang * lebar\n\nluas = hitung_luas(10, 5)\nprint(f"Luas Persegi Panjang: {luas}")`
   );
 
   const [activeStep, setActiveStep] = useState<number>(1);
@@ -55,241 +61,272 @@ export default function TutorTeachingStudioPage({
 
   const handlePushCode = () => {
     pushCodeToStudent(tutorCode);
-    setPushStatus("KODE BERHASIL DISINKRONKAN KE EDITOR SISWA (EXIT 0)");
-    setTimeout(() => setPushStatus(null), 3500);
+    setPushStatus("Kode peraga berhasil disinkronkan ke editor Andi.");
+    setTimeout(() => setPushStatus(null), 4000);
   };
 
   const handleGiveStar = () => {
     updateProgress({ xpPoints: progress.xpPoints + 50 });
     setAppreciationSent(true);
-    setTimeout(() => setAppreciationSent(false), 2500);
+    confetti({
+      particleCount: 60,
+      spread: 50,
+      origin: { y: 0.7 },
+    });
+    setTimeout(() => setAppreciationSent(false), 3000);
   };
 
+  const handleCompleteSession = () => {
+    setTaskCompleted(weekNum, dayKey, true);
+    setIsSessionMarkedDone(true);
+    updateProgress({
+      attendanceCount: progress.attendanceCount + 1,
+    });
+    confetti({
+      particleCount: 90,
+      spread: 70,
+      origin: { y: 0.5 },
+    });
+  };
+
+  const cleanTitle = sessionData.title.replace(/^Pertemuan \d+:\s*/, "");
+
+  const teachingStages = [
+    {
+      step: 1,
+      name: "Konsep & Analogi",
+      duration: "25 Menit",
+      desc: "Jelaskan logika konsep dasar menggunakan analogi nyata sebelum siswa menyentuh kode.",
+    },
+    {
+      step: 2,
+      name: "Demonstrasi Kode",
+      duration: "45 Menit",
+      desc: "Tulis kode contoh di editor kanan, lalu tekan tombol 'Kirim ke Layar Siswa'.",
+    },
+    {
+      step: 3,
+      name: "Praktik Terbimbing",
+      duration: "40 Menit",
+      desc: "Tantang siswa memprogram variasi kasus. Pantau ketikan siswa via Live Inspector di bawah.",
+    },
+    {
+      step: 4,
+      name: "Refleksi & Evaluasi",
+      duration: "10 Menit",
+      desc: "Beri feedback langsung, kirim apresiasi XP, dan simpan catatan nalar untuk orang tua.",
+    },
+  ];
+
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 flex flex-col font-sans">
-      {/* Studio Header Bar */}
-      <div className="bg-white border-b border-slate-200 px-4 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3 text-xs font-mono shadow-2xs">
-        <div className="flex items-center space-x-2">
-          <Link
-            href="/tutor/dashboard"
-            className="text-slate-600 hover:text-amber-700 transition flex items-center space-x-1 font-semibold"
-          >
-            <span>&larr; DASHBOARD</span>
-          </Link>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-500">
-            LIVE_SESSION // 120_MIN
-          </span>
-          <span className="text-slate-300">/</span>
-          <span className="text-slate-900 font-bold hidden sm:inline font-sans">
-            {sessionData.title}
-          </span>
-        </div>
-
-        <div className="flex items-center space-x-4">
-          <div className="flex items-center space-x-1.5 text-slate-600">
-            <Clock className="w-3.5 h-3.5 text-slate-500" />
-            <span>SISA_WAKTU: <strong className="text-slate-900">01:45:00</strong></span>
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FAFAF9] text-stone-900 flex flex-col font-sans antialiased">
+      {/* ======================================================== */}
+      {/* 1. QUIET TOP CONTEXT BAR                                 */}
+      {/* ======================================================== */}
+      <header className="bg-white border-b border-stone-200/80 px-4 sm:px-6 lg:px-8 py-3 sticky top-14 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+        <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
+          {/* Left: Back & Topic */}
+          <div className="flex items-center space-x-3">
+            <Link
+              href="/tutor/dashboard"
+              className="text-stone-500 hover:text-stone-900 transition-colors flex items-center space-x-1.5 font-medium"
+            >
+              <ArrowLeft className="w-3.5 h-3.5" />
+              <span>Dashboard</span>
+            </Link>
+            <span className="text-stone-300">/</span>
+            <div className="flex items-center space-x-2">
+              <span className="font-semibold text-stone-900">
+                Pekan {weekNum} &bull; Studio Mengajar {dayKey === "jumat" ? "Jumat" : "Sabtu"}
+              </span>
+              <span className="text-stone-400 hidden md:inline">&mdash;</span>
+              <span className="text-stone-600 hidden md:inline truncate max-w-sm">
+                {cleanTitle}
+              </span>
+            </div>
           </div>
 
-          <div className="flex items-center space-x-1.5 text-emerald-700 font-semibold">
-            <span className="w-2 h-2 rounded-full bg-emerald-600 inline-block" />
-            <span>SISWA: ANDI PRATAMA (ONLINE)</span>
+          {/* Right: Student Presence & Status */}
+          <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 text-stone-600 text-xs font-medium">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+              <span>Siswa: Andi Pratama (Terhubung)</span>
+            </div>
+
+            {isSessionMarkedDone ? (
+              <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/70 text-xs font-semibold flex items-center space-x-1.5">
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
+                <span>Sesi Selesai</span>
+              </span>
+            ) : (
+              <button
+                onClick={handleCompleteSession}
+                className="px-3 py-1 rounded-lg border border-stone-200 hover:border-stone-300 bg-white hover:bg-stone-50 text-stone-700 hover:text-stone-900 text-xs font-medium transition cursor-pointer"
+              >
+                Tandai Sesi Selesai
+              </button>
+            )}
           </div>
         </div>
-      </div>
+      </header>
 
       {/* Push Notification Toast */}
       {pushStatus && (
-        <div className="bg-emerald-50 border-b border-emerald-200 text-emerald-800 px-4 py-2 text-xs font-mono text-center font-bold">
-          {pushStatus}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
+          <div className="bg-stone-900 text-stone-100 px-4 py-3 rounded-xl text-xs flex items-center justify-between shadow-sm animate-fadeIn">
+            <div className="flex items-center space-x-2.5">
+              <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+              <span className="font-medium">{pushStatus}</span>
+            </div>
+            <button
+              onClick={() => setPushStatus(null)}
+              className="text-stone-400 hover:text-white text-xs font-medium ml-4 cursor-pointer"
+            >
+              Tutup
+            </button>
+          </div>
         </div>
       )}
 
-      {/* Split Screen Grid (5 : 7) */}
-      <div className="flex-1 grid grid-cols-1 lg:grid-cols-12 overflow-hidden">
-        {/* LEFT PANE: ALUR 4 LANGKAH MENGAJAR */}
-        <div className="lg:col-span-5 border-r border-slate-200 bg-slate-50 flex flex-col justify-between overflow-y-auto p-5 sm:p-6 space-y-6">
-          <div className="space-y-4">
-            <div>
-              <p className="font-mono text-xs uppercase tracking-widest text-amber-700 font-bold">
-                01 // ALUR TERPANDU MENGAJAR (120 MENIT)
-              </p>
-              <h2 className="text-xl font-bold text-slate-900 tracking-tight mt-1">
-                Pedoman Pertemuan {sessionData.sessionNumber}
+      {/* ======================================================== */}
+      {/* 2. MAIN 2-COLUMN WORKSPACE (5 : 7)                       */}
+      {/* ======================================================== */}
+      <main className="max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
+        {/* ======================================================== */}
+        {/* LEFT COLUMN (5/12): PEDOMAN ALUR BIMBINGAN 120 MENIT     */}
+        {/* ======================================================== */}
+        <section className="lg:col-span-5 bg-white border border-stone-200/80 rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-6">
+          <div className="space-y-1">
+            <div className="flex items-center justify-between">
+              <h2 className="text-xl font-bold text-stone-900 tracking-tight">
+                Pedoman Mengajar
               </h2>
-              <p className="text-xs text-slate-600 mt-1">
-                {sessionData.conceptIntro}
-              </p>
+              <span className="text-xs text-stone-500 font-medium">120 Menit</span>
             </div>
-
-            {/* Steps Accordion */}
-            <div className="space-y-3 font-mono text-xs">
-              {/* Langkah 1 */}
-              <div
-                onClick={() => setActiveStep(1)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
-                  activeStep === 1
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
-                    : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
-                  <span className="text-amber-800 font-extrabold">01 // KONSEP &amp; ANALOGI (25 MENIT)</span>
-                  <span className="text-[10px] text-slate-500 font-bold uppercase px-2 py-0.5 rounded-md bg-slate-100">PEMANASAN</span>
-                </div>
-                <p className="font-sans text-xs text-slate-700 leading-relaxed">
-                  Jelaskan bagaimana logika percabangan if-else bekerja menggunakan analogi rambu lalu lintas atau seleksi diskon toko.
-                </p>
-              </div>
-
-              {/* Langkah 2 */}
-              <div
-                onClick={() => setActiveStep(2)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
-                  activeStep === 2
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
-                    : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
-                  <span className="text-amber-800 font-extrabold">02 // DEMONSTRASI KODE CONTOH (45 MENIT)</span>
-                  <span className="text-[10px] text-amber-700 font-bold uppercase px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200">TUTOR DEMO</span>
-                </div>
-                <p className="font-sans text-xs text-slate-700 leading-relaxed">
-                  Ketik kode contoh di panel kanan, lalu tekan tombol <strong>&ldquo;PUSH KODE KE SISWA&rdquo;</strong> agar kode langsung masuk ke editor Andi.
-                </p>
-              </div>
-
-              {/* Langkah 3 */}
-              <div
-                onClick={() => setActiveStep(3)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
-                  activeStep === 3
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
-                    : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
-                  <span className="text-amber-800 font-extrabold">03 // PRAKTIK MANDIRI SISWA (40 MENIT)</span>
-                  <span className="text-[10px] text-emerald-700 font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">SISWA KODING</span>
-                </div>
-                <p className="font-sans text-xs text-slate-700 leading-relaxed">
-                  Tantang siswa memprogram: <em>{sessionData.practiceChallenge}</em>. Pantau ketikan siswa via Live Inspector.
-                </p>
-              </div>
-
-              {/* Langkah 4 */}
-              <div
-                onClick={() => setActiveStep(4)}
-                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
-                  activeStep === 4
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
-                    : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
-                  <span className="text-amber-800 font-extrabold">04 // REFLEKSI &amp; CATATAN ORTU (10 MENIT)</span>
-                  <span className="text-[10px] text-slate-500 font-bold uppercase px-2 py-0.5 rounded-md bg-slate-100">EVALUASI</span>
-                </div>
-                <p className="font-sans text-xs text-slate-700 leading-relaxed">
-                  Beri feedback langsung, beri apresiasi poin, dan tulis rangkuman nalar untuk dimasukkan ke rapor mingguan orang tua.
-                </p>
-              </div>
-            </div>
+            <p className="text-xs text-stone-600 leading-relaxed">
+              {sessionData.conceptIntro}
+            </p>
           </div>
 
-          {/* Quick Actions at bottom */}
-          <div className="pt-4 border-t border-slate-200 space-y-2.5 font-mono text-xs">
-            <div className="flex gap-2">
+          {/* Stepper Tabs */}
+          <div className="space-y-2.5">
+            {teachingStages.map((stage) => {
+              const isActive = activeStep === stage.step;
+              return (
+                <div
+                  key={stage.step}
+                  onClick={() => setActiveStep(stage.step)}
+                  className={`p-4 rounded-xl border transition-all cursor-pointer space-y-1 ${
+                    isActive
+                      ? "bg-stone-50 border-stone-900 shadow-2xs"
+                      : "bg-white border-stone-200/70 hover:border-stone-300 text-stone-600"
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-bold text-stone-900">
+                      {stage.step}. {stage.name}
+                    </span>
+                    <span className="text-[11px] text-stone-500 font-medium">
+                      {stage.duration}
+                    </span>
+                  </div>
+                  <p className="text-xs text-stone-600 leading-relaxed font-sans">
+                    {stage.desc}
+                  </p>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Bottom Quick Controls */}
+          <div className="pt-4 border-t border-stone-100 space-y-2.5">
+            <div className="flex gap-2.5">
               <button
                 onClick={handleGiveStar}
-                className="flex-1 py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-bold transition cursor-pointer shadow-2xs"
+                className="flex-1 py-2 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-semibold text-xs transition flex items-center justify-center space-x-1.5 cursor-pointer"
               >
-                {appreciationSent ? "POIN TERKIRIM (+50 XP)" : "APRESIASI (+50 XP)"}
+                <Award className="w-4 h-4 text-amber-700" />
+                <span>{appreciationSent ? "XP Terkirim! (+50 XP)" : "Beri Apresiasi (+50 XP)"}</span>
               </button>
 
               <Link
                 href="/tutor/grading"
-                className="py-2.5 px-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold transition text-center shadow-2xs"
+                className="py-2 px-4 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-medium transition text-center flex items-center space-x-1 cursor-pointer"
               >
-                CATATAN ORTU
+                <span>Catatan Ortu</span>
               </Link>
             </div>
-
-            <button
-              onClick={() => setIsSessionMarkedDone(true)}
-              className={`w-full py-3 rounded-xl font-bold transition cursor-pointer shadow-xs ${
-                isSessionMarkedDone
-                  ? "bg-emerald-600 text-white"
-                  : "bg-slate-900 text-white hover:bg-slate-800"
-              }`}
-            >
-              {isSessionMarkedDone ? "SESI BERHASIL DITANDAI SELESAI" : "TANDAI SESI PERTEMUAN SELESAI"}
-            </button>
           </div>
-        </div>
+        </section>
 
-        {/* RIGHT PANE: KONTROL KODE PERAGA & LIVE MONITOR */}
-        <div className="lg:col-span-7 flex flex-col p-4 sm:p-6 space-y-4 bg-slate-50 overflow-y-auto">
-          {/* Top Control Bar with 1-Click Push Code */}
-          <div className="flex items-center justify-between flex-wrap gap-2 font-mono text-xs">
-            <div>
-              <span className="text-slate-500 uppercase tracking-widest block font-bold text-[11px]">
-                KODE PERAGA PENGAJAR
-              </span>
-              <span className="font-sans text-slate-600 text-xs">
-                Kode yang Anda ketik di bawah dapat dikirimkan langsung ke layar siswa.
-              </span>
+        {/* ======================================================== */}
+        {/* RIGHT COLUMN (7/12): KONTROL KODE PERAGA & LIVE INSPECTOR*/}
+        {/* ======================================================== */}
+        <section className="lg:col-span-7 space-y-6">
+          {/* Card 1: Tutor Broadcast Editor */}
+          <div className="bg-white border border-stone-200/80 rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col">
+            <div className="px-5 py-3 border-b border-stone-100 flex items-center justify-between text-xs">
+              <div>
+                <span className="font-semibold text-stone-900 font-mono block">
+                  Kode Peraga Pengajar
+                </span>
+                <span className="text-[11px] text-stone-500">
+                  Kirimkan kode ini langsung ke layar siswa dengan tombol di samping.
+                </span>
+              </div>
+
+              <button
+                onClick={handlePushCode}
+                className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-semibold text-xs transition flex items-center space-x-2 shadow-2xs cursor-pointer shrink-0"
+              >
+                <Send className="w-3.5 h-3.5 text-emerald-400" />
+                <span>Kirim ke Layar Siswa</span>
+              </button>
             </div>
 
-            <button
-              onClick={handlePushCode}
-              className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold transition flex items-center space-x-2 cursor-pointer shadow-xs"
-            >
-              <Send className="w-4 h-4" />
-              <span>PUSH KODE KE SISWA</span>
-            </button>
+            <div className="min-h-[260px]">
+              <CodeEditor
+                value={tutorCode}
+                onChange={setTutorCode}
+                height="260px"
+                hideHeader={true}
+                hideBorder={true}
+              />
+            </div>
           </div>
 
-          {/* Tutor Code Editor */}
-          <div className="min-h-[260px]">
-            <CodeEditor
-              value={tutorCode}
-              onChange={setTutorCode}
-              height="260px"
-            />
-          </div>
-
-          {/* Live Student Keystrokes Inspector */}
-          <div className="space-y-2.5 pt-3 border-t border-slate-200 font-mono text-xs">
-            <div className="flex items-center justify-between">
-              <span className="font-bold text-slate-800 flex items-center space-x-2">
-                <Eye className="w-4 h-4 text-blue-700" />
-                <span>LIVE_INSPECTOR // SISWA: ANDI PRATAMA</span>
-              </span>
-              <span className="text-emerald-700 text-[11px] font-bold flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
-                <span>SYNC_ACTIVE</span>
-              </span>
+          {/* Card 2: Live Inspector Layar Andi Pratama */}
+          <div className="bg-white border border-stone-200/80 rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-3">
+            <div className="flex items-center justify-between text-xs">
+              <div className="flex items-center space-x-2 font-medium text-stone-800">
+                <Eye className="w-4 h-4 text-stone-500" />
+                <span className="font-semibold">Layar Kerja Andi Pratama (Live Inspector)</span>
+              </div>
+              <div className="flex items-center space-x-1.5 text-stone-500 text-xs font-medium">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                <span>Tersinkron Realtime</span>
+              </div>
             </div>
 
             {/* Read-only snapshot of student's editor */}
-            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-800 max-h-[160px] overflow-y-auto leading-relaxed shadow-xs font-mono">
+            <div className="rounded-xl border border-stone-200/70 bg-stone-50/70 p-3.5 text-xs text-stone-800 max-h-[160px] overflow-y-auto font-mono leading-relaxed">
               <pre className="whitespace-pre-wrap">{studentLiveCode}</pre>
             </div>
 
-            <div className="p-3.5 bg-white border border-slate-200 rounded-xl text-slate-600 flex items-center justify-between text-xs shadow-2xs font-mono">
-              <span className="flex items-center space-x-2">
-                <Terminal className="w-3.5 h-3.5 text-slate-500" />
-                <span className="font-bold">OUTPUT SISWA:</span>
-                <strong className="text-slate-900 font-bold">&gt;&gt; Luas Persegi Panjang: 50</strong>
+            <div className="p-3 bg-stone-50 rounded-xl border border-stone-200/60 flex items-center justify-between text-xs text-stone-600">
+              <div className="flex items-center space-x-2 font-mono">
+                <Terminal className="w-3.5 h-3.5 text-stone-400" />
+                <span className="font-semibold text-stone-800">Hasil Program Siswa:</span>
+                <span className="text-stone-700">Output program berjalan normal</span>
+              </div>
+              <span className="text-emerald-700 font-semibold text-xs flex items-center space-x-1">
+                <Check className="w-3.5 h-3.5" />
+                <span>Siap Dinilai</span>
               </span>
-              <span className="text-emerald-700 font-extrabold">ALL TESTS PASSED</span>
             </div>
           </div>
-        </div>
-      </div>
+        </section>
+      </main>
     </div>
   );
 }
