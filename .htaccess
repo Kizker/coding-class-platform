@@ -1,0 +1,38 @@
+# ==============================================================================
+# Hostinger LiteSpeed Web Server Configuration for Next.js Platform
+# ==============================================================================
+
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+    RewriteBase /
+
+    # 1. Proteksi Berkas Sensitif
+    RewriteRule ^\.(.*)$ - [F,L]
+    RewriteRule ^(package\.json|pnpm-lock\.yaml|tsconfig\.json|\.env.*|deploy\.sh)$ - [F,L]
+
+    # 2. Sajikan Aset Statis Publik Secara Langsung Lewat LiteSpeed
+    RewriteCond %{DOCUMENT_ROOT}/public/$1 -f
+    RewriteRule ^(.*)$ public/$1 [L]
+
+    # 3. Sajikan Aset Next.js Static (_next/static/...) Secara Langsung
+    RewriteCond %{DOCUMENT_ROOT}/.next/static/$1 -f
+    RewriteRule ^_next/static/(.*)$ .next/static/$1 [L]
+
+    # 4. Seluruh Request Lainnya Diteruskan ke Node.js Reverse Proxy Bridge
+    RewriteCond %{REQUEST_FILENAME} !-f
+    RewriteCond %{REQUEST_FILENAME} !-d
+    RewriteRule ^(.*)$ index.php [QSA,L]
+</IfModule>
+
+# Caching Optimal untuk Aset Statis
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresByType text/css "access plus 1 month"
+    ExpiresByType application/javascript "access plus 1 month"
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 month"
+    ExpiresByType image/webp "access plus 1 month"
+    ExpiresByType image/png "access plus 1 month"
+</IfModule>
+
+Options -Indexes

@@ -58,12 +58,25 @@ if [ -d ".next/standalone" ]; then
   echo "    Aset statis berhasil disinkronkan ke .next/standalone."
 fi
 
-# 5. Restart application runner (CloudLinux Passenger / Node process)
-echo "==> [6/6] Melakukan restart proses Node.js..."
+# 5. Restart application runner (PM2 on Port 3012 & CloudLinux Passenger)
+echo "==> [6/6] Memulai / Memperbarui proses Node.js..."
 mkdir -p tmp
 touch tmp/restart.txt
-echo "    Signal restart.txt berhasil dikirim ke Phusion Passenger/Hostinger."
+
+if command -v pm2 &> /dev/null; then
+  if pm2 list | grep -q "coding-class"; then
+    echo "    Memperbarui proses PM2 coding-class..."
+    PORT=3012 pm2 restart coding-class --update-env
+  else
+    echo "    Menjalankan proses PM2 baru di port 3012..."
+    PORT=3012 pm2 start server.js --name "coding-class"
+  fi
+  pm2 save 2>/dev/null || true
+else
+  echo "    PM2 tidak terpasang secara global. Menggunakan Passenger tmp/restart.txt."
+fi
 
 echo "=============================================================================="
 echo " Deployment Sukses! Silakan verifikasi di: https://coding-class.labtry.my.id"
 echo "=============================================================================="
+
