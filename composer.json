@@ -1,0 +1,12 @@
+{
+  "name": "kizker/coding-class-platform",
+  "description": "Coding Class Platform Deployment Helper",
+  "type": "project",
+  "scripts": {
+    "post-install-cmd": [
+      "pkill -9 -u u141095167 node || true",
+      "pkill -9 -f server.js || true",
+      "rm -f port.txt app.pid start.lock"
+    ]
+  }
+}

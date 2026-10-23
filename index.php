@@ -4,23 +4,14 @@
  * Zero-Blocking Instant Proxy for coding-class.labtry.my.id
  */
 
-$pidFile = __DIR__ . '/app.pid';
 $logFile = __DIR__ . '/runner.log';
 $portFile = __DIR__ . '/port.txt';
-$lockFile = __DIR__ . '/start.lock';
-$nodeBin = '/opt/alt/alt-nodejs22/root/usr/bin/node';
 
-// 1. Kill command (?kill=1)
-if (isset($_GET['kill']) && $_GET['kill'] == '1') {
-    if (@file_exists($pidFile)) {
-        $pid = (int)trim(@file_get_contents($pidFile));
-        if ($pid > 0) @shell_exec("kill -9 {$pid} 2>/dev/null");
-        @unlink($pidFile);
-    }
+// 1. Reset command (?reset=1)
+if (isset($_GET['reset']) && $_GET['reset'] == '1') {
     @unlink($portFile);
-    @unlink($lockFile);
-    @shell_exec('pkill -9 -f "coding-class.*server.js" 2>/dev/null');
-    @file_put_contents($logFile, "=== APP RESET AT " . date('Y-m-d H:i:s') . " ===\n");
+    header('Location: ?diag=1');
+    exit;
 }
 
 // 2. Helper: Get port
@@ -46,24 +37,24 @@ function isSocketOpen($port) {
 $port = getActivePort($portFile);
 $isOpen = isSocketOpen($port);
 
-// 4. Diagnostic panel (?diag=1) - Returns in 5ms without blocking!
+// 4. Diagnostic panel (?diag=1) - Returns in <2ms without blocking!
 if (isset($_GET['diag']) && $_GET['diag'] == '1') {
     header('Content-Type: text/html; charset=utf-8');
     echo '<h2>⚡ Coding Class Diagnostic Panel</h2>';
-    echo '<p><strong>Assigned Port:</strong> ' . ($port ? htmlspecialchars($port) : 'None') . ' | <strong>Socket Status:</strong> ' . ($isOpen ? "<span style='color:green;font-weight:bold'>OPEN</span>" : "<span style='color:red'>CLOSED</span>") . '</p>';
-    echo '<h3>Process Table</h3>';
-    echo '<pre>' . htmlspecialchars(@shell_exec('ps x | grep -E "server.js|PID" 2>&1') ?: 'None') . '</pre>';
+    echo '<p><strong>PHP Version:</strong> ' . PHP_VERSION . ' | <strong>Memory:</strong> ' . round(memory_get_usage(true) / 1024 / 1024, 2) . ' MB</p>';
+    echo '<p><strong>Assigned Port:</strong> ' . ($port ? htmlspecialchars($port) : 'None') . ' | <strong>Socket Status:</strong> ' . ($isOpen ? "<span style='color:green;font-weight:bold'>OPEN</span>" : "<span style='color:red;font-weight:bold'>CLOSED</span>") . '</p>';
     echo '<h3>Runner Log</h3>';
     $log = @file_exists($logFile) ? @file_get_contents($logFile) : 'No log yet';
     echo '<pre style="background:#111;color:#0f0;padding:12px;border-radius:6px;max-height:300px;overflow:auto">' . htmlspecialchars(substr($log, -2000)) . '</pre>';
-    echo '<p><a href="?diag=1">Refresh</a> | <a href="?kill=1&diag=1">Kill</a> | <a href="/">Open Web</a></p>';
+    echo '<p><a href="?diag=1">Refresh Status</a> | <a href="?reset=1">Reset Port File</a> | <a href="/">Open Web</a></p>';
     exit;
 }
 
 // 5. If socket is OPEN, reverse proxy immediately!
 if ($isOpen) {
     $headers = [];
-    foreach (getallheaders() as $name => $value) {
+    $allHeaders = function_exists('getallheaders') ? getallheaders() : [];
+    foreach ($allHeaders as $name => $value) {
         if (strtolower($name) === 'host') {
             $headers[] = "Host: " . $_SERVER['HTTP_HOST'];
             $headers[] = "X-Forwarded-Host: " . $_SERVER['HTTP_HOST'];
@@ -108,18 +99,7 @@ if ($isOpen) {
     }
 }
 
-// 6. Socket NOT open: Self-healing launch in background (Non-blocking!)
-$lastStart = @file_exists($lockFile) ? (int)@file_get_contents($lockFile) : 0;
-if (time() - $lastStart > 12) {
-    @file_put_contents($lockFile, time());
-    @unlink($portFile);
-
-    $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
-    $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT=0 HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> " . escapeshellarg($logFile) . " 2>&1 < /dev/null & echo $! > " . escapeshellarg($pidFile);
-    @shell_exec($cmd);
-}
-
-// 7. Instant Boot Screen with Auto-Refresh (Terminates in <5ms, no worker blocking!)
+// 6. Socket NOT open: Fast non-blocking waiting screen
 header('Content-Type: text/html; charset=utf-8');
 header('Retry-After: 3');
 ?>
