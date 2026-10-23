@@ -728,7 +728,7 @@ export default function TutorTeachingStudioPage({
         {/* TAB 4: REFLEKSI & PENUNTASAN (TUTOR FOCUS)               */}
         {/* ======================================================== */}
         {activeTab === 4 && (
-          <div className="max-w-3xl mx-auto bg-white border-2.5 border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000] space-y-6 animate-fadeIn">
+          <div className="w-full bg-white border-2.5 border-black p-6 sm:p-8 shadow-[6px_6px_0px_#000] space-y-6 animate-fadeIn">
             <div className="text-center space-y-2">
               <span className="w-14 h-14 bg-[#FEF08A] text-black border-2 border-black shadow-[3px_3px_0px_#000] flex items-center justify-center mx-auto mb-3">
                 <Award className="w-8 h-8 stroke-[2.5]" />

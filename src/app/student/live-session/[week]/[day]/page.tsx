@@ -472,7 +472,7 @@ export default function StudentLiveSessionPage({
         {/* TAB 2: PEMBELAJARAN INTERAKTIF (NEO-BRUTALIST FLOW)      */}
         {/* ======================================================== */}
         {activeTab === 2 && (
-          <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn pb-12">
+          <div className="w-full space-y-6 animate-fadeIn pb-12">
             {/* 1. Header & Sub-Materi Nav Switcher */}
             <div className="bg-white border-2.5 border-black rounded-2xl p-5 sm:p-6 shadow-[5px_5px_0px_#000000] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b-2 border-black pb-4">
@@ -909,7 +909,7 @@ export default function StudentLiveSessionPage({
         {/* TAB 3: KUIS LOGIKA INTERAKTIF (NEO-BRUTALIST QUIZ)       */}
         {/* ======================================================== */}
         {activeTab === 3 && (
-          <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn">
+          <div className="w-full space-y-6 animate-fadeIn">
             {/* Top Score & Progress Header */}
             <div className="bg-white border-2.5 border-black rounded-2xl p-5 sm:p-6 shadow-[5px_5px_0px_#000000] flex flex-wrap items-center justify-between gap-4">
               <div>
@@ -1099,7 +1099,7 @@ export default function StudentLiveSessionPage({
         {/* TAB 4: REFLEKSI & PENUNTASAN (NEO-BRUTALIST SUMMARY)     */}
         {/* ======================================================== */}
         {activeTab === 4 && (
-          <div className="max-w-2xl mx-auto bg-white border-2.5 border-black rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_#000000] space-y-6 animate-fadeIn">
+          <div className="w-full bg-white border-2.5 border-black rounded-2xl p-6 sm:p-8 shadow-[6px_6px_0px_#000000] space-y-6 animate-fadeIn">
             <div className="text-center space-y-2">
               <span className="w-14 h-14 rounded-2xl bg-yellow-300 text-black border-2 border-black flex items-center justify-center mx-auto mb-2 shadow-[3px_3px_0px_#000]">
                 <Award className="w-7 h-7 stroke-[2.5]" />

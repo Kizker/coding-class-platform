@@ -74,8 +74,8 @@ Status     : Aktif Mengikuti Bimbingan`,
   const activeProjects = projects.filter((p) => p.weekNumber <= (progress.currentWeek || 1));
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         <div className="ui-card-outer p-6 sm:p-7 space-y-2">
           <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-extrabold mb-1">
             EXECUTIVE PORTFOLIO // DOKUMENTASI RESMI KARYA

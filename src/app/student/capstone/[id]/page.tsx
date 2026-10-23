@@ -63,31 +63,31 @@ export default function CapstoneDetailPage({
   const capstone = CAPSTONES.find((c) => c.id === currentId) || CAPSTONES[0];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#FDFBF7] text-black font-sans antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Header navigation */}
-        <div className="ui-card-outer p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[5px_5px_0px_#000] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-2 text-xs font-mono font-bold text-blue-700 uppercase tracking-widest mb-1">
+            <div className="inline-flex items-center space-x-2 text-xs font-black text-black uppercase tracking-widest mb-1 bg-[#FEF08A] px-2 py-0.5 border border-black">
               <span>01 // MILESTONE CAPSTONE PROJECT</span>
             </div>
-            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight uppercase">
               Galeri Karya Program Siswa
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
+            <p className="text-xs sm:text-sm text-stone-800 font-bold mt-1">
               Portofolio mandiri yang dirancang dan dikembangkan siswa setiap 4 pekan sekali.
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs font-mono shrink-0">
+          <div className="flex items-center space-x-2 text-xs shrink-0">
             {CAPSTONES.map((c) => (
               <Link
                 key={c.id}
                 href={`/student/capstone/${c.id}`}
-                className={`px-3.5 py-2 rounded-xl transition font-bold ${
+                className={`px-4 py-2 border-2 border-black font-black uppercase transition-all cursor-pointer ${
                   c.id === capstone.id
-                    ? "bg-blue-600 text-white shadow-xs"
-                    : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200"
+                    ? "bg-black text-[#FACC15] shadow-[3px_3px_0px_#000] translate-x-[-1px] translate-y-[-1px]"
+                    : "bg-white text-black shadow-[2px_2px_0px_#000] hover:bg-[#FEF08A]"
                 }`}
               >
                 CAPSTONE_{c.id}
@@ -96,42 +96,42 @@ export default function CapstoneDetailPage({
           </div>
         </div>
 
-        {/* Project Card - Standardized rounded-2xl Inner Boxes */}
-        <div className="ui-card-outer p-6 sm:p-8 space-y-6">
-          <div className="flex items-start justify-between flex-wrap gap-3 border-b border-slate-100 pb-5">
+        {/* Project Card */}
+        <div className="bg-white border-2.5 border-black p-6 sm:p-8 shadow-[5px_5px_0px_#000] space-y-6">
+          <div className="flex items-start justify-between flex-wrap gap-3 border-b-2 border-black pb-5">
             <div>
-              <span className="text-xs font-mono text-blue-700 font-bold block">
+              <span className="text-xs font-black text-black uppercase block">
                 PEKAN KE-{capstone.week} // MILESTONE RESMI
               </span>
-              <h2 className="text-xl sm:text-2xl font-extrabold text-slate-900 mt-1">
+              <h2 className="text-xl sm:text-2xl font-black text-black uppercase mt-1">
                 {capstone.title}
               </h2>
             </div>
 
-            <span className="text-xs font-mono font-bold px-3 py-1.5 rounded-full bg-emerald-50 border border-emerald-200 text-emerald-800 shadow-2xs">
+            <span className="text-xs font-black px-3 py-1.5 bg-[#86EFAC] text-black border-2 border-black shadow-[2px_2px_0px_#000] uppercase">
               {capstone.status}
             </span>
           </div>
 
-          <div className="ui-card-inner bg-slate-50 border border-slate-200 rounded-2xl p-5">
-            <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-wider block mb-1">
+          <div className="bg-[#FEF08A] border-2 border-black p-5 shadow-[3px_3px_0px_#000]">
+            <span className="text-xs font-black text-black uppercase tracking-wider block mb-1">
               DESKRIPSI PROYEK:
             </span>
-            <p className="text-xs sm:text-sm text-slate-800 leading-relaxed font-sans">
+            <p className="text-xs sm:text-sm text-stone-900 font-bold leading-relaxed">
               {capstone.description}
             </p>
           </div>
 
           {/* Tech badges */}
           <div className="space-y-2.5">
-            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block font-bold">
-              KOMPETENSI_TEKNOLOGI:
+            <span className="text-xs font-black text-black uppercase tracking-widest block">
+              KOMPETENSI TEKNOLOGI:
             </span>
-            <div className="flex flex-wrap gap-2 text-xs font-mono">
+            <div className="flex flex-wrap gap-2 text-xs">
               {capstone.technologies.map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200 text-slate-700 font-bold"
+                  className="px-3 py-1 bg-white border-2 border-black text-black font-black uppercase shadow-[2px_2px_0px_#000]"
                 >
                   {t}
                 </span>
@@ -139,17 +139,17 @@ export default function CapstoneDetailPage({
             </div>
           </div>
 
-          {/* Code Viewer - Standardized 2xl rounded */}
+          {/* Code Viewer */}
           <div className="space-y-2 pt-2">
-            <div className="flex items-center justify-between text-xs font-mono text-slate-600">
-              <span className="flex items-center space-x-1.5 font-bold">
-                <FileCode className="w-3.5 h-3.5 text-slate-500" />
+            <div className="flex items-center justify-between text-xs font-mono font-bold text-black">
+              <span className="flex items-center space-x-1.5">
+                <FileCode className="w-3.5 h-3.5 text-black stroke-[2.5]" />
                 <span>SOURCE_CODE // main.py</span>
               </span>
-              <span className="text-slate-500 font-semibold">READ_ONLY</span>
+              <span className="bg-stone-200 border border-black px-2 py-0.5">READ_ONLY</span>
             </div>
 
-            <pre className="p-5 rounded-2xl bg-slate-900 border border-slate-800 text-xs text-emerald-400 font-mono overflow-x-auto leading-relaxed whitespace-pre-wrap shadow-xs">
+            <pre className="p-5 bg-black border-2.5 border-black text-xs text-yellow-300 font-mono overflow-x-auto leading-relaxed whitespace-pre-wrap shadow-[4px_4px_0px_#000]">
               {capstone.codeSnippet}
             </pre>
           </div>

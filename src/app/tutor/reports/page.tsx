@@ -66,20 +66,20 @@ Andricha Dea Mitra (Kak Tutor)`;
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-4xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#FDFBF7] text-black font-sans antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Header */}
-        <div className="ui-card-outer p-6 sm:p-7 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[5px_5px_0px_#000] flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-extrabold mb-1 flex items-center space-x-2">
+            <div className="text-xs uppercase tracking-widest font-black mb-1 flex items-center space-x-2 bg-[#86EFAC] px-2 py-0.5 border border-black w-fit">
               <span>TUTOR // DISPATCH</span>
               <span>/</span>
               <span>RAPOR MINGGUAN</span>
             </div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
               Generator Rapor WhatsApp Orang Tua
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
+            <p className="text-xs sm:text-sm text-stone-800 font-bold mt-1 max-w-xl">
               Format laporan otomatis terstruktur rapi untuk pelaporan transparansi dan evaluasi kualitatif kepada wali murid.
             </p>
           </div>
@@ -87,16 +87,16 @@ Andricha Dea Mitra (Kak Tutor)`;
           <div className="flex items-center space-x-2 shrink-0">
             <button
               onClick={handleCopy}
-              className="px-4 py-2.5 rounded-xl border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs transition flex items-center space-x-2 cursor-pointer shadow-2xs"
+              className="px-4 py-2.5 border-2 border-black bg-white hover:bg-[#FEF08A] text-black font-black text-xs transition flex items-center space-x-2 cursor-pointer shadow-[2px_2px_0px_#000] uppercase"
             >
               {copied ? (
                 <>
-                  <Check className="w-4 h-4 text-emerald-600" />
-                  <span className="text-emerald-700 font-bold">TERSALIN</span>
+                  <Check className="w-4 h-4 text-black stroke-[3]" />
+                  <span>TERSALIN</span>
                 </>
               ) : (
                 <>
-                  <Copy className="w-4 h-4 text-slate-500" />
+                  <Copy className="w-4 h-4 text-black stroke-[2.5]" />
                   <span>SALIN TEKS</span>
                 </>
               )}
@@ -104,53 +104,53 @@ Andricha Dea Mitra (Kak Tutor)`;
 
             <button
               onClick={handleOpenWhatsApp}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs transition flex items-center space-x-2 cursor-pointer shadow-xs"
+              className="px-5 py-2.5 bg-[#86EFAC] hover:bg-emerald-400 text-black border-2 border-black font-black text-xs transition flex items-center space-x-2 cursor-pointer shadow-[3px_3px_0px_#000] uppercase"
             >
-              <Send className="w-4 h-4" />
+              <Send className="w-4 h-4 stroke-[2.5]" />
               <span>KIRIM WHATSAPP</span>
             </button>
           </div>
         </div>
 
         {/* Recipient phone metadata bar */}
-        <div className="ui-card-inner p-4 sm:p-5 rounded-2xl bg-white border border-slate-200 flex items-center justify-between flex-wrap gap-4 text-xs font-mono shadow-xs">
+        <div className="p-4 sm:p-5 bg-white border-2 border-black flex items-center justify-between flex-wrap gap-4 text-xs font-mono shadow-[3px_3px_0px_#000]">
           <div className="flex items-center space-x-3">
-            <span className="text-slate-500 font-bold">PENERIMA:</span>
-            <span className="text-slate-900 font-extrabold font-sans">Bambang Pratama (Wali Murid)</span>
+            <span className="text-stone-700 font-black">PENERIMA:</span>
+            <span className="text-black font-black font-sans uppercase">Bambang Pratama (Wali Murid)</span>
           </div>
 
           <div className="flex items-center space-x-2">
-            <span className="text-slate-500 font-bold">NOMOR WA:</span>
+            <span className="text-stone-700 font-black">NOMOR WA:</span>
             <input
               type="text"
               value={parentPhone}
               onChange={(e) => setParentPhone(e.target.value)}
-              className="bg-slate-50 border border-slate-300 rounded-xl px-3.5 py-1.5 text-xs text-slate-900 font-mono focus:outline-none focus:ring-2 focus:ring-emerald-500 w-40 shadow-2xs font-bold"
+              className="bg-white border-2 border-black px-3.5 py-1.5 text-xs text-black font-mono focus:outline-none w-44 font-black shadow-[2px_2px_0px_#000]"
             />
           </div>
         </div>
 
         {/* Dispatch Preview */}
-        <div className="ui-card-outer rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-xs">
-          <div className="px-5 py-3.5 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between text-xs font-mono">
-            <div className="flex items-center space-x-2 text-slate-800 font-bold">
-              <Terminal className="w-4 h-4 text-emerald-700" />
+        <div className="border-2.5 border-black bg-white overflow-hidden shadow-[5px_5px_0px_#000]">
+          <div className="px-5 py-3.5 border-b-2 border-black bg-[#FEF08A] flex items-center justify-between text-xs font-mono">
+            <div className="flex items-center space-x-2 text-black font-black">
+              <Terminal className="w-4 h-4 text-black stroke-[2.5]" />
               <span>DISPATCH_PREVIEW // WHATSAPP_FORMAT</span>
             </div>
-            <span className="text-slate-500 text-[11px] font-bold">
+            <span className="text-black text-[11px] font-black bg-white px-2 py-0.5 border border-black">
               AUTOSYNCED FROM DATABASE
             </span>
           </div>
 
-          <div className="p-6 bg-slate-900 overflow-x-auto">
-            <pre className="text-xs font-mono text-slate-100 leading-relaxed whitespace-pre-wrap selection:bg-emerald-800">
+          <div className="p-6 bg-black overflow-x-auto">
+            <pre className="text-xs font-mono text-yellow-300 leading-relaxed whitespace-pre-wrap selection:bg-emerald-800">
               {reportText}
             </pre>
           </div>
 
-          <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/70 flex items-center justify-between text-[11px] font-mono text-slate-500">
-            <span className="font-bold">FORMAT: UTF-8 PLAIN / MARKDOWN</span>
-            <span className="text-emerald-700 font-extrabold">SIAP DIKIRIM KE WALI MURID</span>
+          <div className="px-5 py-3 border-t-2 border-black bg-[#FDFBF7] flex items-center justify-between text-[11px] font-mono text-black">
+            <span className="font-black">FORMAT: UTF-8 PLAIN / MARKDOWN</span>
+            <span className="text-black font-black uppercase bg-[#86EFAC] px-2 py-0.5 border border-black">SIAP DIKIRIM KE WALI MURID</span>
           </div>
         </div>
       </div>

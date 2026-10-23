@@ -23,8 +23,8 @@ export default function TutorDashboardPage() {
   const { serverTime } = useServerTime(15000);
 
   return (
-    <div className="min-h-screen bg-[#FDFBF7] text-black py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="max-w-7xl mx-auto space-y-9">
+    <div className="min-h-screen bg-[#FDFBF7] text-black font-sans antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-9">
         {/* ======================================================== */}
         {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT (NEO)       */}
         {/* ======================================================== */}

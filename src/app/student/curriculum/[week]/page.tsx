@@ -114,8 +114,8 @@ export default function WeekCurriculumDetailPage({
   ];
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FAFAF9] text-stone-900 py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="max-w-7xl mx-auto space-y-6">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FDFBF7] text-black font-sans antialiased">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Breadcrumb & Live Tracker */}
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white p-4 rounded-2xl border border-stone-200/80 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
           <div className="flex items-center space-x-2 text-xs">

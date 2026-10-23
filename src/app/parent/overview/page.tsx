@@ -16,9 +16,8 @@ export default function ParentOverviewPage() {
   const { progress } = useSession();
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
-      {/* Mobile-optimized Container */}
-      <div className="max-w-3xl mx-auto space-y-6">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Parent Portal Header */}
         <div className="ui-card-outer p-6 sm:p-7 space-y-3">
           <div className="flex items-center justify-between text-xs font-mono">
