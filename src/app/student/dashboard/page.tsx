@@ -78,7 +78,7 @@ export default function StudentDashboardPage() {
       label: "JUMAT",
       typeLabel: "Tatap Muka 2 Jam",
       title: "Fungsi Modular & Analogi",
-      href: "/student/curriculum/4",
+      href: "/student/live-session/4/jumat",
       isLiveClass: true,
     },
     {
@@ -87,7 +87,7 @@ export default function StudentDashboardPage() {
       label: "SABTU",
       typeLabel: "Capstone 2 Jam",
       title: "Game Konsol CLI",
-      href: "/student/curriculum/4",
+      href: "/student/live-session/4/sabtu",
       isLiveClass: true,
     },
     {
@@ -203,11 +203,11 @@ export default function StudentDashboardPage() {
 
             <div className="shrink-0 flex items-center gap-3">
               <Link
-                href="/student/curriculum/4"
+                href="/student/live-session/4/jumat"
                 className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition flex items-center space-x-2 shadow-xs cursor-pointer"
               >
-                <Code2 className="w-4 h-4" />
-                <span>BUKA MATERI TATAP MUKA</span>
+                <Video className="w-4 h-4" />
+                <span>MASUK KELAS TATAP MUKA LIVE</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>

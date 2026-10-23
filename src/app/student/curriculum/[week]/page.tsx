@@ -436,16 +436,14 @@ export default function WeekCurriculumDetailPage({
 
               {/* Action Buttons for Jumat */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <a
-                  href="https://meet.google.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition flex items-center space-x-2 shadow-xs"
+                <Link
+                  href={`/student/live-session/${weekNum}/jumat`}
+                  className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition flex items-center space-x-2 shadow-xs cursor-pointer"
                 >
                   <Video className="w-4 h-4" />
-                  <span>MASUK GOOGLE MEET / LIVE CLASS</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                  <span>MASUK KELAS TATAP MUKA LIVE (LANGSUNG)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
 
                 <Link
                   href={`/student/learn/${weekNum}/kamis`}
@@ -516,18 +514,15 @@ export default function WeekCurriculumDetailPage({
                 </p>
               </div>
 
-              {/* Action Buttons for Sabtu */}
               <div className="flex flex-wrap items-center gap-3 pt-2">
-                <a
-                  href="https://meet.google.com"
-                  target="_blank"
-                  rel="noreferrer"
-                  className="px-5 py-2.5 rounded-xl bg-amber-600 text-white font-bold text-xs hover:bg-amber-700 transition flex items-center space-x-2 shadow-xs"
+                <Link
+                  href={`/student/live-session/${weekNum}/sabtu`}
+                  className="px-5 py-2.5 rounded-xl bg-amber-600 text-white font-bold text-xs hover:bg-amber-700 transition flex items-center space-x-2 shadow-xs cursor-pointer"
                 >
                   <Video className="w-4 h-4" />
-                  <span>MASUK SESI WORKSHOP SABTU</span>
-                  <ExternalLink className="w-3.5 h-3.5" />
-                </a>
+                  <span>MASUK KELAS WORKSHOP LIVE (LANGSUNG)</span>
+                  <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
 
                 {weekData.capstoneInfo && (
                   <Link
