@@ -3,15 +3,8 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { useSession, UserRole } from "@/lib/auth/sessionContext";
-import {
-  Terminal,
-  LogOut,
-  LogIn,
-  User,
-  ShieldCheck,
-  ChevronDown,
-} from "lucide-react";
+import { useSession } from "@/lib/auth/sessionContext";
+import { LogOut, LogIn } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();
@@ -24,20 +17,20 @@ export function Navbar() {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 text-slate-800 shadow-xs">
+    <header className="sticky top-0 z-50 bg-[#FDFBF7] border-b-[2.5px] border-black text-black shadow-[0_3px_0px_#000000]">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo & Brand */}
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-8 h-8 rounded-xl bg-stone-900 text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">
+              <div className="w-8 h-8 rounded-lg bg-yellow-300 border-2 border-black text-black flex items-center justify-center font-black text-xs shadow-[2px_2px_0px_#000] group-hover:translate-x-[-1px] group-hover:translate-y-[-1px] group-hover:shadow-[3px_3px_0px_#000] transition-all">
                 Py
               </div>
               <div className="flex flex-col">
-                <span className="text-sm font-extrabold tracking-tight text-stone-900">
+                <span className="text-sm font-black tracking-tight text-black">
                   PyStudio
                 </span>
-                <span className="text-[10px] text-stone-500 font-medium leading-none">
+                <span className="text-[10px] text-stone-600 font-bold leading-none">
                   Private Mentoring
                 </span>
               </div>
@@ -45,25 +38,25 @@ export function Navbar() {
 
             {/* Role Navigation Links (Only visible when logged in) */}
             {isAuthenticated && (
-              <nav className="hidden md:flex items-center space-x-1 text-xs">
+              <nav className="hidden md:flex items-center space-x-1.5 text-xs">
                 {role === "student" && (
                   <>
                     <Link
                       href="/student/dashboard"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/student/dashboard"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Dashboard
                     </Link>
                     <Link
                       href="/student/assignments"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/student/assignments"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Tugas Harian
@@ -75,40 +68,40 @@ export function Navbar() {
                   <>
                     <Link
                       href="/tutor/dashboard"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/tutor/dashboard"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Dashboard
                     </Link>
                     <Link
                       href={`/tutor/studio/${progress?.currentWeek || 1}/jumat`}
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname.startsWith("/tutor/studio")
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Studio Mengajar
                     </Link>
                     <Link
                       href="/tutor/grading"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/tutor/grading"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Evaluasi PR
                     </Link>
                     <Link
                       href="/tutor/reports"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/tutor/reports"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Rapor WhatsApp
@@ -120,40 +113,40 @@ export function Navbar() {
                   <>
                     <Link
                       href="/parent/overview"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/parent/overview"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Ringkasan
                     </Link>
                     <Link
                       href="/parent/reports"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/parent/reports"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Catatan Pengajar
                     </Link>
                     <Link
                       href="/parent/showcase"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/parent/showcase"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Karya Anak
                     </Link>
                     <Link
                       href="/parent/schedule"
-                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
                         pathname === "/parent/schedule"
-                          ? "bg-stone-900 text-white shadow-xs font-semibold"
-                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
                       }`}
                     >
                       Jadwal Sesi
@@ -170,17 +163,17 @@ export function Navbar() {
               <>
                 {/* Telemetry Indicator for Student */}
                 {role === "student" && (
-                  <div className="hidden sm:flex items-center space-x-2 text-xs text-stone-600 px-3 py-1.5 rounded-xl bg-stone-100/80 border border-stone-200/70 font-medium">
+                  <div className="hidden sm:flex items-center space-x-2 text-xs text-black px-3 py-1.5 rounded-lg bg-amber-100 border-2 border-black shadow-[2px_2px_0px_#000] font-bold">
                     <span className="flex items-center space-x-1">
                       <span>🔥</span>
-                      <strong className="text-stone-900" suppressHydrationWarning>
+                      <strong suppressHydrationWarning>
                         {isMounted ? progress.streakDays : 5} Hari
                       </strong>
                     </span>
-                    <span className="text-stone-300">&bull;</span>
+                    <span className="text-black">&bull;</span>
                     <span className="flex items-center space-x-1">
                       <span>⚡</span>
-                      <strong className="text-stone-900" suppressHydrationWarning>
+                      <strong suppressHydrationWarning>
                         {isMounted ? progress.xpPoints : 340} XP
                       </strong>
                     </span>
@@ -188,22 +181,22 @@ export function Navbar() {
                 )}
 
                 {/* Role Profile Badge */}
-                <div className="flex items-center space-x-2.5 pl-2 border-l border-stone-200">
+                <div className="flex items-center space-x-2.5 pl-2 border-l-2 border-black">
                   <div
-                    className="w-8 h-8 rounded-full bg-stone-200 text-stone-800 flex items-center justify-center font-bold text-xs shadow-2xs"
+                    className="w-8 h-8 rounded-lg bg-yellow-300 border-2 border-black text-black flex items-center justify-center font-black text-xs shadow-[2px_2px_0px_#000]"
                     suppressHydrationWarning
                   >
                     {isMounted ? currentUser.initials : "AP"}
                   </div>
                   <div className="hidden sm:flex flex-col text-left">
                     <span
-                      className="text-xs font-semibold text-stone-900 leading-tight"
+                      className="text-xs font-bold text-black leading-tight"
                       suppressHydrationWarning
                     >
                       {isMounted ? currentUser.name : "Andi Pratama"}
                     </span>
                     <span
-                      className="text-[10px] text-stone-500 font-medium leading-tight"
+                      className="text-[10px] text-stone-600 font-semibold leading-tight"
                       suppressHydrationWarning
                     >
                       {isMounted
@@ -221,7 +214,7 @@ export function Navbar() {
                 <button
                   onClick={handleLogout}
                   title="Ganti Akun / Keluar"
-                  className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-stone-600 text-xs font-medium transition flex items-center space-x-1 cursor-pointer"
+                  className="px-2.5 py-1.5 rounded-lg border-2 border-black bg-white hover:bg-rose-200 text-black text-xs font-bold transition-all shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none flex items-center space-x-1 cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Keluar</span>
@@ -230,7 +223,7 @@ export function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
+                className="px-4 py-2 rounded-lg bg-yellow-400 hover:bg-yellow-300 border-2 border-black text-black text-xs font-black transition-all shadow-[3px_3px_0px_#000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none flex items-center space-x-1.5"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Masuk Portal</span>

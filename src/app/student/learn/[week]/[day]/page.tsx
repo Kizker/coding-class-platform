@@ -118,42 +118,42 @@ export default function StudentLearnPage({
   };
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FAFAF9] text-stone-900 flex flex-col font-sans antialiased">
+    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FDFBF7] text-black flex flex-col font-sans antialiased">
       {/* ======================================================== */}
-      {/* 1. QUIET HEADER (HUMAN-CENTRIC CONTEXT BAR)              */}
+      {/* 1. QUIET HEADER (NEO-BRUTALISM CONTEXT BAR)              */}
       {/* ======================================================== */}
-      <header className="bg-white border-b border-stone-200/80 px-4 sm:px-6 lg:px-8 py-3 sticky top-14 z-30 shadow-[0_1px_2px_rgba(0,0,0,0.02)]">
+      <header className="bg-white border-b-2.5 border-black px-4 sm:px-6 lg:px-8 py-3 sticky top-14 z-30 shadow-[0_3px_0px_#000000]">
         <div className="max-w-7xl mx-auto flex flex-wrap items-center justify-between gap-3 text-xs">
           {/* Breadcrumbs */}
           <div className="flex items-center space-x-2.5">
             <Link
               href="/student/assignments"
-              className="text-stone-500 hover:text-stone-900 transition flex items-center space-x-1.5 font-medium"
+              className="px-3 py-1 bg-white hover:bg-[#FEF08A] text-black border-2 border-black font-black shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none transition-all flex items-center space-x-1.5"
             >
               <ArrowLeft className="w-3.5 h-3.5" />
-              <span>Daftar Tugas</span>
+              <span>DAFTAR TUGAS</span>
             </Link>
-            <span className="text-stone-300">/</span>
-            <span className="text-stone-500 font-medium">Pekan {weekNum}</span>
-            <span className="text-stone-300">/</span>
-            <span className="font-semibold text-stone-900">
+            <span className="text-black font-black text-sm">/</span>
+            <span className="text-stone-700 font-bold uppercase text-[11px]">Pekan {weekNum}</span>
+            <span className="text-black font-black text-sm">/</span>
+            <span className="font-black text-black uppercase tracking-tight">
               {dayLabelMap[dayKey] || dayKey} &bull; {assignment.title}
             </span>
           </div>
 
           {/* Points & Duration Badges */}
           <div className="flex items-center space-x-3">
-            <span className="text-stone-600 font-medium flex items-center space-x-1.5 bg-stone-50 px-2.5 py-1 rounded-lg border border-stone-200/60">
-              <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
+            <span className="text-black font-black flex items-center space-x-1.5 bg-[#FEF08A] px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase text-[11px]">
+              <Zap className="w-3.5 h-3.5 fill-black stroke-black" />
               <span>+{assignment.points} XP</span>
             </span>
-            <span className="text-stone-600 font-medium flex items-center space-x-1.5 bg-stone-50 px-2.5 py-1 rounded-lg border border-stone-200/60">
-              <Clock className="w-3.5 h-3.5 text-stone-400" />
+            <span className="text-black font-black flex items-center space-x-1.5 bg-white px-3 py-1 border-2 border-black shadow-[2px_2px_0px_#000] uppercase text-[11px]">
+              <Clock className="w-3.5 h-3.5 stroke-[2.5]" />
               <span>{assignment.durationMinutes} Menit</span>
             </span>
             {isPassed && (
-              <span className="px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-800 border border-emerald-200/80 font-semibold flex items-center space-x-1">
-                <Check className="w-3 h-3 text-emerald-600" />
+              <span className="px-3 py-1 bg-[#86EFAC] text-black border-2 border-black shadow-[2px_2px_0px_#000] font-black flex items-center space-x-1 uppercase text-[11px]">
+                <Check className="w-3.5 h-3.5 stroke-[3]" />
                 <span>Selesai</span>
               </span>
             )}
@@ -164,14 +164,14 @@ export default function StudentLearnPage({
       {/* Tutor Pushed Code Subtle Toast */}
       {pushedAlert && (
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-4 w-full">
-          <div className="bg-stone-900 text-stone-100 px-4 py-3 rounded-xl text-xs flex items-center justify-between shadow-sm animate-fadeIn">
+          <div className="bg-[#FEF08A] text-black border-2.5 border-black px-4 py-3 shadow-[4px_4px_0px_#000] text-xs flex items-center justify-between animate-fadeIn font-bold">
             <div className="flex items-center space-x-2.5">
-              <Bell className="w-4 h-4 text-amber-400 shrink-0" />
-              <span className="font-medium">{pushedAlert}</span>
+              <Bell className="w-4 h-4 stroke-[2.5] shrink-0" />
+              <span className="font-black">{pushedAlert}</span>
             </div>
             <button
               onClick={() => setPushedAlert(null)}
-              className="text-stone-400 hover:text-white text-xs font-medium ml-4 cursor-pointer"
+              className="text-black font-black uppercase text-[11px] px-2 py-0.5 border border-black hover:bg-black hover:text-white transition cursor-pointer"
             >
               Tutup
             </button>
@@ -184,35 +184,35 @@ export default function StudentLearnPage({
       {/* ======================================================== */}
       <main className="max-w-7xl mx-auto w-full p-4 sm:p-6 lg:p-8 flex-1 grid grid-cols-1 lg:grid-cols-12 gap-6 items-start">
         {/* LEFT PANE (5/12): Panduan & Teori */}
-        <section className="lg:col-span-5 bg-white border border-stone-200/80 rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
-          {/* Calm, Human-Centric Tab Navigation */}
-          <div className="flex p-1 bg-stone-100 rounded-xl text-xs">
+        <section className="lg:col-span-5 bg-white border-2.5 border-black p-6 shadow-[5px_5px_0px_#000] space-y-5">
+          {/* Neo-Brutalist Tab Navigation */}
+          <div className="flex gap-1.5 p-1 bg-stone-100 border-2 border-black text-xs">
             <button
               onClick={() => setActiveTab("challenge")}
-              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
+              className={`flex-1 py-2 px-2 transition-all cursor-pointer text-center uppercase tracking-tight text-[11px] font-black border ${
                 activeTab === "challenge"
-                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                  : "text-stone-600 hover:text-stone-900"
+                  ? "bg-[#FACC15] text-black border-black shadow-[2px_2px_0px_#000]"
+                  : "bg-transparent text-black border-transparent hover:bg-white"
               }`}
             >
-              Instruksi Tantangan
+              Tantangan
             </button>
             <button
               onClick={() => setActiveTab("theory")}
-              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
+              className={`flex-1 py-2 px-2 transition-all cursor-pointer text-center uppercase tracking-tight text-[11px] font-black border ${
                 activeTab === "theory"
-                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                  : "text-stone-600 hover:text-stone-900"
+                  ? "bg-[#FACC15] text-black border-black shadow-[2px_2px_0px_#000]"
+                  : "bg-transparent text-black border-transparent hover:bg-white"
               }`}
             >
-              Ringkasan Teori
+              Teori
             </button>
             <button
               onClick={() => setActiveTab("hints")}
-              className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
+              className={`flex-1 py-2 px-2 transition-all cursor-pointer text-center uppercase tracking-tight text-[11px] font-black border ${
                 activeTab === "hints"
-                  ? "bg-white text-stone-900 shadow-2xs font-semibold"
-                  : "text-stone-600 hover:text-stone-900"
+                  ? "bg-[#FACC15] text-black border-black shadow-[2px_2px_0px_#000]"
+                  : "bg-transparent text-black border-transparent hover:bg-white"
               }`}
             >
               Petunjuk ({assignment.hints.length})
@@ -225,23 +225,25 @@ export default function StudentLearnPage({
               <div className="space-y-4 animate-fadeIn">
                 <div className="space-y-2">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
+                    <span className="text-[10px] font-black text-black bg-[#86EFAC] px-2 py-0.5 border border-black uppercase tracking-wider">
                       Latihan Mandiri 15 Menit
                     </span>
-                    <span className="text-emerald-700 font-semibold">+{assignment.points} XP</span>
+                    <span className="text-black font-black bg-[#FEF08A] px-2 py-0.5 border border-black uppercase text-[10px]">
+                      +{assignment.points} XP
+                    </span>
                   </div>
-                  <h1 className="text-lg font-bold text-stone-900 tracking-tight leading-snug">
+                  <h1 className="text-xl font-black text-black tracking-tight leading-snug uppercase">
                     {assignment.title}
                   </h1>
                 </div>
 
                 {/* Challenge Box */}
-                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-2">
-                  <span className="text-xs font-semibold text-stone-900 flex items-center space-x-1.5">
-                    <BookOpen className="w-3.5 h-3.5 text-stone-500" />
+                <div className="p-4 bg-[#FEF08A] border-2 border-black shadow-[3px_3px_0px_#000] space-y-2">
+                  <span className="text-xs font-black text-black flex items-center space-x-1.5 uppercase">
+                    <BookOpen className="w-4 h-4 stroke-[2.5]" />
                     <span>Petunjuk Pengerjaan:</span>
                   </span>
-                  <p className="text-xs text-stone-700 leading-relaxed font-sans">
+                  <p className="text-xs text-black font-bold leading-relaxed">
                     {assignment.challengeInstructions}
                   </p>
                 </div>
@@ -249,11 +251,11 @@ export default function StudentLearnPage({
                 {/* Target Output Terminal */}
                 {assignment.expectedOutput && (
                   <div className="space-y-2">
-                    <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                    <span className="text-[11px] font-black text-black uppercase tracking-wider block">
                       Target Keluaran Terminal yang Diharapkan:
                     </span>
-                    <div className="rounded-xl border border-stone-800 bg-stone-900 p-4 text-stone-100 font-mono text-xs overflow-x-auto shadow-inner">
-                      <pre className="text-emerald-400 whitespace-pre-wrap leading-relaxed">
+                    <div className="border-2 border-black bg-stone-900 p-4 font-mono text-xs overflow-x-auto shadow-[3px_3px_0px_#000]">
+                      <pre className="text-[#86EFAC] whitespace-pre-wrap leading-relaxed font-bold">
                         {assignment.expectedOutput}
                       </pre>
                     </div>
@@ -264,12 +266,12 @@ export default function StudentLearnPage({
 
             {activeTab === "theory" && (
               <div className="space-y-3 animate-fadeIn">
-                <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 space-y-2">
-                  <span className="text-xs font-semibold text-stone-900 flex items-center space-x-1.5">
-                    <FileText className="w-3.5 h-3.5 text-stone-500" />
+                <div className="p-4 bg-white border-2 border-black shadow-[3px_3px_0px_#000] space-y-2">
+                  <span className="text-xs font-black text-black flex items-center space-x-1.5 uppercase">
+                    <FileText className="w-4 h-4 stroke-[2.5]" />
                     <span>Konsep &amp; Nalar Logika:</span>
                   </span>
-                  <div className="text-xs text-stone-700 leading-relaxed font-sans whitespace-pre-wrap">
+                  <div className="text-xs text-stone-800 font-bold leading-relaxed whitespace-pre-wrap">
                     {assignment.theoryMarkdown}
                   </div>
                 </div>
@@ -278,34 +280,34 @@ export default function StudentLearnPage({
 
             {activeTab === "hints" && (
               <div className="space-y-3 animate-fadeIn">
-                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                <span className="text-[11px] font-black text-black uppercase tracking-wider block">
                   Petunjuk Bertahap Nalar Koding:
                 </span>
                 <div className="space-y-2.5">
                   {assignment.hints.map((hint, idx) => (
                     <div
                       key={idx}
-                      className={`p-3.5 rounded-xl border transition-all ${
+                      className={`p-3.5 border-2 border-black transition-all ${
                         idx <= activeHintIndex
-                          ? "bg-white border-stone-300 shadow-2xs text-stone-900"
-                          : "bg-stone-50 border-stone-200/70 text-stone-400"
+                          ? "bg-white shadow-[3px_3px_0px_#000] text-black"
+                          : "bg-stone-100 shadow-[1px_1px_0px_#000] text-stone-400"
                       }`}
                     >
-                      <div className="flex items-center justify-between text-xs font-medium mb-1">
-                        <span className="font-semibold text-stone-900">Petunjuk #{idx + 1}</span>
+                      <div className="flex items-center justify-between text-xs font-bold mb-1">
+                        <span className="font-black text-black uppercase">Petunjuk #{idx + 1}</span>
                         {idx > activeHintIndex && (
                           <button
                             onClick={() => setActiveHintIndex(idx)}
-                            className="text-stone-600 hover:text-stone-900 font-medium underline text-xs cursor-pointer"
+                            className="text-black font-black uppercase text-[10px] px-2 py-0.5 bg-[#FEF08A] border border-black hover:bg-yellow-300 cursor-pointer"
                           >
                             Buka Petunjuk &rarr;
                           </button>
                         )}
                       </div>
                       {idx <= activeHintIndex ? (
-                        <p className="text-xs text-stone-600 leading-relaxed">{hint}</p>
+                        <p className="text-xs text-stone-800 font-bold leading-relaxed">{hint}</p>
                       ) : (
-                        <p className="text-xs italic text-stone-400">
+                        <p className="text-xs italic text-stone-500 font-medium">
                           Klik &ldquo;Buka Petunjuk&rdquo; jika kamu menemui jalan buntu.
                         </p>
                       )}
@@ -317,23 +319,23 @@ export default function StudentLearnPage({
           </div>
 
           {/* Footer note */}
-          <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-[11px] text-stone-400">
+          <div className="pt-3 border-t-2 border-black flex items-center justify-between text-[11px] font-black uppercase">
             <span className="flex items-center space-x-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              <span>Penyimpanan Draf Otomatis</span>
+              <span className="w-2 h-2 rounded-full bg-[#4ADE80] border border-black" />
+              <span>Draf Otomatis Tersimpan</span>
             </span>
-            <span>Python 3.11</span>
+            <span className="bg-stone-100 px-2 py-0.5 border border-black">Python 3.11</span>
           </div>
         </section>
 
         {/* RIGHT PANE (7/12): Editor & Terminal */}
-        <section className="lg:col-span-7 bg-white border border-stone-200/80 rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col">
+        <section className="lg:col-span-7 bg-white border-2.5 border-black overflow-hidden shadow-[5px_5px_0px_#000] flex flex-col">
           {/* Action Header */}
-          <div className="px-5 py-3 border-b border-stone-100 flex items-center justify-between text-xs flex-wrap gap-2">
-            <div className="flex items-center space-x-2 font-mono text-stone-700 font-medium">
-              <span>main.py</span>
-              <span className="text-stone-300">&bull;</span>
-              <span className="text-[11px] text-stone-400 font-sans">
+          <div className="px-5 py-3 border-b-2 border-black bg-[#FEF08A] flex items-center justify-between text-xs flex-wrap gap-2">
+            <div className="flex items-center space-x-2 font-mono text-black font-bold">
+              <span className="font-black">main.py</span>
+              <span>&bull;</span>
+              <span className="text-[11px] uppercase font-bold">
                 {isSaved ? "Tersimpan" : "Mengetik..."}
               </span>
             </div>
@@ -342,27 +344,27 @@ export default function StudentLearnPage({
               <button
                 onClick={resetToInitial}
                 title="Pulihkan kode awal"
-                className="text-stone-400 hover:text-stone-700 transition flex items-center space-x-1 text-xs cursor-pointer"
+                className="px-2.5 py-1.5 bg-white border-2 border-black shadow-[2px_2px_0px_#000] hover:bg-stone-50 text-black font-black text-xs cursor-pointer uppercase tracking-tight flex items-center space-x-1 active:translate-x-[1px] active:translate-y-[1px]"
               >
-                <RotateCcw className="w-3.5 h-3.5" />
+                <RotateCcw className="w-3.5 h-3.5 stroke-[2.5]" />
                 <span className="hidden sm:inline">Pulihkan</span>
               </button>
 
               <button
                 onClick={handleRunCode}
                 disabled={isRunning}
-                className="px-4 py-2 rounded-xl bg-stone-100 hover:bg-stone-200 text-stone-800 text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer disabled:opacity-50"
+                className="px-4 py-1.5 bg-white hover:bg-stone-50 text-black border-2 border-black shadow-[2px_2px_0px_#000] text-xs font-black transition-all flex items-center space-x-1.5 cursor-pointer uppercase tracking-tight disabled:opacity-50 active:translate-x-[1px] active:translate-y-[1px]"
               >
-                <Play className="w-3.5 h-3.5 fill-current text-stone-600" />
+                <Play className="w-3.5 h-3.5 fill-black stroke-black" />
                 <span>{isRunning ? "Mengeksekusi..." : "Jalankan Kode"}</span>
               </button>
 
               <button
                 onClick={handleSubmitTask}
                 disabled={isRunning}
-                className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer disabled:opacity-50"
+                className="px-4 py-1.5 bg-[#4ADE80] hover:bg-green-400 text-black border-2 border-black shadow-[2px_2px_0px_#000] text-xs font-black transition-all flex items-center space-x-1.5 cursor-pointer uppercase tracking-tight disabled:opacity-50 active:translate-x-[1px] active:translate-y-[1px]"
               >
-                <Check className="w-3.5 h-3.5" />
+                <Check className="w-3.5 h-3.5 stroke-[3]" />
                 <span>Kumpulkan Tugas</span>
               </button>
             </div>
@@ -383,28 +385,28 @@ export default function StudentLearnPage({
           </div>
 
           {/* Terminal Console Output */}
-          <div className="border-t border-stone-200/80 bg-stone-50/70 p-4 sm:p-5 flex flex-col space-y-2">
-            <div className="flex items-center justify-between text-xs text-stone-600 font-medium">
+          <div className="border-t-2 border-black bg-stone-50 p-4 sm:p-5 flex flex-col space-y-2">
+            <div className="flex items-center justify-between text-xs font-bold">
               <div className="flex items-center space-x-2">
-                <Terminal className="w-3.5 h-3.5 text-stone-500" />
-                <span className="text-stone-900 font-semibold">Hasil Program</span>
+                <Terminal className="w-4 h-4 stroke-[2.5]" />
+                <span className="font-black uppercase">Hasil Program Terminal</span>
               </div>
               {lastResult && (
                 <span
                   className={
                     lastResult.isSuccess
-                      ? "text-emerald-700 font-semibold flex items-center space-x-1"
-                      : "text-rose-700 font-semibold flex items-center space-x-1"
+                      ? "bg-[#86EFAC] text-black px-2 py-0.5 border border-black font-black uppercase text-[10px] flex items-center space-x-1"
+                      : "bg-[#FCA5A5] text-black px-2 py-0.5 border border-black font-black uppercase text-[10px] flex items-center space-x-1"
                   }
                 >
                   {lastResult.isSuccess ? (
                     <>
-                      <Check className="w-3.5 h-3.5" />
+                      <Check className="w-3.5 h-3.5 stroke-[3]" />
                       <span>Sesuai Ekspektasi</span>
                     </>
                   ) : (
                     <>
-                      <AlertCircle className="w-3.5 h-3.5" />
+                      <AlertCircle className="w-3.5 h-3.5 stroke-[3]" />
                       <span>Perlu Diperiksa</span>
                     </>
                   )}
@@ -412,9 +414,9 @@ export default function StudentLearnPage({
               )}
             </div>
 
-            <div className="p-3.5 rounded-xl bg-white border border-stone-200/70 font-mono text-xs text-stone-800 min-h-[90px] max-h-[220px] overflow-y-auto">
+            <div className="p-3.5 bg-stone-900 border-2 border-black font-mono text-xs text-white min-h-[90px] max-h-[220px] overflow-y-auto shadow-[2px_2px_0px_#000]">
               {lastResult ? (
-                <pre className="whitespace-pre-wrap leading-relaxed">
+                <pre className="whitespace-pre-wrap leading-relaxed font-bold">
                   {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa keluaran)"}
                 </pre>
               ) : (
@@ -429,50 +431,50 @@ export default function StudentLearnPage({
 
       {/* Confirmation Modal */}
       {showConfirmation && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-xs p-4">
-          <div className="bg-white border border-stone-200 rounded-3xl p-6 sm:p-8 max-w-md w-full shadow-2xl space-y-5 animate-in fade-in zoom-in-95 duration-200">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
+          <div className="bg-white border-2.5 border-black p-6 sm:p-8 max-w-md w-full shadow-[8px_8px_0px_#000] space-y-5 animate-in fade-in zoom-in-95 duration-200">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-emerald-700 font-semibold flex items-center space-x-1.5">
-                <Sparkles className="w-4 h-4 text-amber-500 fill-amber-500" />
+              <span className="text-black font-black flex items-center space-x-1.5 uppercase">
+                <Sparkles className="w-4 h-4 fill-[#FACC15] stroke-black" />
                 <span>Tugas Terverifikasi</span>
               </span>
-              <span className="px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+              <span className="px-2.5 py-0.5 bg-[#86EFAC] text-black font-black border border-black uppercase text-[11px]">
                 100 / 100
               </span>
             </div>
 
-            <h3 className="text-xl font-bold text-stone-900 tracking-tight">
+            <h3 className="text-2xl font-black text-black tracking-tight uppercase">
               Latihan Berhasil Diselesaikan!
             </h3>
 
-            <p className="text-xs text-stone-600 leading-relaxed font-sans">
+            <p className="text-xs text-stone-800 leading-relaxed font-bold">
               Kerja bagus! Kodemu telah berhasil lolos seluruh kriteria pengujian logika. Poin pengalaman dan catatan progresmu telah tersimpan.
             </p>
 
             <div className="grid grid-cols-2 gap-3 py-1 text-xs">
-              <div className="p-4 bg-stone-50 rounded-2xl border border-stone-200/70 text-center space-y-1">
-                <span className="text-stone-500 text-[11px] block font-medium">Poin Hadiah</span>
-                <span className="text-stone-900 font-bold text-lg">+{assignment.points} XP</span>
+              <div className="p-4 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] text-center space-y-1">
+                <span className="text-stone-700 text-[10px] block font-black uppercase">Poin Hadiah</span>
+                <span className="text-black font-black text-2xl">+{assignment.points} XP</span>
               </div>
-              <div className="p-4 bg-amber-50/60 rounded-2xl border border-amber-200/60 text-center space-y-1">
-                <span className="text-amber-800 text-[11px] block font-medium">Streak Belajar</span>
-                <span className="text-amber-900 font-bold text-lg">{progress.streakDays} Hari</span>
+              <div className="p-4 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] text-center space-y-1">
+                <span className="text-black text-[10px] block font-black uppercase">Streak Belajar</span>
+                <span className="text-black font-black text-2xl">{progress.streakDays} Hari</span>
               </div>
             </div>
 
-            <div className="flex gap-2.5 pt-2 text-xs">
+            <div className="flex gap-3 pt-2 text-xs">
               <button
                 onClick={() => setShowConfirmation(false)}
-                className="flex-1 py-3 rounded-xl border border-stone-200 bg-white hover:bg-stone-50 text-stone-700 font-medium transition cursor-pointer"
+                className="flex-1 py-3 border-2 border-black bg-white hover:bg-stone-50 text-black font-black transition cursor-pointer uppercase shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px]"
               >
                 Tutup
               </button>
               <Link
                 href="/student/assignments"
-                className="flex-1 py-3 rounded-xl bg-stone-900 hover:bg-stone-800 text-white font-semibold transition text-center shadow-2xs flex items-center justify-center space-x-1.5"
+                className="flex-1 py-3 bg-[#FACC15] hover:bg-yellow-400 text-black border-2 border-black font-black transition text-center shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] flex items-center justify-center space-x-1.5 uppercase"
               >
                 <span>Tugas Selanjutnya</span>
-                <ArrowRight className="w-4 h-4" />
+                <ArrowRight className="w-4 h-4 stroke-[3]" />
               </Link>
             </div>
           </div>

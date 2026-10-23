@@ -108,11 +108,11 @@ export default function StudentDashboardPage() {
     },
   ];
 
-  // Human-centered card color & status rules:
-  // 1. Selesai: Warm Sage / Forest Emerald
-  // 2. Terlewat: Warm Terracotta / Rose
-  // 3. Hari Ini: Calm Indigo / Ocean
-  // 4. Mendatang: Clean Warm Neutral
+  // Neo-Brutalism card color & status rules:
+  // 1. Selesai: Mint Green (#86EFAC)
+  // 2. Terlewat: Pop Coral/Red (#FCA5A5)
+  // 3. Hari Ini: Lemon Pop (#FEF08A) with thick 2.5px border
+  // 4. Mendatang: Crisp White with solid black border & shadow
   const getCardStatus = (day: DayRoutineItem) => {
     const isCompleted = isTaskCompleted(progress.currentWeek, day.key);
     const isPast = day.dayIndex < activeDayIndex;
@@ -121,65 +121,65 @@ export default function StudentDashboardPage() {
     if (isCompleted) {
       return {
         cardStyle:
-          "bg-emerald-50/70 border border-emerald-200 text-emerald-950 hover:border-emerald-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
-        badgeStyle: "bg-emerald-100/90 text-emerald-800 font-semibold",
-        statusText: "Selesai",
-        icon: <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />,
+          "bg-[#86EFAC] text-black border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+        badgeStyle: "bg-white text-black font-black border border-black uppercase",
+        statusText: "SELESAI",
+        icon: <CheckCircle2 className="w-4 h-4 text-black stroke-[2.5] shrink-0" />,
       };
     }
 
     if (isPast) {
       return {
         cardStyle:
-          "bg-rose-50/70 border border-rose-200 text-rose-950 hover:border-rose-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
-        badgeStyle: "bg-rose-100/90 text-rose-800 font-semibold",
-        statusText: "Terlewat",
-        icon: <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />,
+          "bg-[#FCA5A5] text-black border-2 border-black shadow-[3px_3px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+        badgeStyle: "bg-white text-black font-black border border-black uppercase",
+        statusText: "TERLEWAT",
+        icon: <AlertCircle className="w-4 h-4 text-black stroke-[2.5] shrink-0" />,
       };
     }
 
     if (isToday) {
       return {
         cardStyle:
-          "bg-indigo-50/80 border-2 border-indigo-500/80 text-indigo-950 shadow-sm ring-4 ring-indigo-100 hover:border-indigo-600",
-        badgeStyle: "bg-indigo-600 text-white font-semibold",
-        statusText: "Hari Ini",
+          "bg-[#FEF08A] text-black border-2.5 border-black shadow-[4px_4px_0px_#000] translate-x-[-1px] translate-y-[-1px] hover:translate-x-[-2px] hover:translate-y-[-2px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+        badgeStyle: "bg-black text-white font-black border border-black uppercase",
+        statusText: "HARI INI",
         icon: day.isLiveClass ? (
-          <Video className="w-4 h-4 text-indigo-600 animate-pulse shrink-0" />
+          <Video className="w-4 h-4 text-black stroke-[2.5] animate-pulse shrink-0" />
         ) : (
-          <Clock className="w-4 h-4 text-indigo-600 shrink-0" />
+          <Clock className="w-4 h-4 text-black stroke-[2.5] shrink-0" />
         ),
       };
     }
 
     return {
       cardStyle:
-        "bg-white/80 border border-stone-200/80 text-stone-700 hover:border-stone-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
-      badgeStyle: "bg-stone-100 text-stone-600 font-medium",
-      statusText: "Mendatang",
-      icon: <Clock className="w-4 h-4 text-stone-400 shrink-0" />,
+        "bg-white text-black border-2 border-black shadow-[3px_3px_0px_#000] hover:bg-stone-50 hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none",
+      badgeStyle: "bg-stone-100 text-stone-800 font-bold border border-black uppercase",
+      statusText: "MENDATANG",
+      icon: <Clock className="w-4 h-4 text-stone-600 stroke-[2] shrink-0" />,
     };
   };
 
   return (
-    <div className="min-h-screen bg-[#FAFAF9] text-stone-900 py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
+    <div className="min-h-screen bg-[#FDFBF7] text-black py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
       <div className="max-w-5xl mx-auto space-y-9">
         {/* ======================================================== */}
-        {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT             */}
+        {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT (NEO)       */}
         {/* ======================================================== */}
-        <section className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-6">
+        <section className="bg-white border-2.5 border-black p-6 sm:p-8 shadow-[5px_5px_0px_#000] space-y-6">
           {/* Top Date & Context Chip */}
-          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-stone-500 pb-3 border-b border-stone-100">
-            <div className="flex items-center space-x-2">
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block" />
-              <span className="font-medium text-stone-700" suppressHydrationWarning>
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs pb-3 border-b-2 border-black">
+            <div className="flex items-center space-x-2 font-bold text-black">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#4ADE80] border border-black animate-pulse inline-block" />
+              <span className="font-black uppercase tracking-tight" suppressHydrationWarning>
                 {serverTime.dateFormatted}
               </span>
-              <span className="text-stone-300">&bull;</span>
-              <span suppressHydrationWarning>{serverTime.timeFormatted}</span>
+              <span className="font-black">&bull;</span>
+              <span className="font-mono font-bold" suppressHydrationWarning>{serverTime.timeFormatted}</span>
             </div>
 
-            <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-medium text-[11px] border border-indigo-100">
+            <span className="px-3 py-1 bg-[#FEF08A] text-black font-black text-[11px] border-2 border-black shadow-[2px_2px_0px_#000] uppercase tracking-tight">
               Sesi Tatap Muka Live 16.00 WIB
             </span>
           </div>
@@ -187,90 +187,90 @@ export default function StudentDashboardPage() {
           {/* Greeting, Intent & Primary CTA */}
           <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
             <div className="space-y-2">
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+              <h1 className="text-3xl sm:text-4xl font-black text-black tracking-tight uppercase">
                 Halo, Andi 👋
               </h1>
-              <p className="text-sm text-stone-600 max-w-xl leading-relaxed">
+              <p className="text-xs sm:text-sm text-stone-800 max-w-xl leading-relaxed font-bold">
                 Hari ini waktunya belajar langsung bersama mentor di{" "}
-                <strong className="text-stone-900 font-semibold">
+                <span className="bg-[#FEF08A] px-1 py-0.5 border border-black font-black">
                   Pekan {isMounted ? String(currentWeekNum).padStart(2, "0") : "01"}: {currentWeekData.title}
-                </strong>
-                . Klik tombol di samping untuk masuk ke ruang kelas live.
+                </span>
+                . Klik tombol di samping untuk masuk ke ruang kelas tatap muka interaktif.
               </p>
             </div>
 
             <div className="shrink-0">
               <Link
                 href={`/student/live-session/${currentWeekNum}/jumat`}
-                className="inline-flex items-center space-x-2.5 px-6 py-3 rounded-xl bg-stone-900 text-white font-medium text-xs hover:bg-stone-800 hover:shadow-md transition-all cursor-pointer group"
+                className="inline-flex items-center space-x-2.5 px-6 py-3.5 bg-[#FACC15] hover:bg-yellow-400 text-black border-2 border-black shadow-[3px_3px_0px_#000] font-black text-xs hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all cursor-pointer uppercase tracking-tight group"
               >
-                <Video className="w-4 h-4 text-stone-300 group-hover:scale-110 transition-transform" />
+                <Video className="w-4 h-4 stroke-[2.5] group-hover:scale-110 transition-transform" />
                 <span>Masuk Kelas Tatap Muka</span>
-                <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
+                <ArrowRight className="w-4 h-4 stroke-[3] group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Integrated Learning Snapshot (Replaces Cluttered Bento Boxes) */}
-          <div className="pt-4 border-t border-stone-100">
+          {/* Integrated Learning Snapshot */}
+          <div className="pt-4 border-t-2 border-black">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-2">
               {/* Stat 1: Streak */}
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-lg shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
+                <div className="w-12 h-12 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🔥
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                  <div className="text-lg font-black text-black" suppressHydrationWarning>
                     {isMounted ? progress.streakDays : 3} Hari Berturut
                   </div>
-                  <div className="text-xs text-stone-500 font-medium">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase">
                     Konsistensi PR Harian
                   </div>
                 </div>
               </div>
 
               {/* Stat 2: XP */}
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-lg shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
+                <div className="w-12 h-12 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   ⚡
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                  <div className="text-lg font-black text-black" suppressHydrationWarning>
                     {isMounted ? progress.xpPoints : 65} XP Terkumpul
                   </div>
-                  <div className="text-xs text-stone-500 font-medium">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase">
                     Level 01 &bull; Novice Learner
                   </div>
                 </div>
               </div>
 
               {/* Stat 3: Curriculum Roadmap */}
-              <div className="flex items-center space-x-3">
-                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-lg shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
+                <div className="w-12 h-12 bg-[#FED7AA] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🌱
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                  <div className="text-lg font-black text-black" suppressHydrationWarning>
                     Pekan {isMounted ? currentWeekNum : 1} dari 12
                   </div>
-                  <div className="text-xs text-stone-500 font-medium">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase">
                     Fase {currentWeekData.phase}: {currentWeekData.phaseTitle}
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* Subtle Progress Bar */}
-            <div className="mt-4 pt-3 border-t border-stone-100 space-y-1.5">
-              <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-                <span>Progres {currentWeekData.title}</span>
-                <span className="font-semibold text-stone-800" suppressHydrationWarning>
+            {/* Progress Bar Neo-Brutalist */}
+            <div className="mt-4 pt-3 border-t-2 border-black space-y-2">
+              <div className="flex items-center justify-between text-xs font-black">
+                <span className="uppercase tracking-tight">Progres {currentWeekData.title}</span>
+                <span className="bg-[#FEF08A] px-2 py-0.5 border border-black font-black" suppressHydrationWarning>
                   {Math.round((currentWeekNum / 12) * 100)}% Kurikulum
                 </span>
               </div>
-              <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+              <div className="w-full bg-white h-3.5 border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden p-0.5">
                 <div
-                  className="bg-stone-800 h-full rounded-full transition-all duration-500"
+                  className="bg-[#FACC15] h-full border-r-2 border-black transition-all duration-500"
                   style={{ width: `${Math.round((currentWeekNum / 12) * 100)}%` }}
                 />
               </div>
@@ -284,27 +284,27 @@ export default function StudentDashboardPage() {
         <section className="space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
             <div>
-              <h2 className="text-lg font-bold text-stone-900 tracking-tight">
+              <h2 className="text-xl font-black text-black tracking-tight uppercase">
                 Jadwal Belajar Pekan Ini
               </h2>
-              <p className="text-xs text-stone-500 mt-0.5">
+              <p className="text-xs text-stone-700 mt-0.5 font-bold">
                 4 PR mandiri (15 menit) &amp; 2 sesi tatap muka interaktif bersama mentor.
               </p>
             </div>
 
-            {/* Quiet, Human Legend */}
-            <div className="flex items-center gap-3 text-xs text-stone-500 font-medium">
-              <span className="flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
-                <span>Selesai</span>
+            {/* Human Legend */}
+            <div className="flex items-center gap-3 text-xs font-black">
+              <span className="flex items-center space-x-1.5 bg-[#86EFAC] px-2 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
+                <span className="w-2 h-2 rounded-full bg-black inline-block" />
+                <span className="uppercase text-[10px]">Selesai</span>
               </span>
-              <span className="flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
-                <span>Terlewat</span>
+              <span className="flex items-center space-x-1.5 bg-[#FCA5A5] px-2 py-0.5 border border-black shadow-[1px_1px_0px_#000]">
+                <span className="w-2 h-2 rounded-full bg-black inline-block" />
+                <span className="uppercase text-[10px]">Terlewat</span>
               </span>
-              <span className="flex items-center space-x-1.5">
-                <span className="w-2 h-2 rounded-full bg-indigo-600 inline-block" />
-                <span className="font-semibold text-stone-800">Hari Ini</span>
+              <span className="flex items-center space-x-1.5 bg-[#FEF08A] px-2 py-0.5 border-2 border-black shadow-[2px_2px_0px_#000]">
+                <span className="w-2 h-2 rounded-full bg-black inline-block" />
+                <span className="uppercase text-[10px]">Hari Ini</span>
               </span>
             </div>
           </div>
@@ -318,11 +318,11 @@ export default function StudentDashboardPage() {
                 <Link
                   key={day.key}
                   href={day.href}
-                  className={`p-4 rounded-2xl transition-all duration-200 flex flex-col justify-between h-36 hover:-translate-y-0.5 hover:shadow-sm cursor-pointer ${status.cardStyle}`}
+                  className={`p-3.5 transition-all flex flex-col justify-between h-38 cursor-pointer ${status.cardStyle}`}
                 >
                   {/* Top: Day Label & Status Icon */}
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold text-stone-900">
+                  <div className="flex items-center justify-between pb-1 border-b border-black/30">
+                    <span className="text-xs font-black text-black uppercase tracking-tight">
                       {day.label}
                     </span>
                     {status.icon}
@@ -330,10 +330,10 @@ export default function StudentDashboardPage() {
 
                   {/* Middle: Type & Short Title */}
                   <div className="space-y-1 my-auto">
-                    <span className="text-[10px] text-stone-500 font-medium block leading-none">
+                    <span className="text-[10px] text-stone-800 font-bold block uppercase leading-none">
                       {day.typeLabel}
                     </span>
-                    <h3 className="text-xs font-semibold leading-snug line-clamp-2">
+                    <h3 className="text-xs font-black leading-snug line-clamp-2">
                       {day.title}
                     </h3>
                   </div>
@@ -341,7 +341,7 @@ export default function StudentDashboardPage() {
                   {/* Bottom: Clean Status Pill */}
                   <div>
                     <span
-                      className={`text-[10px] px-2 py-0.5 rounded-md inline-block ${status.badgeStyle}`}
+                      className={`text-[9px] px-1.5 py-0.5 inline-block ${status.badgeStyle}`}
                     >
                       {status.statusText}
                     </span>
@@ -357,16 +357,16 @@ export default function StudentDashboardPage() {
         {/* ======================================================== */}
         <section className="space-y-4">
           <div>
-            <h2 className="text-lg font-bold text-stone-900 tracking-tight">
+            <h2 className="text-xl font-black text-black tracking-tight uppercase">
               Silabus &amp; Roadmap 12 Pekan
             </h2>
-            <p className="text-xs text-stone-500 mt-0.5">
+            <p className="text-xs text-stone-700 mt-0.5 font-bold">
               Kurikulum bertahap dari pemahaman nalar logika hingga aplikasi Python mandiri.
             </p>
           </div>
 
           {/* 1 Column Linear List */}
-          <div className="space-y-2.5">
+          <div className="space-y-3">
             {CURRICULUM_DATA.map((w) => {
               const isCurrent = w.week === progress.currentWeek;
               const isCompleted = w.week < progress.currentWeek;
@@ -374,23 +374,23 @@ export default function StudentDashboardPage() {
               return (
                 <div
                   key={w.week}
-                  className={`p-4 sm:p-5 rounded-2xl border transition-all duration-150 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
+                  className={`p-4 sm:p-5 border-2.5 border-black transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                     isCurrent
-                      ? "bg-white border-stone-800 shadow-sm ring-1 ring-stone-800/10"
+                      ? "bg-[#FEF08A] shadow-[4px_4px_0px_#000] translate-x-[-1px] translate-y-[-1px]"
                       : isCompleted
-                      ? "bg-white border-stone-200/80 hover:border-stone-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]"
-                      : "bg-stone-50/60 border-stone-200/60 text-stone-500"
+                      ? "bg-white shadow-[3px_3px_0px_#000]"
+                      : "bg-[#FDFBF7] shadow-[2px_2px_0px_#000]"
                   }`}
                 >
                   {/* Left: Week Badge + Title & Description in 1 clean unit */}
                   <div className="flex items-start sm:items-center space-x-4 min-w-0">
                     <span
-                      className={`w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${
+                      className={`w-12 h-12 border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center font-black text-sm shrink-0 ${
                         isCurrent
-                          ? "bg-stone-900 text-white shadow-xs"
+                          ? "bg-black text-[#FACC15]"
                           : isCompleted
-                          ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
-                          : "bg-stone-100 text-stone-500"
+                          ? "bg-[#86EFAC] text-black"
+                          : "bg-white text-stone-500"
                       }`}
                     >
                       {w.week.toString().padStart(2, "0")}
@@ -398,50 +398,42 @@ export default function StudentDashboardPage() {
 
                     <div className="min-w-0 space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
-                        <h3
-                          className={`text-sm font-semibold truncate ${
-                            isCurrent
-                              ? "text-stone-900 font-bold"
-                              : isCompleted
-                              ? "text-stone-900"
-                              : "text-stone-700"
-                          }`}
-                        >
+                        <h3 className="text-sm font-black text-black uppercase tracking-tight truncate">
                           {w.title}
                         </h3>
 
-                        <span className="text-[10px] px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 font-medium hidden md:inline">
+                        <span className="text-[10px] px-2 py-0.5 bg-white border border-black font-black text-black uppercase hidden md:inline">
                           Fase {w.phase}
                         </span>
 
                         {w.capstoneInfo && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-amber-50 text-amber-800 border border-amber-200/80 flex items-center space-x-1">
-                            <Sparkles className="w-3 h-3 text-amber-600" />
+                          <span className="text-[10px] px-2 py-0.5 font-black bg-[#FACC15] text-black border border-black shadow-[1px_1px_0px_#000] flex items-center space-x-1 uppercase">
+                            <Sparkles className="w-3 h-3 text-black stroke-[2.5]" />
                             <span>Capstone Milestone</span>
                           </span>
                         )}
                       </div>
 
-                      <p className="text-xs text-stone-500 line-clamp-1 leading-relaxed">
+                      <p className="text-xs text-stone-800 font-bold line-clamp-1 leading-relaxed">
                         {w.description}
                       </p>
                     </div>
                   </div>
 
                   {/* Right: Status Pill & Action Button */}
-                  <div className="shrink-0 flex items-center justify-between sm:justify-end space-x-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
+                  <div className="shrink-0 flex items-center justify-between sm:justify-end space-x-3 pt-2 sm:pt-0 border-t-2 sm:border-t-0 border-black/20">
                     <div>
                       {isCurrent ? (
-                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                        <span className="text-xs font-black px-2.5 py-1 bg-white text-black border border-black uppercase">
                           Pekan Berjalan
                         </span>
                       ) : isCompleted ? (
-                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100 flex items-center space-x-1">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                        <span className="text-xs font-black px-2.5 py-1 bg-[#86EFAC] text-black border border-black uppercase flex items-center space-x-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-black stroke-[2.5]" />
                           <span>Tuntas</span>
                         </span>
                       ) : (
-                        <span className="text-xs font-medium text-stone-400 px-2">
+                        <span className="text-xs font-bold text-stone-500 px-2 uppercase">
                           Terjadwal
                         </span>
                       )}
@@ -449,14 +441,10 @@ export default function StudentDashboardPage() {
 
                     <Link
                       href={`/student/curriculum/${w.week}`}
-                      className={`px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1 cursor-pointer ${
-                        isCurrent
-                          ? "bg-stone-900 text-white hover:bg-stone-800 shadow-xs"
-                          : "bg-stone-100 text-stone-700 hover:bg-stone-200"
-                      }`}
+                      className="px-4 py-2 bg-white hover:bg-[#FEF08A] text-black border-2 border-black font-black text-xs shadow-[2px_2px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none transition-all flex items-center space-x-1 cursor-pointer uppercase tracking-tight"
                     >
                       <span>Lihat Materi</span>
-                      <ChevronRight className="w-3.5 h-3.5" />
+                      <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
                     </Link>
                   </div>
                 </div>
