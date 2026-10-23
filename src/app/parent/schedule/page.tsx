@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Calendar, Clock, CheckCircle2, AlertCircle } from "lucide-react";
+import { Clock, Calendar, Check } from "lucide-react";
 
 export default function ParentSchedulePage() {
   const sessions = [
@@ -72,30 +72,32 @@ export default function ParentSchedulePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="border-b border-slate-800 pb-4">
-          <h1 className="text-xl font-bold text-white tracking-tight flex items-center space-x-2">
-            <Calendar className="w-5 h-5 text-emerald-400" />
-            <span>Jadwal Les Privat Tatap Muka 2 Jam (Jumat & Sabtu)</span>
+    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="border-b border-white/[0.08] pb-5">
+          <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2">
+            EXECUTIVE AUDIT // JADWAL & LOG KEHADIRAN
+          </div>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+            Log Kehadiran Sesi Les Tatap Muka 2 Jam
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Total 24 Pertemuan Langsung (120 Menit per sesi) bersama Kak Tutor.
+          <p className="text-xs text-neutral-400 mt-1">
+            Total 24 pertemuan langsung tatap muka (120 menit per sesi) terjadwal bersama pengajar.
           </p>
         </div>
 
         {/* Attendance stats */}
-        <div className="grid grid-cols-2 gap-3 text-xs">
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center space-y-1">
-            <span className="text-slate-400 text-[11px] block">Tingkat Kehadiran</span>
-            <strong className="text-xl font-bold text-emerald-400">100%</strong>
-            <span className="text-[10px] text-slate-500 block">7 dari 7 Sesi Hadir</span>
+        <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+          <div className="p-4 rounded border border-white/[0.08] bg-[#0C1017] text-left space-y-1">
+            <span className="text-neutral-500 text-[11px] block">TINGKAT KEHADIRAN</span>
+            <strong className="text-2xl font-medium text-emerald-400 block tabular-nums">100%</strong>
+            <span className="text-[11px] text-neutral-400 block">07 DARI 07 SESI TUNTAS</span>
           </div>
 
-          <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-center space-y-1">
-            <span className="text-slate-400 text-[11px] block">Total Durasi Belajar</span>
-            <strong className="text-xl font-bold text-indigo-400">14 Jam</strong>
-            <span className="text-[10px] text-slate-500 block">Bimbingan 1-on-1 Langsung</span>
+          <div className="p-4 rounded border border-white/[0.08] bg-[#0C1017] text-left space-y-1">
+            <span className="text-neutral-500 text-[11px] block">TOTAL DURASI TATAP MUKA</span>
+            <strong className="text-2xl font-medium text-amber-400 block tabular-nums">14 JAM</strong>
+            <span className="text-[11px] text-neutral-400 block">BIMBINGAN LANGSUNG 1-ON-1</span>
           </div>
         </div>
 
@@ -104,37 +106,34 @@ export default function ParentSchedulePage() {
           {sessions.map((s) => (
             <div
               key={s.num}
-              className={`p-4 rounded-xl border transition space-y-2 ${
-                s.status === "HADIR"
-                  ? "bg-slate-900/80 border-slate-800"
-                  : "bg-indigo-950/30 border-indigo-700/60 shadow-lg"
-              }`}
+              className="p-4 rounded border border-white/[0.08] bg-[#0C1017] space-y-2.5"
             >
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-slate-400">
-                  Pertemuan {s.num} (Pekan {s.week})
+              <div className="flex items-center justify-between text-xs font-mono border-b border-white/[0.06] pb-2">
+                <span className="text-neutral-400">
+                  SESI {String(s.num).padStart(2, "0")} // PEKAN {String(s.week).padStart(2, "0")}
                 </span>
                 <span
-                  className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${
+                  className={`px-2 py-0.5 rounded text-[11px] font-mono ${
                     s.status === "HADIR"
-                      ? "bg-emerald-950 text-emerald-300 border border-emerald-700"
-                      : "bg-indigo-950 text-indigo-300 border border-indigo-700 animate-pulse"
+                      ? "border border-emerald-500/30 bg-emerald-950/20 text-emerald-400"
+                      : "border border-amber-500/30 bg-amber-950/20 text-amber-400"
                   }`}
                 >
-                  {s.status === "HADIR" ? "✅ HADIR (2 JAM)" : "⏳ SESI BERIKUTNYA"}
+                  {s.status === "HADIR" ? "HADIR (120 MIN)" : "TERJADWAL"}
                 </span>
               </div>
 
               <div>
-                <h3 className="text-sm font-bold text-white">{s.title}</h3>
-                <div className="flex items-center space-x-1 text-xs text-indigo-300 mt-1">
-                  <Clock className="w-3.5 h-3.5" />
+                <h2 className="text-sm font-medium text-white">{s.title}</h2>
+                <div className="flex items-center space-x-1.5 text-xs text-neutral-400 font-mono mt-1">
+                  <Clock className="w-3.5 h-3.5 text-neutral-500" />
                   <span>{s.day}</span>
                 </div>
               </div>
 
-              <div className="text-[11px] text-slate-400 bg-slate-950/60 p-2.5 rounded-lg border border-slate-800/80">
-                Catatan Sesi: <span className="text-slate-300 italic">{s.tutorNote}</span>
+              <div className="text-xs text-neutral-400 bg-[#07090D] p-2.5 rounded border border-white/[0.06]">
+                <span className="font-mono text-[11px] text-neutral-500 mr-1.5">CATATAN:</span>
+                <span className="text-neutral-300 font-sans italic">{s.tutorNote}</span>
               </div>
             </div>
           ))}

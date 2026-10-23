@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
-import { RotateCcw, Sparkles, CheckCircle2, Clock } from "lucide-react";
+import { RotateCcw, Check, Clock } from "lucide-react";
 
 interface CodeEditorProps {
   value: string;
@@ -32,48 +32,38 @@ export function CodeEditor({
   };
 
   return (
-    <div className="flex flex-col border border-slate-700/60 rounded-xl overflow-hidden bg-[#1e1e2e] shadow-xl">
-      {/* Editor Header Bar */}
-      <div className="flex items-center justify-between px-4 py-2.5 bg-[#181825] border-b border-slate-700/60 text-xs text-slate-400">
-        <div className="flex items-center space-x-2">
-          <div className="flex space-x-1.5 mr-2">
-            <span className="w-3 h-3 rounded-full bg-rose-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-amber-500/80 inline-block" />
-            <span className="w-3 h-3 rounded-full bg-emerald-500/80 inline-block" />
-          </div>
-          <span className="font-mono text-slate-300 font-semibold px-2 py-0.5 rounded bg-slate-800/80">
-            main.py
+    <div className="flex flex-col border border-white/[0.08] rounded-lg overflow-hidden bg-[#0d0e15] shadow-lg">
+      {/* Editor Header Bar - Swiss Technical Studio */}
+      <div className="flex items-center justify-between px-3.5 py-2 bg-[#12141d] border-b border-white/[0.06] text-xs font-mono">
+        <div className="flex items-center space-x-3">
+          <span className="text-slate-300 font-semibold tracking-wider">
+            WORKSPACE // main.py
           </span>
-          <span className="text-[11px] text-slate-500 hidden sm:inline-flex items-center">
-            Python 3.11 (WASM)
+          <span className="text-[11px] text-slate-400 hidden sm:inline">
+            (Python 3.11 WASM)
           </span>
         </div>
 
-        <div className="flex items-center space-x-3">
+        <div className="flex items-center space-x-3 text-[11px]">
           {lastSavedAt && (
-            <span className="flex items-center space-x-1 text-[11px] text-slate-400">
-              {isSaved ? (
-                <>
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span className="text-emerald-400/90 hidden md:inline">{lastSavedAt}</span>
-                </>
-              ) : (
-                <>
-                  <Clock className="w-3.5 h-3.5 text-amber-400 animate-spin" />
-                  <span className="text-amber-400/90 hidden md:inline">Menyimpan draft...</span>
-                </>
-              )}
+            <span className="flex items-center space-x-1.5 text-slate-400">
+              <span
+                className={`w-1.5 h-1.5 rounded-full ${
+                  isSaved ? "bg-emerald-400" : "bg-amber-400 animate-pulse"
+                }`}
+              />
+              <span className="hidden md:inline">{lastSavedAt}</span>
             </span>
           )}
 
           {onReset && !readOnly && (
             <button
               onClick={onReset}
-              className="flex items-center space-x-1 px-2 py-1 rounded bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition text-[11px] cursor-pointer"
-              title="Reset ke kode awal tantangan"
+              className="flex items-center space-x-1 px-2 py-0.5 rounded bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white transition border border-white/[0.08] cursor-pointer"
+              title="Reset ke kode awal"
             >
               <RotateCcw className="w-3 h-3" />
-              <span>Reset</span>
+              <span>RESET</span>
             </button>
           )}
         </div>
@@ -90,8 +80,8 @@ export function CodeEditor({
           onMount={handleEditorDidMount}
           options={{
             readOnly,
-            fontSize: 14,
-            fontFamily: "var(--font-mono), 'Fira Code', Consolas, monospace",
+            fontSize: 13,
+            fontFamily: "var(--font-mono), 'JetBrains Mono', 'Fira Code', monospace",
             minimap: { enabled: false },
             scrollBeyondLastLine: false,
             automaticLayout: true,
@@ -101,12 +91,11 @@ export function CodeEditor({
             renderWhitespace: "selection",
             cursorBlinking: "smooth",
             smoothScrolling: true,
-            padding: { top: 12, bottom: 12 },
+            padding: { top: 10, bottom: 10 },
           }}
           loading={
-            <div className="h-full flex items-center justify-center bg-[#1e1e2e] text-slate-400 text-sm">
-              <Sparkles className="w-4 h-4 mr-2 animate-spin text-indigo-400" />
-              Menyiapkan Monaco Code Editor...
+            <div className="h-full flex items-center justify-center bg-[#0d0e15] text-slate-400 text-xs font-mono">
+              MEMUAT MONACO EDITOR...
             </div>
           }
         />

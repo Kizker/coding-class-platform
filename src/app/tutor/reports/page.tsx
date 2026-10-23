@@ -6,11 +6,12 @@ import { useSession } from "@/lib/auth/sessionContext";
 import {
   MessageSquare,
   Copy,
-  CheckCircle2,
-  Share2,
-  ExternalLink,
-  Sparkles,
+  Check,
+  Send,
   Phone,
+  ArrowRight,
+  ShieldCheck,
+  Terminal,
 } from "lucide-react";
 
 export default function TutorWhatsAppReportPage() {
@@ -18,42 +19,41 @@ export default function TutorWhatsAppReportPage() {
   const [copied, setCopied] = useState<boolean>(false);
   const [parentPhone, setParentPhone] = useState<string>("081234567890");
 
-  const reportText = `*LAPORAN PERKEMBANGAN BELAJAR KODING (PEKAN KE-${progress.currentWeek})*
-Halo Ayah/Bunda Andi Pratama, salam hangat dari Kak Tutor! 👋
+  const reportText = `[LAPORAN PERKEMBANGAN BELAJAR KODING // PEKAN KE-${progress.currentWeek}]
+Yth. Bapak/Ibu Wali Murid Andi Pratama,
+Berikut kami sampaikan ringkasan capaian pembelajaran les privat koding pekan ini.
 
-Berikut kami sampaikan rekap pembelajaran les private koding pekan ini:
+1. PROGRES KURIKULUM & TARGET
+- Pekan Berjalan : Minggu ke-${progress.currentWeek} dari 12 Pekan (Fase 1: Fondasi Logika & Capstone 1)
+- Akumulasi XP   : ${progress.xpPoints} XP
+- Konsistensi    : ${progress.streakDays} Hari berturut-turut
 
-📊 *1. KEMAJUAN ROADMAP BELAJAR*
-• Minggu ke: ${progress.currentWeek} dari 12 Pekan (Fase 1: Fondasi Logika & Capstone 1)
-• Total Pengalaman: ${progress.xpPoints} XP
-• Konsistensi Streak: 🔥 ${progress.streakDays} Hari Berturut-turut!
+2. KEPATUHAN PR HARIAN (SENIN - KAMIS)
+- Senin  [Recall]       : 100/100 (print & Input-Process-Output)
+- Selasa [Code Reading] : 95/100  (Alur Eksekusi & Tracing Nilai)
+- Rabu   [Debugging]    : 95/100  (Identifikasi & Perbaikan SyntaxError)
+- Kamis  [Pre-reading]  : 100/100 (Variabel & Tipe Data Memori)
 
-📅 *2. KONSISTENSI PR HARIAN (SENIN–KAMIS)*
-• Senin  (PR 1 - Recall):       ✅ 100/100 (print & IPO)
-• Selasa (PR 2 - Code Reading): ✅ 95/100 (Alur Eksekusi)
-• Rabu   (PR 3 - Debugging):    ✅ 95/100 (SyntaxError)
-• Kamis  (PR 4 - Pre-read):     ✅ 100/100 (Variabel & Memori)
+3. SESI TATAP MUKA 2 JAM (AKHIR PEKAN)
+- Jumat  (Sesi 07): Fungsi Modular (def & return)
+- Sabtu  (Sesi 08): Capstone 1 (Game CLI Interaktif Tebak Angka)
 
-⏰ *3. SESI TATAP MUKA LANGSUNG 2 JAM (AKHIR PEKAN)*
-• Jumat (Pertemuan 7): Membuat Mesin Mandiri (Fungsi Modular def & return)
-• Sabtu (Pertemuan 8): Eksekusi Capstone 1 (Game CLI Interaktif)
-
-🌟 *4. CATATAN EVALUASI NALAR LOGIKA DARI PENGAJAR*
+4. EVALUASI NALAR LOGIKA PENGAJAR
 "${progress.weeklyNote}"
 
----
-📱 *Portal Pemantauan Orang Tua (Live Monitoring):*
-Ayah/Bunda dapat melihat detail nilai, kalender kepatuhan, dan dokumentasi hasil karya program anak kapan saja melalui tautan resmi:
+--------------------------------------------------
+PORTAL MONITORING ORANG TUA:
+Bapak/Ibu dapat meninjau log kehadiran, arsip nilai, dan hasil karya program anak secara langsung melalui portal:
 http://localhost:3000/parent/overview
 
-Terima kasih atas dukungannya dalam memfasilitasi masa depan teknologi Ananda! 🙏
-_Salam hangat, Kak Tutor (Andri)_`;
+Salam hormat,
+Andricha Dea Mitra (Kak Tutor)`;
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(reportText);
       setCopied(true);
-      setTimeout(() => setCopied(false), 3000);
+      setTimeout(() => setCopied(false), 2500);
     } catch {
       setCopied(true);
     }
@@ -66,77 +66,91 @@ _Salam hangat, Kak Tutor (Andri)_`;
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        <div className="border-b border-white/[0.08] pb-6 flex flex-col sm:flex-row sm:items-end justify-between gap-4">
           <div>
-            <div className="inline-flex items-center space-x-1 px-2.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 text-xs font-semibold mb-2">
-              <Sparkles className="w-3.5 h-3.5" />
-              <span>1-Click Report Automation</span>
+            <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2 flex items-center space-x-2">
+              <span>TUTOR // DISPATCH</span>
+              <span>/</span>
+              <span className="text-emerald-400">RAPOR MINGGUAN</span>
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tight flex items-center space-x-2">
-              <MessageSquare className="w-6 h-6 text-emerald-400" />
-              <span>WhatsApp Report Generator untuk Orang Tua</span>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">
+              Generator Rapor WhatsApp Orang Tua
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              Rapor mingguan otomatis terformat rapi sesuai gaya komunikasi profesional dan mudah dipahami orang tua murid.
+            <p className="text-xs text-neutral-400 mt-1 max-w-xl">
+              Format laporan otomatis terstruktur rapi untuk pelaporan transparansi dan evaluasi kualitatif kepada wali murid.
             </p>
           </div>
 
-          <div className="flex items-center space-x-2">
+          <div className="flex items-center space-x-2 shrink-0">
             <button
               onClick={handleCopy}
-              className="px-4 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-white font-semibold text-xs transition flex items-center space-x-2 border border-slate-700 cursor-pointer"
+              className="px-3.5 py-2 rounded border border-white/[0.1] bg-[#0C1017] hover:bg-white/[0.05] text-neutral-300 font-mono text-xs transition flex items-center space-x-1.5 cursor-pointer"
             >
-              {copied ? <CheckCircle2 className="w-4 h-4 text-emerald-400" /> : <Copy className="w-4 h-4" />}
-              <span>{copied ? "Tersalin ke Clipboard!" : "Salin Teks"}</span>
+              {copied ? (
+                <>
+                  <Check className="w-3.5 h-3.5 text-emerald-400" />
+                  <span className="text-emerald-400">TERSALIN</span>
+                </>
+              ) : (
+                <>
+                  <Copy className="w-3.5 h-3.5 text-neutral-400" />
+                  <span>SALIN TEKS</span>
+                </>
+              )}
             </button>
 
             <button
               onClick={handleOpenWhatsApp}
-              className="px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center space-x-2 shadow-xl shadow-emerald-600/30 cursor-pointer"
+              className="px-4 py-2 rounded bg-emerald-500 hover:bg-emerald-400 text-neutral-950 font-mono text-xs font-semibold transition flex items-center space-x-1.5 cursor-pointer"
             >
-              <Phone className="w-4 h-4" />
-              <span>Kirim via WhatsApp &rarr;</span>
+              <Send className="w-3.5 h-3.5" />
+              <span>KIRIM WHATSAPP</span>
             </button>
           </div>
         </div>
 
-        {/* Target Parent WhatsApp Form */}
-        <div className="p-4 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-between flex-wrap gap-3">
-          <div className="flex items-center space-x-2 text-xs">
-            <span className="text-slate-400">Tujuan WhatsApp Orang Tua:</span>
-            <strong className="text-white">Pak Bambang (Orang Tua Andi)</strong>
+        {/* Recipient phone metadata bar */}
+        <div className="p-4 rounded border border-white/[0.08] bg-[#0C1017] flex items-center justify-between flex-wrap gap-4 text-xs font-mono">
+          <div className="flex items-center space-x-3">
+            <span className="text-neutral-500">PENERIMA:</span>
+            <span className="text-neutral-200">Bambang Pratama (Wali Murid)</span>
           </div>
 
           <div className="flex items-center space-x-2">
-            <label className="text-xs text-slate-400">Nomor WA:</label>
+            <span className="text-neutral-500">NOMOR WA:</span>
             <input
               type="text"
               value={parentPhone}
               onChange={(e) => setParentPhone(e.target.value)}
-              className="bg-slate-950 border border-slate-700 rounded-lg px-3 py-1 text-xs text-white focus:outline-none focus:ring-1 focus:ring-emerald-500"
+              className="bg-[#07090D] border border-white/[0.12] rounded px-3 py-1 text-xs text-neutral-200 font-mono focus:outline-none focus:border-emerald-500 w-36"
             />
           </div>
         </div>
 
-        {/* WhatsApp Preview Bubble Simulation */}
-        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
-          <div className="flex items-center justify-between text-xs text-slate-400">
-            <span className="font-semibold uppercase tracking-wider">
-              Pratinjau Tampilan Pesan di WhatsApp:
+        {/* Dispatch Preview in clean monospace terminal container */}
+        <div className="rounded border border-white/[0.08] bg-[#0C1017] overflow-hidden">
+          <div className="px-4 py-2.5 border-b border-white/[0.06] bg-[#090D14] flex items-center justify-between text-xs font-mono">
+            <div className="flex items-center space-x-2 text-neutral-400">
+              <Terminal className="w-3.5 h-3.5 text-emerald-400" />
+              <span>DISPATCH_PREVIEW // WHATSAPP_FORMAT</span>
+            </div>
+            <span className="text-neutral-500 text-[11px]">
+              AUTOSYNCED FROM DATABASE
             </span>
-            <span className="text-emerald-400 font-mono text-[11px]">Format Markdown WhatsApp</span>
           </div>
 
-          <div className="bg-[#0b141a] p-4 sm:p-6 rounded-2xl border border-slate-800 shadow-inner">
-            <div className="max-w-xl ml-auto bg-[#005c4b] text-slate-100 p-4 rounded-2xl rounded-tr-none shadow-md text-xs sm:text-sm font-sans whitespace-pre-wrap leading-relaxed space-y-2">
+          <div className="p-6 bg-[#06080C] overflow-x-auto">
+            <pre className="text-xs font-mono text-neutral-300 leading-relaxed whitespace-pre-wrap selection:bg-emerald-950 selection:text-emerald-300">
               {reportText}
-            </div>
-            <div className="text-right text-[10px] text-slate-500 mt-1 mr-2">
-              Hari ini &bull; Siap dikirim
-            </div>
+            </pre>
+          </div>
+
+          <div className="px-4 py-2 border-t border-white/[0.06] bg-[#090D14] flex items-center justify-between text-[11px] font-mono text-neutral-500">
+            <span>FORMAT: UTF-8 PLAIN / MARKDOWN</span>
+            <span>SIAP DIKIRIM KE WALI MURID</span>
           </div>
         </div>
       </div>

@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSession } from "@/lib/auth/sessionContext";
-import { FileText, Sparkles, CheckCircle2, Calendar } from "lucide-react";
+import { FileText, Calendar } from "lucide-react";
 
 export default function ParentReportsPage() {
   const { progress } = useSession();
@@ -10,48 +10,50 @@ export default function ParentReportsPage() {
   const reports = [
     {
       week: 4,
-      period: "Pekan 4 (Oktober 2026)",
+      period: "PEKAN 04 // OKTOBER 2026",
       topic: "Fungsi Modular (def & return) & Game CLI",
       averageScore: 98,
-      streak: "5 Hari",
+      streak: "05 Hari",
       note: progress.weeklyNote,
     },
     {
       week: 3,
-      period: "Pekan 3 (Oktober 2026)",
+      period: "PEKAN 03 // OKTOBER 2026",
       topic: "Perulangan (for & while loop) dan List",
       averageScore: 95,
-      streak: "4 Hari",
+      streak: "04 Hari",
       note: "Andi memahami konsep perulangan dengan cepat. Ia mampu membuat tabel perkalian dinamis dan simulasi peluncuran roket mandiri.",
     },
     {
       week: 2,
-      period: "Pekan 2 (Oktober 2026)",
+      period: "PEKAN 02 // OKTOBER 2026",
       topic: "Operator Aritmatika & Percabangan if-elif-else",
       averageScore: 92,
-      streak: "4 Hari",
+      streak: "04 Hari",
       note: "Kemampuan analisis logika syarat berkembang pesat saat mengerjakan simulasi penentu grade rapor dan kategori umur.",
     },
     {
       week: 1,
-      period: "Pekan 1 (Oktober 2026)",
+      period: "PEKAN 01 // OKTOBER 2026",
       topic: "Input-Proses-Output, print(), dan Variabel",
       averageScore: 90,
-      streak: "4 Hari",
-      note: "Andi sangat antusias di pertemuan perdana. Kartu biodata digital yang dibuatnya di terminal sangat rapi dan kreatif.",
+      streak: "04 Hari",
+      note: "Andi sangat antusias di pertemuan perdana. Kartu biodata digital yang dibuatnya di terminal sangat rapi dan mandiri.",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-6 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-2xl mx-auto space-y-6">
-        <div className="border-b border-slate-800 pb-4">
-          <h1 className="text-xl font-bold text-white tracking-tight flex items-center space-x-2">
-            <FileText className="w-5 h-5 text-emerald-400" />
-            <span>Arsip Rapor & Catatan Mingguan Kak Tutor</span>
+    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-6 px-4 sm:px-6 lg:px-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <div className="border-b border-white/[0.08] pb-5">
+          <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2">
+            EXECUTIVE ARCHIVE // ARSIP EVALUASI
+          </div>
+          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+            Arsip Rapor & Catatan Evaluasi Pengajar
           </h1>
-          <p className="text-xs text-slate-400 mt-1">
-            Rekap perkembangan nalar logika dan kepatuhan belajar Andi Pratama per pekan.
+          <p className="text-xs text-neutral-400 mt-1">
+            Rekapitulasi perkembangan nalar logika dan kepatuhan belajar murid Andi Pratama per pekan.
           </p>
         </div>
 
@@ -59,25 +61,25 @@ export default function ParentReportsPage() {
           {reports.map((r) => (
             <div
               key={r.week}
-              className="p-5 rounded-2xl bg-slate-900 border border-slate-800 space-y-3 shadow-lg"
+              className="p-5 rounded border border-white/[0.08] bg-[#0C1017] space-y-3"
             >
-              <div className="flex items-center justify-between text-xs">
-                <span className="font-bold text-emerald-400 bg-emerald-950/60 border border-emerald-800/60 px-2.5 py-0.5 rounded-full">
+              <div className="flex items-center justify-between text-xs font-mono border-b border-white/[0.06] pb-2.5">
+                <span className="text-emerald-400 font-medium">
                   {r.period}
                 </span>
-                <span className="text-slate-400 font-mono">
-                  Rata-rata: <strong className="text-amber-400">{r.averageScore}/100</strong>
+                <span className="text-neutral-400">
+                  RATA-RATA: <strong className="text-amber-400 font-medium tabular-nums">{r.averageScore} / 100</strong>
                 </span>
               </div>
 
               <div>
-                <h3 className="text-sm font-bold text-white">{r.topic}</h3>
-                <div className="text-[11px] text-slate-400 mt-0.5">
-                  Konsistensi Streak: 🔥 {r.streak}
+                <h2 className="text-sm font-medium text-white">{r.topic}</h2>
+                <div className="text-[11px] font-mono text-neutral-500 mt-0.5">
+                  KONSISTENSI STREAK: {r.streak} BERTURUT-TURUT
                 </div>
               </div>
 
-              <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 text-xs text-slate-300 leading-relaxed italic">
+              <div className="p-3.5 rounded border border-white/[0.06] bg-[#07090D] text-xs text-neutral-300 leading-relaxed font-sans">
                 &ldquo;{r.note}&rdquo;
               </div>
             </div>

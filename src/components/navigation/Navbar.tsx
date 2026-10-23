@@ -5,266 +5,251 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useSession, UserRole } from "@/lib/auth/sessionContext";
 import {
-  Code2,
-  Flame,
-  GraduationCap,
-  Sparkles,
-  BookOpen,
-  Calendar,
-  Award,
-  Users,
-  MessageSquare,
+  Terminal,
+  Compass,
   FileText,
-  Eye,
+  ShieldCheck,
   CheckCircle2,
+  Calendar,
+  Layers,
+  Activity,
 } from "lucide-react";
 
 export function Navbar() {
   const pathname = usePathname();
   const { role, setRole, currentUser, progress } = useSession();
 
-  const handleRoleChange = (newRole: UserRole) => {
-    setRole(newRole);
-  };
-
   return (
-    <header className="sticky top-0 z-50 bg-slate-900/95 backdrop-blur-md border-b border-slate-800 text-slate-100">
+    <header className="sticky top-0 z-50 bg-[#090a0f]/90 backdrop-blur-md border-b border-white/[0.08] text-slate-200">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo & Brand */}
-          <div className="flex items-center space-x-3">
+        <div className="flex items-center justify-between h-14">
+          {/* Logo & Brand - Swiss Utilitarian */}
+          <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-violet-500 flex items-center justify-center shadow-lg shadow-indigo-500/20 group-hover:scale-105 transition">
-                <Code2 className="w-5 h-5 text-white" />
+              <div className="w-8 h-8 rounded-md bg-white/[0.06] border border-white/[0.12] flex items-center justify-center group-hover:border-amber-500/50 transition">
+                <Terminal className="w-4 h-4 text-amber-400" />
               </div>
-              <div>
-                <span className="font-bold text-base tracking-tight bg-gradient-to-r from-white via-slate-100 to-indigo-200 bg-clip-text text-transparent">
-                  Les Koding Privat
+              <div className="flex flex-col">
+                <span className="font-mono text-xs font-semibold tracking-wider text-slate-100 uppercase">
+                  PY_STUDIO // 1-ON-1
                 </span>
-                <span className="text-[10px] block text-indigo-400 font-medium">
-                  Python Track 1-on-1
+                <span className="text-[10px] text-slate-400 font-mono tracking-tight">
+                  PYTHON TRACK v2.1
                 </span>
               </div>
             </Link>
+
+            {/* Role Navigation Links */}
+            <nav className="hidden md:flex items-center space-x-1 text-xs font-mono">
+              {role === "student" && (
+                <>
+                  <Link
+                    href="/student/dashboard"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/student/dashboard"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    DASHBOARD
+                  </Link>
+                  <Link
+                    href="/student/learn/1/senin"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname.startsWith("/student/learn")
+                        ? "bg-white/[0.08] text-amber-400 border border-amber-500/30"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    SPLIT_STUDIO
+                  </Link>
+                  <Link
+                    href="/student/assignments"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/student/assignments"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    TUGAS_HARIAN
+                  </Link>
+                  <Link
+                    href="/student/capstone/1"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname.startsWith("/student/capstone")
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    CAPSTONE
+                  </Link>
+                  <Link
+                    href="/student/profile"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/student/profile"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    PROFIL
+                  </Link>
+                </>
+              )}
+
+              {role === "tutor" && (
+                <>
+                  <Link
+                    href="/tutor/dashboard"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/tutor/dashboard"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    COMMAND_CENTER
+                  </Link>
+                  <Link
+                    href="/tutor/studio/1/jumat"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname.startsWith("/tutor/studio")
+                        ? "bg-white/[0.08] text-amber-400 border border-amber-500/30"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    TEACHING_STUDIO
+                  </Link>
+                  <Link
+                    href="/tutor/grading"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/tutor/grading"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    EVALUASI_PR
+                  </Link>
+                  <Link
+                    href="/tutor/reports"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/tutor/reports"
+                        ? "bg-white/[0.08] text-emerald-400 border border-emerald-500/30"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    RAPOR_WHATSAPP
+                  </Link>
+                </>
+              )}
+
+              {role === "parent" && (
+                <>
+                  <Link
+                    href="/parent/overview"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/parent/overview"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    RINGKASAN
+                  </Link>
+                  <Link
+                    href="/parent/reports"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/parent/reports"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    CATATAN_PENGAJAR
+                  </Link>
+                  <Link
+                    href="/parent/showcase"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/parent/showcase"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    KARYA_ANAK
+                  </Link>
+                  <Link
+                    href="/parent/schedule"
+                    className={`px-3 py-1.5 rounded-md transition ${
+                      pathname === "/parent/schedule"
+                        ? "bg-white/[0.08] text-white border border-white/[0.15]"
+                        : "text-slate-400 hover:text-slate-200 hover:bg-white/[0.04]"
+                    }`}
+                  >
+                    JADWAL_SESI
+                  </Link>
+                </>
+              )}
+            </nav>
           </div>
 
-          {/* Role Navigation Links */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {role === "student" && (
-              <>
-                <Link
-                  href="/student/dashboard"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/student/dashboard"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <BookOpen className="w-3.5 h-3.5" />
-                  <span>Dashboard</span>
-                </Link>
-                <Link
-                  href="/student/learn/1/senin"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname.startsWith("/student/learn")
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Split-Screen Studio</span>
-                </Link>
-                <Link
-                  href="/student/assignments"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/student/assignments"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>PR Harian</span>
-                </Link>
-                <Link
-                  href="/student/capstone/1"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname.startsWith("/student/capstone")
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Award className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Capstone</span>
-                </Link>
-                <Link
-                  href="/student/profile"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/student/profile"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <GraduationCap className="w-3.5 h-3.5" />
-                  <span>Profil & Badges</span>
-                </Link>
-              </>
-            )}
-
-            {role === "tutor" && (
-              <>
-                <Link
-                  href="/tutor/dashboard"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/tutor/dashboard"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Users className="w-3.5 h-3.5" />
-                  <span>Command Center</span>
-                </Link>
-                <Link
-                  href="/tutor/studio/1/jumat"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname.startsWith("/tutor/studio")
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                  <span>Teaching Studio (Live)</span>
-                </Link>
-                <Link
-                  href="/tutor/grading"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/tutor/grading"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>Meja Penilaian</span>
-                </Link>
-                <Link
-                  href="/tutor/reports"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/tutor/reports"
-                      ? "bg-indigo-600/30 text-indigo-300 border border-indigo-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <MessageSquare className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Rapor WhatsApp</span>
-                </Link>
-              </>
-            )}
-
-            {role === "parent" && (
-              <>
-                <Link
-                  href="/parent/overview"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/parent/overview"
-                      ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Eye className="w-3.5 h-3.5" />
-                  <span>Beranda Monitoring</span>
-                </Link>
-                <Link
-                  href="/parent/reports"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/parent/reports"
-                      ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <FileText className="w-3.5 h-3.5" />
-                  <span>Catatan Pengajar</span>
-                </Link>
-                <Link
-                  href="/parent/showcase"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/parent/showcase"
-                      ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Award className="w-3.5 h-3.5 text-amber-400" />
-                  <span>Dokumentasi Karya</span>
-                </Link>
-                <Link
-                  href="/parent/schedule"
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition flex items-center space-x-1.5 ${
-                    pathname === "/parent/schedule"
-                      ? "bg-emerald-600/30 text-emerald-300 border border-emerald-500/40"
-                      : "text-slate-400 hover:text-slate-200 hover:bg-slate-800"
-                  }`}
-                >
-                  <Calendar className="w-3.5 h-3.5" />
-                  <span>Jadwal Les 2 Jam</span>
-                </Link>
-              </>
-            )}
-          </nav>
-
-          {/* Right Section: Role Switcher Pill & Streak Badge */}
+          {/* Right Section: Telemetry & Strict Role Selector */}
           <div className="flex items-center space-x-3">
-            {/* Streak Badge for Student */}
+            {/* Student Telemetry Indicator (Zero Emoji) */}
             {role === "student" && (
-              <div className="flex items-center space-x-1 px-2.5 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-orange-500/20 border border-amber-500/40 text-amber-300 text-xs font-semibold shadow-inner">
-                <Flame className="w-4 h-4 text-orange-400 animate-pulse" />
-                <span>{progress.streakDays} Hari Streak!</span>
+              <div className="hidden sm:flex items-center space-x-2 font-mono text-[11px] text-slate-300 px-2.5 py-1 rounded bg-[#10121a] border border-white/[0.08]">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />
+                <span className="text-slate-400">STREAK:</span>
+                <span className="font-semibold text-amber-400 tabular-nums">
+                  {progress.streakDays.toString().padStart(2, "0")}D
+                </span>
+                <span className="text-slate-600">/</span>
+                <span className="font-semibold text-slate-200 tabular-nums">
+                  {progress.xpPoints} XP
+                </span>
               </div>
             )}
 
-            {/* Quick Role Switcher Dropdown / Pills */}
-            <div className="bg-slate-950 p-1 rounded-xl border border-slate-800 flex items-center space-x-1 text-xs">
+            {/* Technical Role Selector */}
+            <div className="flex items-center rounded bg-[#10121a] border border-white/[0.08] p-0.5 text-[11px] font-mono">
               <button
-                onClick={() => handleRoleChange("student")}
-                className={`px-2.5 py-1 rounded-lg font-medium transition ${
+                onClick={() => setRole("student")}
+                className={`px-2.5 py-1 rounded transition ${
                   role === "student"
-                    ? "bg-indigo-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                    ? "bg-white/[0.12] text-white font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
                 }`}
-                title="Beralih ke Sudut Pandang Siswa"
               >
-                👦 Siswa
+                STUDENT
               </button>
               <button
-                onClick={() => handleRoleChange("tutor")}
-                className={`px-2.5 py-1 rounded-lg font-medium transition ${
+                onClick={() => setRole("tutor")}
+                className={`px-2.5 py-1 rounded transition ${
                   role === "tutor"
-                    ? "bg-indigo-600 text-white shadow-sm"
-                    : "text-slate-400 hover:text-slate-200 hover:bg-slate-900"
+                    ? "bg-white/[0.12] text-amber-400 font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
                 }`}
-                title="Beralih ke Sudut Pandang Pengajar"
               >
-                👨‍🏫 Pengajar
+                TUTOR
               </button>
               <button
-                onClick={() => handleRoleChange("parent")}
-                className={`px-2.5 py-1 rounded-lg font-medium transition ${
+                onClick={() => setRole("parent")}
+                className={`px-2.5 py-1 rounded transition ${
                   role === "parent"
-                    ? "bg-emerald-600 text-white shadow-sm"
-                    : "text-white/90 hover:text-slate-200 hover:bg-slate-900"
+                    ? "bg-white/[0.12] text-emerald-400 font-semibold shadow-sm"
+                    : "text-slate-400 hover:text-slate-200"
                 }`}
-                title="Beralih ke Sudut Pandang Orang Tua (Read-Only)"
               >
-                👨‍💼 Ortu
+                OBSERVER
               </button>
             </div>
 
-            {/* Active User Avatar */}
-            <div className="hidden sm:flex items-center space-x-2 pl-2 border-l border-slate-800">
-              <span className="text-xl">{currentUser.avatar}</span>
-              <div className="text-left">
-                <span className="block text-xs font-semibold text-slate-200 leading-tight">
+            {/* Minimal User Monogram */}
+            <div className="flex items-center space-x-2 pl-2 border-l border-white/[0.08]">
+              <div className="w-7 h-7 rounded bg-[#151824] border border-white/[0.12] flex items-center justify-center font-mono text-xs font-bold text-slate-300">
+                {currentUser.initials}
+              </div>
+              <div className="hidden lg:flex flex-col text-left font-mono">
+                <span className="text-xs font-semibold text-slate-200 leading-tight">
                   {currentUser.name}
                 </span>
-                <span className="block text-[10px] text-slate-400 leading-tight">
-                  {currentUser.subtitle}
+                <span className="text-[10px] text-slate-400 leading-tight">
+                  {currentUser.roleLabel}
                 </span>
               </div>
             </div>

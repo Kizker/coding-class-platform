@@ -1,247 +1,299 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import { useSession, UserRole } from "@/lib/auth/sessionContext";
 import {
-  Code2,
-  Sparkles,
-  Flame,
-  Award,
-  BookOpen,
+  Terminal,
   ArrowRight,
   ShieldCheck,
-  CheckCircle2,
-  Zap,
-  Terminal,
-  MessageSquare,
-  Users,
+  Cpu,
+  Layers,
+  Send,
+  Eye,
+  CheckCircle,
 } from "lucide-react";
 
 export default function HomePage() {
   const { setRole } = useSession();
+  const [activeTab, setActiveTab] = useState<UserRole>("student");
 
-  const handleSelectRole = (role: UserRole) => {
+  const handleRoleSelect = (role: UserRole) => {
     setRole(role);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 flex flex-col justify-between">
-      {/* Hero Section */}
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 pt-12 pb-16 space-y-12">
-        <div className="text-center space-y-4 max-w-3xl mx-auto">
-          <div className="inline-flex items-center space-x-2 px-3.5 py-1 rounded-full bg-indigo-500/10 border border-indigo-500/30 text-indigo-300 text-xs font-semibold shadow-inner">
-            <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-            <span>Platform Pembelajaran Koding Privat 1-on-1 &bull; Python Track 12 Minggu</span>
-          </div>
-
-          <h1 className="text-3xl sm:text-5xl font-black text-white tracking-tight leading-tight">
-            Sistem Edukasi Koding Terpadu untuk{" "}
-            <span className="bg-gradient-to-r from-indigo-400 via-violet-300 to-emerald-400 bg-clip-text text-transparent">
-              Siswa, Pengajar, & Orang Tua
-            </span>
-          </h1>
-
-          <p className="text-sm sm:text-base text-slate-300 leading-relaxed">
-            Menghubungkan secara harmonis siswa yang belajar tanpa instalasi (*zero-setup Pyodide WASM*), pengajar dengan kontrol rilis kode 1-klik, dan portal transparansi penuh untuk orang tua.
-          </p>
-        </div>
-
-        {/* 3 Core Roles Interactive Selection Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {/* 1. SISWA */}
-          <div className="rounded-2xl bg-gradient-to-b from-slate-900 to-indigo-950/40 border border-indigo-800/50 p-6 flex flex-col justify-between shadow-2xl hover:border-indigo-500 transition group space-y-6">
+    <div className="min-h-screen bg-[#090a0f] text-slate-200 flex flex-col justify-between selection:bg-amber-500/30">
+      {/* Studio Grid Hero - Asymmetric 5:7 Ratio */}
+      <main className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 py-10 lg:py-16">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
+          {/* ================= LEFT COLUMN (5/12): Architectural Thesis & Specs ================= */}
+          <div className="lg:col-span-5 space-y-8">
             <div className="space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-3xl shadow-lg">
-                👦
-              </div>
+              <p className="font-mono text-xs uppercase tracking-widest text-slate-400">
+                01 / ARSITEKTUR SISTEM PEMBELAJARAN
+              </p>
 
-              <div>
-                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">
-                  PERAN 1: SISWA PRIVATE
-                </span>
-                <h2 className="text-xl font-bold text-white tracking-tight mt-0.5">
-                  Split-Screen Studio
-                </h2>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Belajar menyenangkan tanpa instalasi Python di komputer. Dilengkapi Monaco Editor, Pyodide WASM, dan <em>Friendly Error Translator</em> yang ramah kesalahan.
-                </p>
-              </div>
+              <h1 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-[1.1]">
+                Platform Edukasi Koding Privat 1-on-1.
+              </h1>
 
-              <ul className="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>PR Harian Senin–Kamis (15–20 Mnt)</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Penerjemah Error Ramah Pemula</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Auto-save draft ketikan setiap 3 detik</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Streak harian & perayaan confetti 🎉</span>
-                </li>
-              </ul>
+              <p className="text-sm text-slate-300 leading-relaxed max-w-lg">
+                Lingkungan koding terpadu menghubungkan Siswa (In-Browser WebAssembly), Pengajar (Teaching Console &amp; Live Push Code), dan Orang Tua (Portal Monitoring Eksekutif).
+              </p>
             </div>
 
-            <Link
-              href="/student/dashboard"
-              onClick={() => handleSelectRole("student")}
-              className="w-full py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center justify-center space-x-2 shadow-lg shadow-indigo-600/30 group-hover:scale-105 active:scale-95"
-            >
-              <span>Masuk sebagai Siswa (Andi)</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+            {/* Architectural Specifications Table (Tabular Num Precision) */}
+            <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] divide-y divide-white/[0.08] text-xs font-mono">
+              <div className="p-3.5 flex items-center justify-between">
+                <span className="text-slate-400">RUNTIME_ENGINE</span>
+                <span className="text-slate-200 font-semibold">Python 3.11 (Pyodide WASM)</span>
+              </div>
+              <div className="p-3.5 flex items-center justify-between">
+                <span className="text-slate-400">SESI_TATAP_MUKA</span>
+                <span className="text-slate-200 font-semibold">2 Jam (120 Menit) / Jumat &amp; Sabtu</span>
+              </div>
+              <div className="p-3.5 flex items-center justify-between">
+                <span className="text-slate-400">TUGAS_HARIAN</span>
+                <span className="text-slate-200 font-semibold">Senin–Kamis (15–20 Menit)</span>
+              </div>
+              <div className="p-3.5 flex items-center justify-between">
+                <span className="text-slate-400">ROADMAP_DURASI</span>
+                <span className="text-slate-200 font-semibold">12 Minggu &bull; 24 Sesi Live &bull; 3 Capstones</span>
+              </div>
+              <div className="p-3.5 flex items-center justify-between">
+                <span className="text-slate-400">ERROR_HANDLING</span>
+                <span className="text-amber-400 font-semibold">Diagnostic Insight (Bahasa Indonesia)</span>
+              </div>
+            </div>
+
+            {/* Quick Access Bar */}
+            <div className="pt-2">
+              <p className="text-[11px] font-mono uppercase tracking-wider text-slate-400 mb-2">
+                PILIH SUDUT PANDANG AKTOR:
+              </p>
+              <div className="grid grid-cols-3 gap-2 font-mono text-xs">
+                <button
+                  onClick={() => setActiveTab("student")}
+                  className={`p-2.5 rounded border text-left transition ${
+                    activeTab === "student"
+                      ? "bg-white/[0.1] border-white/30 text-white font-semibold"
+                      : "bg-[#0e1017] border-white/[0.08] text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <span className="block text-[10px] text-slate-400">ROLE_01</span>
+                  <span>STUDENT</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("tutor")}
+                  className={`p-2.5 rounded border text-left transition ${
+                    activeTab === "tutor"
+                      ? "bg-white/[0.1] border-amber-500/50 text-amber-300 font-semibold"
+                      : "bg-[#0e1017] border-white/[0.08] text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <span className="block text-[10px] text-slate-400">ROLE_02</span>
+                  <span>TUTOR</span>
+                </button>
+                <button
+                  onClick={() => setActiveTab("parent")}
+                  className={`p-2.5 rounded border text-left transition ${
+                    activeTab === "parent"
+                      ? "bg-white/[0.1] border-emerald-500/50 text-emerald-300 font-semibold"
+                      : "bg-[#0e1017] border-white/[0.08] text-slate-400 hover:text-slate-200"
+                  }`}
+                >
+                  <span className="block text-[10px] text-slate-400">ROLE_03</span>
+                  <span>OBSERVER</span>
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* 2. PENGAJAR */}
-          <div className="rounded-2xl bg-gradient-to-b from-slate-900 to-indigo-950/40 border border-slate-800 p-6 flex flex-col justify-between shadow-2xl hover:border-indigo-500 transition group space-y-6">
-            <div className="space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-indigo-600/20 border border-indigo-500/40 flex items-center justify-center text-3xl shadow-lg">
-                👨‍🏫
-              </div>
+          {/* ================= RIGHT COLUMN (7/12): Role Workstation Detail & Terminal Preview ================= */}
+          <div className="lg:col-span-7 space-y-6">
+            {/* Active Role Panel Display */}
+            {activeTab === "student" && (
+              <div className="border border-white/[0.1] rounded-xl bg-[#0f1118] p-6 space-y-5">
+                <div className="flex items-start justify-between border-b border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-[11px] text-slate-400 uppercase tracking-widest block">
+                      PANEL SISWA // WORKSPACE
+                    </span>
+                    <h2 className="text-xl font-bold text-white mt-1">
+                      Split-Screen Studio &amp; Python Sandbox
+                    </h2>
+                  </div>
+                  <Link
+                    href="/student/learn/1/senin"
+                    onClick={() => handleRoleSelect("student")}
+                    className="px-4 py-2 rounded bg-white text-black font-mono text-xs font-bold hover:bg-slate-200 transition flex items-center space-x-1.5"
+                  >
+                    <span>BUKA STUDIO</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
 
-              <div>
-                <span className="text-[10px] font-bold text-indigo-400 uppercase tracking-wider block">
-                  PERAN 2: PENGAJAR (TUTOR)
-                </span>
-                <h2 className="text-xl font-bold text-white tracking-tight mt-0.5">
-                  Teaching Console & Live Sync
-                </h2>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Kendali mengajar terpadu untuk sesi 2 jam: panduan langkah mengajar, 1-klik push kode peraga ke layar siswa, dan generator rapor WhatsApp.
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Antarmuka koding terbagi dua: materi Markdown dan petunjuk bertahap di sisi kiri, Monaco Editor dan terminal eksekusi Pyodide WebAssembly di sisi kanan.
                 </p>
+
+                {/* Technical Feature Grid */}
+                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">EXECUTION</span>
+                    <span className="text-slate-200 font-semibold">Zero-Install WASM</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">PERSISTENCE</span>
+                    <span className="text-slate-200 font-semibold">Auto-save Draft 3s</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">EVALUATION</span>
+                    <span className="text-slate-200 font-semibold">Auto-Grader Tests</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">DIAGNOSTICS</span>
+                    <span className="text-amber-400 font-semibold">Friendly Error Translator</span>
+                  </div>
+                </div>
+
+                {/* Live Terminal Preview */}
+                <div className="rounded-lg border border-white/[0.08] bg-[#090a0f] overflow-hidden text-xs font-mono">
+                  <div className="px-3 py-2 bg-[#12141d] border-b border-white/[0.06] flex items-center justify-between text-slate-400 text-[11px]">
+                    <span className="flex items-center space-x-2">
+                      <Terminal className="w-3.5 h-3.5 text-amber-400" />
+                      <span>terminal_preview.py</span>
+                    </span>
+                    <span className="text-emerald-400 font-semibold">STATUS: PASSED</span>
+                  </div>
+                  <div className="p-4 space-y-2 text-slate-300">
+                    <div className="text-slate-500"># Simulasi Eksekusi di Browser:</div>
+                    <div className="text-amber-300">&gt;&gt;&gt; panjang = 10; lebar = 5</div>
+                    <div className="text-amber-300">&gt;&gt;&gt; print(f&quot;Luas: &#123;panjang * lebar&#125;&quot;)</div>
+                    <div className="text-emerald-400 font-semibold">Luas: 50</div>
+                  </div>
+                </div>
               </div>
+            )}
 
-              <ul className="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>1-Click Push Kode ke Editor Siswa 🚀</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Live Monitor Layar Kode Siswa</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Meja koreksi PR & form evaluasi nalar</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>1-Click WhatsApp Report Generator</span>
-                </li>
-              </ul>
-            </div>
+            {activeTab === "tutor" && (
+              <div className="border border-white/[0.1] rounded-xl bg-[#0f1118] p-6 space-y-5">
+                <div className="flex items-start justify-between border-b border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-[11px] text-amber-400 uppercase tracking-widest block">
+                      PANEL PENGAJAR // FLIGHT DECK
+                    </span>
+                    <h2 className="text-xl font-bold text-white mt-1">
+                      Teaching Console &amp; Live Synchronization
+                    </h2>
+                  </div>
+                  <Link
+                    href="/tutor/studio/1/jumat"
+                    onClick={() => handleRoleSelect("tutor")}
+                    className="px-4 py-2 rounded bg-amber-500 text-black font-mono text-xs font-bold hover:bg-amber-400 transition flex items-center space-x-1.5"
+                  >
+                    <span>BUKA KONSOL</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
 
-            <Link
-              href="/tutor/dashboard"
-              onClick={() => handleSelectRole("tutor")}
-              className="w-full py-3 rounded-xl bg-slate-800 hover:bg-indigo-600 text-white font-bold text-xs transition flex items-center justify-center space-x-2 shadow-lg group-hover:scale-105 active:scale-95"
-            >
-              <span>Masuk sebagai Pengajar</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-
-          {/* 3. ORANG TUA */}
-          <div className="rounded-2xl bg-gradient-to-b from-slate-900 to-emerald-950/40 border border-emerald-800/50 p-6 flex flex-col justify-between shadow-2xl hover:border-emerald-500 transition group space-y-6">
-            <div className="space-y-4">
-              <div className="w-14 h-14 rounded-2xl bg-emerald-600/20 border border-emerald-500/40 flex items-center justify-center text-3xl shadow-lg">
-                👨‍💼
-              </div>
-
-              <div>
-                <span className="text-[10px] font-bold text-emerald-400 uppercase tracking-wider block">
-                  PERAN 3: ORANG TUA MURID
-                </span>
-                <h2 className="text-xl font-bold text-white tracking-tight mt-0.5">
-                  Parent Monitoring Portal
-                </h2>
-                <p className="text-xs text-slate-300 mt-2 leading-relaxed">
-                  Dirancang khusus <em>Mobile-First Read-Only</em>. Orang tua memantau progres nyata tanpa pusing melihat kode atau compiler yang membingungkan.
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Pusat kendali mengajar 2 jam: susunan materi 4 langkah terpandu, tombol push kode peraga 1-klik ke editor siswa, inspeksi ketikan live, dan generator pesan rapor WhatsApp.
                 </p>
+
+                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">PUSH_SYNC</span>
+                    <span className="text-amber-300 font-semibold">1-Click Live Code Push</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">INSPECTOR</span>
+                    <span className="text-slate-200 font-semibold">Live Keystroke Monitor</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">GRADING</span>
+                    <span className="text-slate-200 font-semibold">Meja Koreksi &amp; Skor</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">DISPATCH</span>
+                    <span className="text-emerald-400 font-semibold">WhatsApp Report Generator</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-lg bg-[#090a0f] border border-white/[0.08] text-xs font-mono text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center space-x-2">
+                    <Send className="w-4 h-4 text-amber-400" />
+                    <span>Sinkronisasi Editor Siswa Aktif:</span>
+                  </span>
+                  <span className="text-emerald-400 font-semibold">LATENCY: &lt; 20ms</span>
+                </div>
               </div>
+            )}
 
-              <ul className="text-xs text-slate-300 space-y-2 border-t border-slate-800 pt-4">
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Murni View-Only (Bebas dari Editor)</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Progress bar kemajuan 12 minggu</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Kalender kepatuhan PR & streak</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-                  <span>Dokumentasi hasil karya portofolio anak</span>
-                </li>
-              </ul>
-            </div>
+            {activeTab === "parent" && (
+              <div className="border border-white/[0.1] rounded-xl bg-[#0f1118] p-6 space-y-5">
+                <div className="flex items-start justify-between border-b border-white/[0.08] pb-4">
+                  <div>
+                    <span className="font-mono text-[11px] text-emerald-400 uppercase tracking-widest block">
+                      PANEL ORANG TUA // BRIEFING
+                    </span>
+                    <h2 className="text-xl font-bold text-white mt-1">
+                      Portal Monitoring Eksekutif (Read-Only)
+                    </h2>
+                  </div>
+                  <Link
+                    href="/parent/overview"
+                    onClick={() => handleRoleSelect("parent")}
+                    className="px-4 py-2 rounded bg-emerald-600 text-white font-mono text-xs font-bold hover:bg-emerald-500 transition flex items-center space-x-1.5"
+                  >
+                    <span>BUKA PORTAL</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
 
-            <Link
-              href="/parent/overview"
-              onClick={() => handleSelectRole("parent")}
-              className="w-full py-3 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs transition flex items-center justify-center space-x-2 shadow-lg shadow-emerald-600/30 group-hover:scale-105 active:scale-95"
-            >
-              <span>Masuk sebagai Orang Tua</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+                <p className="text-xs text-slate-300 leading-relaxed">
+                  Laporan transparansi tanpa instalasi compiler dan tanpa antarmuka editor yang membingungkan. Orang tua murni memantau progres kurikulum, kepatuhan PR harian, dan evaluasi nalar dari pengajar.
+                </p>
+
+                <div className="grid grid-cols-2 gap-3 text-xs font-mono">
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">ACCESS_MODE</span>
+                    <span className="text-slate-200 font-semibold">100% Read-Only</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">ATTENDANCE</span>
+                    <span className="text-slate-200 font-semibold">Rekap Kehadiran 2 Jam</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">EVALUATION</span>
+                    <span className="text-slate-200 font-semibold">Catatan Kualitatif Pengajar</span>
+                  </div>
+                  <div className="p-3 rounded bg-[#151822] border border-white/[0.06]">
+                    <span className="text-slate-400 block text-[10px]">PORTFOLIO</span>
+                    <span className="text-emerald-400 font-semibold">Dokumentasi Karya Anak</span>
+                  </div>
+                </div>
+
+                <div className="p-4 rounded-lg bg-[#090a0f] border border-white/[0.08] text-xs font-mono text-slate-300 flex items-center justify-between">
+                  <span className="flex items-center space-x-2">
+                    <ShieldCheck className="w-4 h-4 text-emerald-400" />
+                    <span>Status Kurikulum Pekan Ini:</span>
+                  </span>
+                  <span className="text-slate-200 font-bold">PEKAN 4 / FASE 1 TUNTAS</span>
+                </div>
+              </div>
+            )}
           </div>
         </div>
+      </main>
 
-        {/* Feature Highlights Grid */}
-        <div className="pt-8 border-t border-slate-800 grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-slate-400">
-          <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-xl bg-indigo-950/60 border border-indigo-800/40 text-indigo-400">
-              <Terminal className="w-5 h-5" />
-            </div>
-            <div>
-              <strong className="text-white block font-semibold text-sm mb-1">
-                Zero-Install Python Engine
-              </strong>
-              Eksekusi Python 3 murni berjalan di browser via Pyodide WebAssembly. Siswa tidak perlu menginstal compiler di laptop.
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-xl bg-amber-950/60 border border-amber-800/40 text-amber-400">
-              <Sparkles className="w-5 h-5" />
-            </div>
-            <div>
-              <strong className="text-white block font-semibold text-sm mb-1">
-                Friendly Error Guidance
-              </strong>
-              Pesan error menakutkan diterjemahkan otomatis ke dalam bahasa Indonesia santun yang memotivasi pemula untuk terus mencoba.
-            </div>
-          </div>
-
-          <div className="flex items-start space-x-3">
-            <div className="p-2 rounded-xl bg-emerald-950/60 border border-emerald-800/40 text-emerald-400">
-              <MessageSquare className="w-5 h-5" />
-            </div>
-            <div>
-              <strong className="text-white block font-semibold text-sm mb-1">
-                Otomasi Rapor WhatsApp
-              </strong>
-              Pengajar tidak perlu menyusun laporan manual berjam-jam. Cukup 1-klik untuk generate rekap perkembangan nalar anak.
-            </div>
-          </div>
+      {/* Minimal Monochrome Footer */}
+      <footer className="border-t border-white/[0.08] bg-[#090a0f] py-4 text-xs font-mono text-slate-400">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-2">
+          <span>PY_STUDIO // 1-ON-1 LES PRIVAT KODING (PYTHON TRACK)</span>
+          <span>SOLO FULLSTACK ARCHITECTURE &bull; ANDRICHA DEA MITRA</span>
         </div>
-      </div>
-
-      {/* Footer */}
-      <footer className="border-t border-slate-800/80 bg-slate-900/60 py-6 text-center text-xs text-slate-500">
-        <p>
-          Platform Edukasi Koding Les Private 1-on-1 (Python Track) &bull; Dibuat khusus oleh Senior Systems Architect Andricha Dea Mitra (Andri).
-        </p>
       </footer>
     </div>
   );

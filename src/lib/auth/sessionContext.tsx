@@ -8,8 +8,9 @@ export interface UserProfile {
   id: string;
   name: string;
   role: UserRole;
-  avatar: string;
+  initials: string;
   email: string;
+  roleLabel: string;
   subtitle: string;
 }
 
@@ -20,7 +21,7 @@ export interface StudentProgress {
   totalAssignments: number;
   streakDays: number;
   xpPoints: number;
-  badges: Array<{ id: string; name: string; icon: string; unlockedAt: string }>;
+  badges: Array<{ id: string; code: string; name: string; unlockedAt: string }>;
   weeklyNote: string;
   attendanceCount: number;
   totalSessions: number;
@@ -43,25 +44,28 @@ const USERS: Record<UserRole, UserProfile> = {
     id: "user-student-1",
     name: "Andi Pratama",
     role: "student",
-    avatar: "👦",
+    initials: "AP",
     email: "andi.pratama@student.id",
-    subtitle: "Siswa Les Private (Python Track)",
+    roleLabel: "STUDENT",
+    subtitle: "Siswa Private — Python Track (Pekan 4)",
   },
   tutor: {
     id: "user-tutor-1",
-    name: "Kak Tutor (Andri)",
+    name: "Andricha Dea Mitra",
     role: "tutor",
-    avatar: "👨‍🏫",
+    initials: "AM",
     email: "andri@codingclass.id",
-    subtitle: "Senior Fullstack Mentor & Lead Tutor",
+    roleLabel: "LEAD TUTOR",
+    subtitle: "Senior Systems Architect & Private Mentor",
   },
   parent: {
     id: "user-parent-1",
-    name: "Pak Bambang (Orang Tua Andi)",
+    name: "Bambang Pratama",
     role: "parent",
-    avatar: "👨‍💼",
+    initials: "BP",
     email: "bambang.p@parent.id",
-    subtitle: "Wali Murid Andi Pratama",
+    roleLabel: "OBSERVER",
+    subtitle: "Wali Murid Andi Pratama (Read-Only)",
   },
 };
 
@@ -73,12 +77,12 @@ const DEFAULT_PROGRESS: StudentProgress = {
   streakDays: 5,
   xpPoints: 340,
   badges: [
-    { id: "b1", name: "First Code Champion", icon: "🚀", unlockedAt: "Minggu 1" },
-    { id: "b2", name: "Logic Master (if-else)", icon: "🧠", unlockedAt: "Minggu 2" },
-    { id: "b3", name: "Loop Sorcerer", icon: "🔁", unlockedAt: "Minggu 3" },
-    { id: "b4", name: "5-Day Streak Flame", icon: "🔥", unlockedAt: "Minggu 4" },
+    { id: "b1", code: "CORE-01", name: "Fondasi Sintaks & IPO", unlockedAt: "Pekan 1" },
+    { id: "b2", code: "LOGIC-02", name: "Percabangan Kondisional", unlockedAt: "Pekan 2" },
+    { id: "b3", code: "LOOP-03", name: "Otomasi Iterasi & List", unlockedAt: "Pekan 3" },
+    { id: "b4", code: "HABIT-04", name: "Konsistensi PR 5 Hari", unlockedAt: "Pekan 4" },
   ],
-  weeklyNote: "Andi memiliki daya tangkap logika yang sangat kuat pada materi if-else dan perulangan. Nalar berpikir analitisnya berkembang pesat, dan ia sangat antusias saat berhasil membuat simulasi game tebak angka.",
+  weeklyNote: "Andi memiliki daya tangkap logika yang sangat kuat pada materi if-else dan perulangan. Nalar berpikir analitisnya berkembang pesat, dan ia mampu merancang alur game tebak angka tanpa kesalahan sintaksis.",
   attendanceCount: 7,
   totalSessions: 24,
 };
@@ -93,7 +97,6 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     "panjang = 10\nlebar = 5\nluas = panjang * lebar\nprint(f\"Luas Persegi Panjang: {luas}\")"
   );
 
-  // Sync role with localStorage
   useEffect(() => {
     const saved = localStorage.getItem("active_role") as UserRole | null;
     if (saved && (saved === "student" || saved === "tutor" || saved === "parent")) {

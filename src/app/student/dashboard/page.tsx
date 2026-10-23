@@ -5,289 +5,255 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth/sessionContext";
 import { CURRICULUM_DATA } from "@/data/curriculum";
 import {
-  Flame,
-  Award,
-  BookOpen,
-  Calendar,
-  CheckCircle2,
-  Clock,
   ArrowRight,
-  Sparkles,
-  Lock,
+  Check,
+  Clock,
+  Layers,
+  Terminal,
+  Activity,
 } from "lucide-react";
 
 export default function StudentDashboardPage() {
   const { progress } = useSession();
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#090a0f] text-slate-200 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Welcome Hero Banner */}
-        <div className="relative overflow-hidden rounded-2xl bg-gradient-to-r from-indigo-900/60 via-slate-900 to-slate-900 border border-indigo-800/40 p-6 sm:p-8 shadow-2xl">
-          <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-2">
-              <div className="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full bg-indigo-500/20 border border-indigo-500/30 text-indigo-300 text-xs font-semibold">
-                <Sparkles className="w-3.5 h-3.5 text-indigo-400" />
-                <span>Les Private 1-on-1 Intensif</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-                Halo, Andi Pratama! 👋
-              </h1>
-              <p className="text-slate-300 text-xs sm:text-sm max-w-xl leading-relaxed">
-                Kamu sedang berada di <strong className="text-indigo-300">Pekan ke-4 (Fungsi Modular & Capstone 1)</strong>. Konsistensi koding harianmu luar biasa!
-              </p>
-            </div>
+        {/* Welcome Studio Banner - Left-Aligned Restraint */}
+        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="space-y-3">
+            <p className="font-mono text-xs uppercase tracking-widest text-slate-400">
+              01 // DASHBOARD SISWA &bull; ANDI PRATAMA
+            </p>
+            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+              Pekan 04: Fungsi Modular &amp; Proyek Capstone 1.
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+              Fokus pekan ini: Mengabstraksi kode berulang menjadi fungsi mandiri (def/return) serta menyelesaikan game konsol interaktif.
+            </p>
+          </div>
 
-            {/* Quick Action Button */}
-            <div className="shrink-0">
-              <Link
-                href="/student/learn/1/senin"
-                className="inline-flex items-center space-x-2 px-5 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-sm shadow-xl shadow-indigo-600/30 transition hover:scale-105 active:scale-95"
-              >
-                <span>Mulai PR Hari Ini</span>
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+          <div className="shrink-0">
+            <Link
+              href="/student/learn/1/senin"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded bg-white text-black font-mono text-xs font-bold hover:bg-slate-200 transition"
+            >
+              <span>BUKA PR HARI INI</span>
+              <ArrowRight className="w-3.5 h-3.5" />
+            </Link>
           </div>
         </div>
 
-        {/* 3 Metrics Cards */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Konsistensi Koding</span>
-              <Flame className="w-5 h-5 text-orange-400" />
+        {/* 3 Telemetry Cards (Precision Tabular Nums) */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
+          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
+            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+              KONSISTENSI_STREAK
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-orange-400">
-              {progress.streakDays} Hari 🔥
+            <div className="text-3xl font-bold text-amber-400 tabular-nums">
+              {progress.streakDays.toString().padStart(2, "0")} HARI
             </div>
-            <p className="text-[11px] text-slate-400">
-              Pertahankan streak dengan menyelesaikan PR Senin–Kamis!
+            <p className="font-sans text-[11px] text-slate-400">
+              Aktif mengerjakan PR harian Senin s.d Kamis.
             </p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Poin Pengalaman</span>
-              <Award className="w-5 h-5 text-amber-400" />
+          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
+            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+              AKUMULASI_PENGALAMAN
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-amber-400">
-              {progress.xpPoints} XP ⚡
+            <div className="text-3xl font-bold text-slate-200 tabular-nums">
+              {progress.xpPoints} XP
             </div>
-            <p className="text-[11px] text-slate-400">
-              Koleksi lencana baru akan terbuka di 500 XP!
+            <p className="font-sans text-[11px] text-slate-400">
+              Poin evaluasi otomatis dari penuntasan tugas logika.
             </p>
           </div>
 
-          <div className="bg-slate-900/80 border border-slate-800 rounded-2xl p-5 space-y-2 shadow-lg">
-            <div className="flex items-center justify-between text-slate-400 text-xs font-medium">
-              <span>Kemajuan Roadmap</span>
-              <BookOpen className="w-5 h-5 text-emerald-400" />
+          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
+            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+              PROGRES_ROADMAP
             </div>
-            <div className="text-2xl sm:text-3xl font-black text-emerald-400">
-              Minggu {progress.currentWeek} / 12
+            <div className="text-3xl font-bold text-emerald-400 tabular-nums">
+              {progress.currentWeek.toString().padStart(2, "0")} / 12 MINGGU
             </div>
-            <div className="w-full bg-slate-800 h-2 rounded-full overflow-hidden mt-1">
+            <div className="w-full bg-[#1b1e2a] h-1.5 rounded-full overflow-hidden mt-1">
               <div
-                className="bg-emerald-500 h-full rounded-full transition-all duration-500"
+                className="bg-emerald-500 h-full rounded-full"
                 style={{ width: `${(progress.currentWeek / progress.totalWeeks) * 100}%` }}
               />
             </div>
           </div>
         </div>
 
-        {/* Weekly Routine Grid (Senin s.d Minggu) */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between flex-wrap gap-2">
+        {/* Weekly Routine Matrix (Senin s.d Minggu) */}
+        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 space-y-4 font-mono">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 text-xs">
             <div>
-              <h2 className="text-lg font-bold text-white tracking-tight flex items-center space-x-2">
-                <Calendar className="w-5 h-5 text-indigo-400" />
-                <span>Jadwal Belajar Pekan Ini</span>
-              </h2>
-              <p className="text-xs text-slate-400">
-                15–20 menit di hari kerja, 2 jam les tatap muka langsung di akhir pekan.
-              </p>
+              <span className="text-slate-400 uppercase tracking-widest block">
+                02 // SIKLUS MINGGUAN BELAJAR
+              </span>
+              <span className="text-slate-200 font-bold text-sm">
+                Rutinitas Pekan ke-4
+              </span>
             </div>
-            <span className="text-xs px-2.5 py-1 rounded-full bg-slate-800 text-slate-300 font-semibold">
-              Pekan 4: Fungsi & Capstone 1
+            <span className="text-slate-400">
+              Senin–Kamis 15-20 Mnt &bull; Jumat–Sabtu 2 Jam Tatap Muka
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
             {/* Senin */}
             <Link
               href="/student/learn/1/senin"
-              className="p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 hover:border-emerald-500 transition group space-y-2"
+              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-slate-300">SENIN</span>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>SENIN</span>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
               </div>
-              <div className="text-xs font-semibold text-white group-hover:text-indigo-300">
-                PR 1: Recall
+              <div>
+                <span className="font-bold text-slate-200 block">PR 1: RECALL</span>
+                <span className="text-[10px] text-emerald-400">STATUS: 100/100</span>
               </div>
-              <div className="text-[10px] text-slate-500">15 Menit &bull; Selesai</div>
             </Link>
 
             {/* Selasa */}
             <Link
               href="/student/learn/1/selasa"
-              className="p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 hover:border-emerald-500 transition group space-y-2"
+              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-slate-300">SELASA</span>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>SELASA</span>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
               </div>
-              <div className="text-xs font-semibold text-white group-hover:text-indigo-300">
-                PR 2: Code Read
+              <div>
+                <span className="font-bold text-slate-200 block">PR 2: READING</span>
+                <span className="text-[10px] text-emerald-400">STATUS: 95/100</span>
               </div>
-              <div className="text-[10px] text-slate-500">15 Menit &bull; Selesai</div>
             </Link>
 
             {/* Rabu */}
             <Link
               href="/student/learn/1/rabu"
-              className="p-3.5 rounded-xl bg-slate-950 border border-emerald-500/40 hover:border-emerald-500 transition group space-y-2"
+              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-slate-300">RABU</span>
-                <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>RABU</span>
+                <Check className="w-3.5 h-3.5 text-emerald-400" />
               </div>
-              <div className="text-xs font-semibold text-white group-hover:text-indigo-300">
-                PR 3: Debugging
+              <div>
+                <span className="font-bold text-slate-200 block">PR 3: DEBUG</span>
+                <span className="text-[10px] text-emerald-400">STATUS: 95/100</span>
               </div>
-              <div className="text-[10px] text-slate-500">20 Menit &bull; Selesai</div>
             </Link>
 
             {/* Kamis */}
             <Link
               href="/student/learn/1/kamis"
-              className="p-3.5 rounded-xl bg-slate-950 border border-indigo-500/50 hover:border-indigo-400 transition group space-y-2 ring-1 ring-indigo-500/30"
+              className="p-3 rounded border border-amber-500/40 bg-[#141620] hover:border-amber-400 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-indigo-400">KAMIS</span>
-                <Clock className="w-4 h-4 text-indigo-400 animate-pulse" />
+              <div className="flex items-center justify-between text-[11px] text-amber-400 font-bold">
+                <span>KAMIS</span>
+                <Clock className="w-3.5 h-3.5 text-amber-400" />
               </div>
-              <div className="text-xs font-semibold text-white group-hover:text-indigo-300">
-                PR 4: Pre-read
+              <div>
+                <span className="font-bold text-white block">PR 4: PRE-READ</span>
+                <span className="text-[10px] text-amber-300">TUGAS HARI INI</span>
               </div>
-              <div className="text-[10px] text-indigo-300 font-medium">PR Hari Ini!</div>
             </Link>
 
             {/* Jumat */}
-            <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-700/60 space-y-2">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-indigo-300">JUMAT</span>
-                <span className="text-[9px] bg-indigo-900 px-1.5 py-0.5 rounded text-indigo-200">2 JAM</span>
+            <div className="p-3 rounded border border-white/[0.08] bg-[#10121a] flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>JUMAT</span>
+                <span className="text-[10px] bg-white/[0.08] px-1 rounded">2 JAM</span>
               </div>
-              <div className="text-xs font-bold text-white">
-                Les Privat 1
+              <div>
+                <span className="font-bold text-slate-300 block">SESI LIVE 1</span>
+                <span className="text-[10px] text-slate-400">16.00 - 18.00</span>
               </div>
-              <div className="text-[10px] text-indigo-300">16.00 - 18.00 WIB</div>
             </div>
 
             {/* Sabtu */}
-            <div className="p-3.5 rounded-xl bg-indigo-950/40 border border-indigo-700/60 space-y-2">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-indigo-300">SABTU</span>
-                <span className="text-[9px] bg-indigo-900 px-1.5 py-0.5 rounded text-indigo-200">2 JAM</span>
+            <div className="p-3 rounded border border-white/[0.08] bg-[#10121a] flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between text-[11px] text-slate-400">
+                <span>SABTU</span>
+                <span className="text-[10px] bg-white/[0.08] px-1 rounded">2 JAM</span>
               </div>
-              <div className="text-xs font-bold text-white">
-                Les Privat 2
+              <div>
+                <span className="font-bold text-slate-300 block">SESI LIVE 2</span>
+                <span className="text-[10px] text-slate-400">16.00 - 18.00</span>
               </div>
-              <div className="text-[10px] text-indigo-300">16.00 - 18.00 WIB</div>
             </div>
 
             {/* Minggu */}
-            <div className="p-3.5 rounded-xl bg-slate-950 border border-slate-800 space-y-2 opacity-60">
-              <div className="flex items-center justify-between text-[11px]">
-                <span className="font-bold text-slate-400">MINGGU</span>
-                <span className="text-[10px]">☕</span>
+            <div className="p-3 rounded border border-white/[0.04] bg-[#0c0d14] flex flex-col justify-between h-24 opacity-60">
+              <div className="text-[11px] text-slate-400">MINGGU</div>
+              <div>
+                <span className="font-medium text-slate-400 block">REST &amp; REPORT</span>
+                <span className="text-[10px] text-slate-400">RAPOR ORTU</span>
               </div>
-              <div className="text-xs font-medium text-slate-300">
-                Rest & Report
-              </div>
-              <div className="text-[10px] text-slate-500">Rapor Terbit</div>
             </div>
           </div>
         </div>
 
-        {/* 12-Week Roadmap Accordion / List */}
-        <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl space-y-4">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold text-white tracking-tight flex items-center space-x-2">
-              <BookOpen className="w-5 h-5 text-indigo-400" />
-              <span>Roadmap 12 Minggu: Dari Nol Menuju Portofolio</span>
-            </h2>
-            <span className="text-xs text-slate-400">Python Track</span>
+        {/* 12-Week Roadmap Table */}
+        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 space-y-4 font-mono">
+          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 text-xs">
+            <span className="text-slate-400 uppercase tracking-widest block">
+              03 // SILABUS ROADMAP 12 MINGGU
+            </span>
+            <span className="text-slate-400">TRACK: PYTHON_CORE</span>
           </div>
 
-          <div className="space-y-3">
+          <div className="divide-y divide-white/[0.06] text-xs">
             {CURRICULUM_DATA.map((w) => {
               const isCurrent = w.week === progress.currentWeek;
               const isCompleted = w.week < progress.currentWeek;
-              const isLocked = w.week > progress.currentWeek;
 
               return (
                 <div
                   key={w.week}
-                  className={`p-4 rounded-xl border transition flex items-center justify-between gap-4 ${
-                    isCurrent
-                      ? "bg-indigo-950/40 border-indigo-500/60 shadow-lg shadow-indigo-950/50"
-                      : isCompleted
-                      ? "bg-slate-900/60 border-emerald-500/30"
-                      : "bg-slate-950/60 border-slate-800/80 opacity-60"
+                  className={`py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
+                    isCurrent ? "text-white" : isCompleted ? "text-slate-400" : "text-slate-600"
                   }`}
                 >
-                  <div className="flex items-center space-x-4">
-                    <div
-                      className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold text-sm ${
-                        isCurrent
-                          ? "bg-indigo-600 text-white"
-                          : isCompleted
-                          ? "bg-emerald-600/30 text-emerald-400 border border-emerald-500/40"
-                          : "bg-slate-800 text-slate-500"
-                      }`}
-                    >
-                      {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : `M${w.week}`}
-                    </div>
+                  <div className="flex items-start sm:items-center space-x-4">
+                    <span className="w-12 text-slate-400">
+                      M{w.week.toString().padStart(2, "0")}
+                    </span>
 
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="text-[10px] font-semibold text-slate-400 uppercase tracking-wider">
-                          Fase {w.phase}: {w.phaseTitle}
-                        </span>
+                        <span className="font-bold text-slate-200">{w.title}</span>
                         {w.capstoneInfo && (
-                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-bold border border-amber-500/40">
-                            🏆 CAPSTONE PROYEK
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                            CAPSTONE
                           </span>
                         )}
                       </div>
-                      <h3 className="text-sm font-bold text-white">{w.title}</h3>
-                      <p className="text-xs text-slate-400 hidden sm:block">{w.description}</p>
+                      <p className="font-sans text-[11px] text-slate-400 hidden sm:block mt-0.5">
+                        {w.description}
+                      </p>
                     </div>
                   </div>
 
-                  <div className="shrink-0">
+                  <div className="shrink-0 text-right">
                     {isCurrent ? (
                       <Link
                         href={`/student/learn/${w.week}/senin`}
-                        className="px-3.5 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white text-xs font-semibold transition"
+                        className="px-3 py-1 rounded bg-white text-black font-bold text-xs hover:bg-slate-200 transition"
                       >
-                        Buka Materi &rarr;
+                        BUKA MODUL &rarr;
                       </Link>
                     ) : isCompleted ? (
-                      <Link
-                        href={`/student/learn/${w.week}/senin`}
-                        className="px-3.5 py-1.5 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-medium transition"
-                      >
-                        Review
-                      </Link>
-                    ) : (
-                      <span className="flex items-center space-x-1 text-xs text-slate-500">
-                        <Lock className="w-3.5 h-3.5" />
-                        <span>Terkunci</span>
+                      <span className="text-emerald-400 flex items-center space-x-1 sm:justify-end">
+                        <Check className="w-3.5 h-3.5" />
+                        <span>SELESAI</span>
                       </span>
+                    ) : (
+                      <span className="text-slate-600">TERKUNCI</span>
                     )}
                   </div>
                 </div>

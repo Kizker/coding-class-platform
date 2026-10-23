@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useSession } from "@/lib/auth/sessionContext";
 import {
   FileText,
-  CheckCircle2,
+  Check,
   Save,
   MessageSquare,
-  Award,
-  Sparkles,
   ArrowRight,
+  ShieldCheck,
+  Code2,
 } from "lucide-react";
 
 interface SubmissionItem {
@@ -82,110 +82,125 @@ export default function TutorGradingPage() {
   const handleSaveWeeklyNote = () => {
     updateProgress({ weeklyNote });
     setSaveSuccess(true);
-    setTimeout(() => setSaveSuccess(false), 3000);
+    setTimeout(() => setSaveSuccess(false), 2500);
   };
 
   return (
-    <div className="min-h-screen bg-slate-950 text-slate-100 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-5xl mx-auto space-y-8">
-        {/* Header */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-800 pb-5">
+        {/* Header with technical breadcrumb */}
+        <div className="border-b border-white/[0.08] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-black text-white tracking-tight flex items-center space-x-2">
-              <FileText className="w-6 h-6 text-indigo-400" />
-              <span>Meja Penilaian & Evaluasi Kualitatif Pengajar</span>
+            <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2 flex items-center space-x-2">
+              <span>TUTOR // WORKSTATION</span>
+              <span>/</span>
+              <span className="text-amber-400">EVALUASI & VERIFIKASI TUGAS</span>
+            </div>
+            <h1 className="text-2xl font-semibold tracking-tight text-white">
+              Meja Penilaian Kualitatif Siswa
             </h1>
-            <p className="text-xs sm:text-sm text-slate-400 mt-1">
-              Verifikasi tugas harian siswa dan susun narasi perkembangan nalar logika untuk laporan orang tua.
+            <p className="text-xs text-neutral-400 mt-1 max-w-xl">
+              Verifikasi kode tugas harian (Senin–Kamis) siswa Andi Pratama dan susun narasi evaluasi nalar logika untuk laporan orang tua.
             </p>
           </div>
 
           <Link
             href="/tutor/reports"
-            className="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-semibold text-xs transition flex items-center space-x-2 shadow-lg shadow-emerald-600/20 shrink-0"
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 hover:bg-emerald-900/30 font-mono text-xs transition shrink-0"
           >
-            <MessageSquare className="w-4 h-4" />
-            <span>Generate Rapor WhatsApp &rarr;</span>
+            <MessageSquare className="w-3.5 h-3.5" />
+            <span>GENERATE RAPOR WHATSAPP</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
 
-        {/* Weekly Qualitative Note Form for Parents */}
-        <div className="p-6 rounded-2xl bg-gradient-to-br from-indigo-950/40 via-slate-900 to-slate-900 border border-indigo-700/50 space-y-4 shadow-xl">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-white tracking-tight flex items-center space-x-2">
-              <Sparkles className="w-4 h-4 text-indigo-400" />
-              <span>Catatan Perkembangan Nalar Anak (Untuk Rapor Mingguan Orang Tua)</span>
-            </h2>
-            <span className="text-[11px] text-indigo-300 font-semibold bg-indigo-950 border border-indigo-800 px-2.5 py-0.5 rounded-full">
-              Pekan ke-4
+        {/* Section 01: Qualitative Narrative Editor */}
+        <div className="p-6 rounded border border-white/[0.08] bg-[#0C1017] space-y-4">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+            <div>
+              <span className="font-mono text-xs text-neutral-400 tracking-wider">
+                01 // CATATAN EVALUASI NALAR PEKAN INI
+              </span>
+              <p className="text-xs text-neutral-500 mt-0.5">
+                Evaluasi deskriptif mengenai pemahaman nalar logika, kemandirian problem solving, dan pencapaian anak.
+              </p>
+            </div>
+            <span className="font-mono text-xs text-neutral-400 border border-white/[0.08] px-2 py-0.5 rounded bg-white/[0.02]">
+              PEKAN 04
             </span>
           </div>
-
-          <p className="text-xs text-slate-300">
-            Tuliskan evaluasi deskriptif mengenai pemahaman nalar logika, sikap belajar, dan pencapaian anak pada sesi pekan ini. Catatan ini akan otomatis muncul di Portal Orang Tua dan Rapor WhatsApp.
-          </p>
 
           <textarea
             rows={4}
             value={weeklyNote}
             onChange={(e) => setWeeklyNote(e.target.value)}
-            className="w-full bg-slate-950 border border-slate-700 rounded-xl p-4 text-xs sm:text-sm text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 font-sans leading-relaxed"
-            placeholder="Tuliskan catatan perkembangan di sini..."
+            className="w-full bg-[#07090D] border border-white/[0.1] rounded p-4 text-xs sm:text-sm text-neutral-200 focus:outline-none focus:border-amber-400/60 font-sans leading-relaxed transition"
+            placeholder="Tuliskan catatan perkembangan nalar anak..."
           />
 
-          <div className="flex items-center justify-between pt-2">
-            <span className="text-xs text-slate-400">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
+            <div className="font-mono text-xs">
               {saveSuccess ? (
-                <span className="text-emerald-400 font-bold flex items-center space-x-1">
-                  <CheckCircle2 className="w-4 h-4" />
-                  <span>Catatan berhasil disimpan ke Portal Orang Tua!</span>
+                <span className="text-emerald-400 flex items-center space-x-1.5">
+                  <Check className="w-3.5 h-3.5" />
+                  <span>TERSIMPAN KE PORTAL ORANG TUA</span>
                 </span>
               ) : (
-                "Catatan ini langsung tersinkronisasi ke Portal Orang Tua."
+                <span className="text-neutral-500">
+                  STATUS: TERKONEKSI KE PORTAL ORANG TUA
+                </span>
               )}
-            </span>
+            </div>
 
             <button
               onClick={handleSaveWeeklyNote}
-              className="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center space-x-1.5 shadow-lg shadow-indigo-600/30 cursor-pointer"
+              className="px-4 py-2 rounded bg-amber-400 hover:bg-amber-300 text-neutral-950 font-mono text-xs font-semibold transition flex items-center justify-center space-x-1.5 cursor-pointer"
             >
-              <Save className="w-4 h-4" />
-              <span>Simpan Catatan</span>
+              <Save className="w-3.5 h-3.5" />
+              <span>SIMPAN EVALUASI</span>
             </button>
           </div>
         </div>
 
-        {/* Daily Homework Submissions Table */}
-        <div className="p-6 rounded-2xl bg-slate-900 border border-slate-800 space-y-4 shadow-xl">
-          <div className="flex items-center justify-between">
-            <h2 className="text-base font-bold text-white tracking-tight flex items-center space-x-2">
-              <Award className="w-4 h-4 text-amber-400" />
-              <span>Riwayat Pengumpulan PR Harian (Andi Pratama)</span>
-            </h2>
-            <span className="text-xs text-emerald-400 font-semibold">
-              4/4 PR Selesai Pekan Ini
-            </span>
+        {/* Section 02: Daily Homework Submissions Table */}
+        <div className="p-6 rounded border border-white/[0.08] bg-[#0C1017] space-y-5">
+          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+            <div>
+              <span className="font-mono text-xs text-neutral-400 tracking-wider">
+                02 // LOG VERIFIKASI PR HARIAN (SENIN - KAMIS)
+              </span>
+              <p className="text-xs text-neutral-500 mt-0.5">
+                Kepatuhan rutinitas 15 menit per hari siswa Andi Pratama.
+              </p>
+            </div>
+            <div className="font-mono text-xs text-emerald-400 flex items-center space-x-2">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              <span>4/4 SELESAI PEKAN INI</span>
+            </div>
           </div>
 
           <div className="space-y-4">
             {submissions.map((sub) => (
               <div
                 key={sub.id}
-                className="p-4 rounded-xl bg-slate-950 border border-slate-800 space-y-3"
+                className="p-4 rounded border border-white/[0.06] bg-[#07090D] space-y-3"
               >
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <div>
-                    <div className="flex items-center space-x-2">
-                      <span className="text-[10px] font-bold px-2 py-0.5 rounded bg-indigo-950 text-indigo-300 border border-indigo-800">
-                        {sub.day.toUpperCase()} &bull; {sub.type}
+                    <div className="flex items-center space-x-2 font-mono text-xs text-neutral-400">
+                      <span className="text-amber-400 uppercase">
+                        [{sub.day.toUpperCase()} // {sub.type}]
                       </span>
-                      <span className="text-xs text-slate-400">{sub.submittedAt}</span>
+                      <span>&bull;</span>
+                      <span>{sub.submittedAt}</span>
                     </div>
-                    <h3 className="text-sm font-bold text-white mt-1">{sub.title}</h3>
+                    <h3 className="text-sm font-medium text-white mt-1">
+                      {sub.title}
+                    </h3>
                   </div>
 
-                  <div className="flex items-center space-x-2">
-                    <label className="text-xs text-slate-400">Skor:</label>
+                  <div className="flex items-center space-x-3 font-mono text-xs">
+                    <span className="text-neutral-500">SKOR:</span>
                     <input
                       type="number"
                       min={0}
@@ -194,19 +209,28 @@ export default function TutorGradingPage() {
                       onChange={(e) =>
                         handleScoreChange(sub.id, parseInt(e.target.value, 10) || 0)
                       }
-                      className="w-16 bg-slate-900 border border-slate-700 rounded-lg px-2 py-1 text-xs text-center font-bold text-amber-300 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                      className="w-14 bg-[#0C1017] border border-white/[0.12] rounded px-2 py-1 text-center font-mono font-medium text-amber-400 focus:outline-none focus:border-amber-400"
                     />
-                    <span className="text-xs text-slate-500">/ 100</span>
-                    <span className="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-300 border border-emerald-800 font-semibold">
-                      PASSED
+                    <span className="text-neutral-500">/ 100</span>
+                    <span className="px-2 py-0.5 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-[11px]">
+                      VERIFIED
                     </span>
                   </div>
                 </div>
 
-                {/* Student Submitted Code */}
-                <pre className="p-3 bg-slate-900 rounded-lg border border-slate-800 text-xs font-mono text-emerald-300 overflow-x-auto">
-                  {sub.studentCode}
-                </pre>
+                {/* Code Snapshot */}
+                <div className="border border-white/[0.06] rounded bg-[#05070A] overflow-hidden">
+                  <div className="px-3 py-1.5 border-b border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-neutral-500">
+                    <span className="flex items-center space-x-1.5">
+                      <Code2 className="w-3 h-3 text-neutral-400" />
+                      <span>student_submission.py</span>
+                    </span>
+                    <span>PYTHON 3.11</span>
+                  </div>
+                  <pre className="p-3 text-xs font-mono text-emerald-300 overflow-x-auto leading-relaxed">
+                    {sub.studentCode}
+                  </pre>
+                </div>
               </div>
             ))}
           </div>

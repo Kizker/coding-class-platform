@@ -1,8 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --background: #020617;
-  --foreground: #f8fafc;
+  --background: #090a0f;
+  --foreground: #f1f3f7;
+  --surface-primary: #0f1117;
+  --surface-secondary: #151821;
+  --surface-tertiary: #1b1e2a;
+  --border-subtle: rgba(255, 255, 255, 0.08);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --accent-amber: #f59e0b;
+  --accent-emerald: #10b981;
 }
 
 @theme inline {
@@ -16,39 +23,51 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.015em;
   overflow-x: hidden;
 }
 
-/* Custom Scrollbar */
+/* Hairline borders and utility surfaces */
+.border-hairline {
+  border: 1px solid var(--border-subtle);
+}
+
+.border-hairline-strong {
+  border: 1px solid var(--border-strong);
+}
+
+.bg-surface-1 {
+  background-color: var(--surface-primary);
+}
+
+.bg-surface-2 {
+  background-color: var(--surface-secondary);
+}
+
+.bg-surface-3 {
+  background-color: var(--surface-tertiary);
+}
+
+/* Custom Scrollbar - Precision Minimal */
 ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+  width: 5px;
+  height: 5px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090d16;
+  background: #090a0f;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #1e293b;
-  border-radius: 9999px;
+  background: #232734;
+  border-radius: 2px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #334155;
+  background: #363c4e;
 }
 
-@keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
-
-.animate-fadeIn {
-  animation: fadeIn 0.25s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Subtle border and surface transitions */
+.transition-surface {
+  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
 }
