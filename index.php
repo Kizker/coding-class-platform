@@ -109,7 +109,7 @@ if (!$backendReady) {
         }
 
         $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
-        $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$port} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> runner.log 2>&1 & echo $! > " . escapeshellarg($pidFile);
+        $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$port} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> " . escapeshellarg($logFile) . " 2>&1 < /dev/null & echo $! > " . escapeshellarg($pidFile);
 
         if (function_exists('exec')) {
             @exec($cmd);
@@ -118,6 +118,7 @@ if (!$backendReady) {
         } elseif (function_exists('system')) {
             @system($cmd);
         }
+
     }
 
     // Tunggu socket terbuka (maksimal 4 detik)
