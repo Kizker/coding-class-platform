@@ -39,29 +39,55 @@ if (typeof WebAssembly !== 'undefined' && WebAssembly.instantiate) {
   };
 }
 
+const net = require('net');
 const standaloneServer = path.join(__dirname, '.next', 'standalone', 'server.js');
 
-if (fs.existsSync(standaloneServer)) {
-  console.log(`[BOOT] Loading standalone server from ${standaloneServer} on port ${process.env.PORT || 3000}`);
-  require(standaloneServer);
+function bootServer(targetPort) {
+  process.env.PORT = String(targetPort);
+  process.env.HOSTNAME = '127.0.0.1';
+  try {
+    fs.writeFileSync(path.join(__dirname, 'port.txt'), String(targetPort));
+  } catch (e) {
+    console.error('Failed to write port.txt:', e);
+  }
+  console.log(`[BOOT] Starting standalone Next.js server on dynamic port ${targetPort}...`);
+
+  if (fs.existsSync(standaloneServer)) {
+    require(standaloneServer);
+  } else {
+    const { createServer } = require('http');
+    const { parse } = require('url');
+    const next = require('next');
+
+    const dev = process.env.NODE_ENV !== 'production';
+    const app = next({ dev });
+    const handle = app.getRequestHandler();
+
+    app.prepare().then(() => {
+      createServer((req, res) => {
+        const parsedUrl = parse(req.url, true);
+        handle(req, res, parsedUrl);
+      }).listen(targetPort, '127.0.0.1', (err) => {
+        if (err) throw err;
+        console.log(`> Ready on http://127.0.0.1:${targetPort}`);
+      });
+    });
+  }
+}
+
+// Check if explicit valid port provided in env
+const envPort = parseInt(process.env.PORT, 10);
+if (envPort && envPort > 0) {
+  bootServer(envPort);
 } else {
-  const { createServer } = require('http');
-  const { parse } = require('url');
-  const next = require('next');
-
-  const port = parseInt(process.env.PORT, 10) || 3000;
-  const dev = process.env.NODE_ENV !== 'production';
-  const app = next({ dev });
-  const handle = app.getRequestHandler();
-
-  app.prepare().then(() => {
-    createServer((req, res) => {
-      const parsedUrl = parse(req.url, true);
-      handle(req, res, parsedUrl);
-    }).listen(port, '127.0.0.1', (err) => {
-      if (err) throw err;
-      console.log(`> Ready on http://127.0.0.1:${port}`);
+  // Discover free port dynamically from OS kernel
+  const probe = net.createServer();
+  probe.listen(0, '127.0.0.1', () => {
+    const freePort = probe.address().port;
+    probe.close(() => {
+      bootServer(freePort);
     });
   });
 }
+
 

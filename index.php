@@ -4,38 +4,27 @@
  * PID-Tracked Resilient Auto-Launcher for coding-class.labtry.my.id
  */
 
-$port = 3210;
 $pidFile = __DIR__ . '/app.pid';
 $logFile = __DIR__ . '/runner.log';
+$portFile = __DIR__ . '/port.txt';
 
-if (isset($_GET['port']) && is_numeric($_GET['port'])) {
-    $port = (int)$_GET['port'];
-}
-
-// 1. Detect working node binary
-function findNodeBinary() {
-    $candidates = [
-        '/opt/alt/alt-nodejs22/root/usr/bin/node',
-        '/opt/alt/alt-nodejs20/root/usr/bin/node',
-        '/opt/alt/alt-nodejs18/root/usr/bin/node',
-        '/usr/local/bin/node',
-        '/usr/bin/node',
-        'node'
-    ];
-    foreach ($candidates as $bin) {
-        $out = @shell_exec("{$bin} -v 2>/dev/null");
-        if ($out && strpos(trim($out), 'v') === 0) {
-            return [$bin, trim($out)];
+// Helper: Get active port
+function getActivePort($portFile) {
+    if (@file_exists($portFile)) {
+        $p = (int)trim(@file_get_contents($portFile));
+        if ($p > 1024 && $p <= 65535) {
+            return $p;
         }
     }
-    return ['node', 'Unknown'];
+    return null;
 }
 
-list($nodeBin, $nodeVersion) = findNodeBinary();
+$port = getActivePort($portFile);
 
 // Helper: Check if socket is open
 function isSocketOpen($port) {
-    $fp = @fsockopen('127.0.0.1', $port, $errno, $errstr, 0.4);
+    if (!$port) return false;
+    $fp = @fsockopen('127.0.0.1', $port, $errno, $errstr, 0.3);
     if ($fp) {
         fclose($fp);
         return true;
@@ -57,7 +46,7 @@ function isPidRunning($pidFile) {
 }
 
 // Helper: Kill this app's process safely
-function killAppProcess($pidFile) {
+function killAppProcess($pidFile, $portFile) {
     if (@file_exists($pidFile)) {
         $pid = (int)trim(@file_get_contents($pidFile));
         if ($pid > 0) {
@@ -65,12 +54,13 @@ function killAppProcess($pidFile) {
         }
         @unlink($pidFile);
     }
+    @unlink($portFile);
     @shell_exec('pkill -9 -f "coding-class.*server.js" 2>/dev/null');
 }
 
 // 2. Kill command (?kill=1)
 if (isset($_GET['kill']) && $_GET['kill'] == '1') {
-    killAppProcess($pidFile);
+    killAppProcess($pidFile, $portFile);
     @file_put_contents($logFile, "=== APP RESTARTED AT " . date('Y-m-d H:i:s') . " ===\n");
 }
 
@@ -79,11 +69,12 @@ if (isset($_GET['diag']) && $_GET['diag'] == '1') {
     header('Content-Type: text/html; charset=utf-8');
     $currentPid = @file_exists($pidFile) ? trim(@file_get_contents($pidFile)) : 'None';
     $isPidAlive = isPidRunning($pidFile);
-    $isSocketAlive = isSocketOpen($port);
+    $currentPort = getActivePort($portFile);
+    $isSocketAlive = isSocketOpen($currentPort);
 
     echo '<h2>⚡ Coding Class Diagnostic Panel</h2>';
     echo '<p><strong>Node Binary:</strong> ' . htmlspecialchars($nodeBin) . ' (' . htmlspecialchars($nodeVersion) . ')</p>';
-    echo '<p><strong>Target Port:</strong> ' . htmlspecialchars($port) . ' | <strong>Socket Status:</strong> ' . ($isSocketAlive ? "<span style='color:green;font-weight:bold'>OPEN (LISTENING)</span>" : "<span style='color:red'>CLOSED</span>") . '</p>';
+    echo '<p><strong>Assigned Port:</strong> ' . ($currentPort ? htmlspecialchars($currentPort) : 'None yet') . ' | <strong>Socket Status:</strong> ' . ($isSocketAlive ? "<span style='color:green;font-weight:bold'>OPEN (LISTENING)</span>" : "<span style='color:red'>CLOSED</span>") . '</p>';
     echo '<p><strong>App PID:</strong> ' . htmlspecialchars($currentPid) . ' | <strong>PID Alive:</strong> ' . ($isPidAlive ? "<span style='color:green'>YES</span>" : "<span style='color:red'>NO</span>") . '</p>';
     echo '<h3>Process Table</h3>';
     echo '<pre>' . htmlspecialchars(@shell_exec('ps x | grep -E "server.js|PID" 2>&1') ?: 'None') . '</pre>';
@@ -98,18 +89,18 @@ if (isset($_GET['diag']) && $_GET['diag'] == '1') {
     exit;
 }
 
-// 4. Check if backend is alive; if not, launch it!
+// 4. Check if backend is alive; if not, launch it with dynamic port!
 $backendReady = isSocketOpen($port);
 
 if (!$backendReady) {
     if (!isPidRunning($pidFile)) {
-        // Rotasi log jika > 25KB
         if (@file_exists($logFile) && @filesize($logFile) > 25000) {
             @file_put_contents($logFile, "=== LOG ROTATED ===\n");
         }
+        @unlink($portFile);
 
         $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
-        $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$port} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> " . escapeshellarg($logFile) . " 2>&1 < /dev/null & echo $! > " . escapeshellarg($pidFile);
+        $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT=0 HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> " . escapeshellarg($logFile) . " 2>&1 < /dev/null & echo $! > " . escapeshellarg($pidFile);
 
         if (function_exists('exec')) {
             @exec($cmd);
@@ -118,18 +109,19 @@ if (!$backendReady) {
         } elseif (function_exists('system')) {
             @system($cmd);
         }
-
     }
 
-    // Tunggu socket terbuka (maksimal 4 detik)
-    for ($i = 0; $i < 8; $i++) {
+    // Tunggu sampai server menulis port.txt dan socket terbuka (maksimal 5 detik)
+    for ($i = 0; $i < 10; $i++) {
         usleep(500000);
-        if (isSocketOpen($port)) {
+        $port = getActivePort($portFile);
+        if ($port && isSocketOpen($port)) {
             $backendReady = true;
             break;
         }
     }
 }
+
 
 // 5. Jika setelah proses start socket masih belum terbuka, tampilkan fallback status
 if (!$backendReady) {
