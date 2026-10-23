@@ -477,7 +477,7 @@ export default function StudentLiveSessionPage({
             <div className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-stone-100 pb-4">
                 <div className="space-y-1">
-                  <span className="text-[11px] font-semibold text-indigo-700 uppercase tracking-wider block">
+                  <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
                     Tahap 2 &bull; Pembelajaran Terbimbing &amp; Praktik Langsung
                   </span>
                   <h1 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight leading-snug">
@@ -488,11 +488,9 @@ export default function StudentLiveSessionPage({
                   </p>
                 </div>
 
-                <div className="flex items-center space-x-2 text-xs shrink-0 pt-1">
-                  <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-medium flex items-center space-x-1.5">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                    <span>Sinkron Mentor Mas Andri</span>
-                  </span>
+                <div className="flex items-center space-x-2 text-xs text-stone-500 font-medium shrink-0 pt-1">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                  <span>Terhubung dengan mentor</span>
                 </div>
               </div>
 
@@ -524,7 +522,7 @@ export default function StudentLiveSessionPage({
             {/* 2. Kartu Penjelasan Konsep & Analogi Dunia Nyata */}
             <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
               <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
-                <BookOpen className="w-4 h-4 text-indigo-600" />
+                <BookOpen className="w-4 h-4 text-stone-500" />
                 <span>1. Konsep &amp; Nalar Logika</span>
               </div>
 
@@ -533,19 +531,19 @@ export default function StudentLiveSessionPage({
               </p>
 
               {/* Analogi Dunia Nyata yang Ramah Siswa */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/70 space-y-2">
-                <div className="flex items-center space-x-2 text-xs font-bold text-amber-950">
-                  <span className="text-lg">{activeSubMaterial.analogy.icon}</span>
+              <div className="p-4 sm:p-5 rounded-xl bg-stone-50 border border-stone-200/70 space-y-2">
+                <div className="flex items-center space-x-2 text-xs font-bold text-stone-900">
+                  <span className="text-base">{activeSubMaterial.analogy.icon}</span>
                   <span>{activeSubMaterial.analogy.title}</span>
                 </div>
-                <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed font-sans">
                   {activeSubMaterial.analogy.description}
                 </p>
               </div>
 
               {/* Tiga Pilar Pemahaman Logika */}
               <div className="space-y-2 pt-1">
-                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
                   Tiga Pilar Pemahaman Logika:
                 </span>
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
@@ -554,12 +552,12 @@ export default function StudentLiveSessionPage({
                     return (
                       <div
                         key={idx}
-                        className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1"
+                        className="p-3.5 rounded-xl bg-stone-50/70 border border-stone-200/60 text-xs text-stone-700 space-y-1"
                       >
-                        <span className="font-bold text-stone-900 block font-sans">
+                        <span className="font-semibold text-stone-900 block font-sans">
                           {head}
                         </span>
-                        <p className="text-stone-600 leading-relaxed font-sans">
+                        <p className="text-stone-600 leading-relaxed font-sans text-[11px]">
                           {rest.join(":")}
                         </p>
                       </div>
@@ -571,45 +569,38 @@ export default function StudentLiveSessionPage({
 
             {/* 3. Kartu Bedah Fungsi Bawaan (Deep Dive Built-in Functions) */}
             <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
-              <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-                <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
-                  <Cpu className="w-4 h-4 text-emerald-600" />
-                  <span>2. Bedah Fungsi Bawaan Python (Built-in Functions)</span>
-                </div>
-                <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md font-bold">
-                  Standar Komputasi
-                </span>
+              <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900 border-b border-stone-100 pb-3">
+                <Cpu className="w-4 h-4 text-stone-500" />
+                <span>2. Bedah Fungsi Bawaan Python (Built-in Functions)</span>
               </div>
 
               <div className="space-y-4">
                 {activeSubMaterial.functionsExplained.map((fn, idx) => (
                   <div
                     key={idx}
-                    className="p-5 rounded-2xl border border-stone-200/80 bg-stone-50/50 space-y-3.5"
+                    className="p-5 rounded-xl border border-stone-200/80 bg-white space-y-3.5"
                   >
-                    <div className="flex flex-wrap items-center justify-between gap-2">
-                      <div className="flex items-center space-x-2">
-                        <span className="font-mono text-sm font-bold text-stone-900 bg-white border border-stone-300 px-2.5 py-1 rounded-lg shadow-2xs">
-                          {fn.name}
-                        </span>
-                        <span className="text-xs text-stone-500 font-sans">
-                          Sintaksis: <code className="font-mono text-stone-800 bg-stone-200/60 px-1.5 py-0.5 rounded">{fn.syntax}</code>
-                        </span>
-                      </div>
+                    <div className="flex flex-wrap items-baseline gap-2">
+                      <span className="font-mono text-base font-bold text-stone-900">
+                        {fn.name}
+                      </span>
+                      <span className="text-xs text-stone-500 font-mono">
+                        Sintaksis: {fn.syntax}
+                      </span>
                     </div>
 
                     <div className="space-y-1">
-                      <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
-                        Peran Teknis Fungsi:
+                      <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
+                        Peran Teknis:
                       </span>
-                      <p className="text-xs sm:text-sm text-stone-800 font-sans leading-relaxed font-medium">
+                      <p className="text-xs sm:text-sm text-stone-800 font-sans leading-relaxed">
                         {fn.role}
                       </p>
                     </div>
 
                     <div className="space-y-1">
-                      <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
-                        Cara Kerja di Balik Layar (Internal Mesin):
+                      <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
+                        Cara Kerja di Balik Layar:
                       </span>
                       <p className="text-xs text-stone-600 font-sans leading-relaxed">
                         {fn.howItWorks}
@@ -617,12 +608,12 @@ export default function StudentLiveSessionPage({
                     </div>
 
                     {/* Aturan Wajib */}
-                    <div className="p-3.5 rounded-xl bg-white border border-stone-200 text-xs text-stone-700 space-y-1.5">
-                      <span className="font-bold text-stone-900 flex items-center space-x-1.5">
-                        <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
-                        <span>Aturan Penulisan Wajib:</span>
+                    <div className="p-3.5 rounded-lg bg-stone-50 border border-stone-200/60 text-xs text-stone-700 space-y-1.5">
+                      <span className="font-semibold text-stone-900 flex items-center space-x-1.5">
+                        <AlertCircle className="w-3.5 h-3.5 text-stone-500" />
+                        <span>Aturan Penulisan:</span>
                       </span>
-                      <ul className="list-disc list-inside space-y-1 text-stone-600 leading-relaxed font-sans">
+                      <ul className="list-disc list-inside space-y-1 text-stone-600 leading-relaxed font-sans text-xs">
                         {fn.importantRules.map((r, rIdx) => (
                           <li key={rIdx}>{r}</li>
                         ))}
@@ -633,48 +624,46 @@ export default function StudentLiveSessionPage({
               </div>
             </div>
 
-            {/* 4. Kartu Bedah Variabel & Alokasi Memori RAM (Deep Dive Variables) */}
+            {/* 4. Kartu Bedah Variabel & Alokasi Memori RAM */}
             <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
-              <div className="flex items-center justify-between border-b border-stone-100 pb-3">
-                <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
-                  <Layers className="w-4 h-4 text-blue-600" />
-                  <span>3. Bedah Variabel &amp; Alokasi Memori RAM</span>
-                </div>
-                <span className="text-[11px] font-mono text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-md font-bold">
-                  Penyimpanan Data
-                </span>
+              <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900 border-b border-stone-100 pb-3">
+                <Layers className="w-4 h-4 text-stone-500" />
+                <span>3. Bedah Variabel &amp; Alokasi Memori RAM</span>
               </div>
 
               <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                Setiap kali kamu membuat variabel, komputer memesan satu kotak penyimpanan di memori RAM dan menempelkan label nama di atasnya. Komputer wajib mengetahui jenis data apa yang disimpan di dalamnya:
+                Setiap variabel adalah wadah penyimpanan di RAM dengan label nama dan tipe data yang jelas:
               </p>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
                 {activeSubMaterial.variablesExplained.map((v, idx) => (
                   <div
                     key={idx}
-                    className="p-4 sm:p-5 rounded-2xl border border-stone-200/80 bg-stone-50/50 space-y-2.5 flex flex-col justify-between"
+                    className="p-4 sm:p-5 rounded-xl border border-stone-200/80 bg-white space-y-3 flex flex-col justify-between shadow-[0_1px_2px_rgba(0,0,0,0.02)]"
                   >
-                    <div className="space-y-1.5">
-                      <div className="flex items-center justify-between">
-                        <span className="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded-md">
-                          Kotak: {v.name}
+                    <div className="space-y-2">
+                      <div className="flex items-baseline justify-between border-b border-stone-100 pb-2">
+                        <span className="font-mono text-sm font-bold text-stone-900">
+                          {v.name}
                         </span>
-                        <span className="text-[10px] font-semibold text-stone-600 bg-stone-200/70 px-2 py-0.5 rounded-md">
+                        <span className="text-xs text-stone-500 font-mono">
                           {v.type}
                         </span>
                       </div>
 
-                      <div className="p-2 rounded-lg bg-white border border-stone-200/70 font-mono text-xs text-stone-800">
-                        <span className="text-stone-400 text-[10px] block font-sans">Nilai di RAM:</span>
-                        <span className="font-bold text-emerald-700">{v.value}</span>
+                      <div className="text-xs text-stone-600 font-sans flex items-center space-x-1.5">
+                        <span className="text-stone-400">Nilai di RAM:</span>
+                        <code className="font-mono font-semibold text-stone-900 bg-stone-100 px-1.5 py-0.5 rounded">
+                          {v.value}
+                        </code>
                       </div>
                     </div>
 
                     <div className="space-y-1 text-xs font-sans">
-                      <span className="font-semibold text-stone-900 block">Peran di Memori:</span>
-                      <p className="text-stone-600 leading-relaxed">{v.memoryRole}</p>
-                      <p className="text-stone-500 text-[11px] leading-relaxed pt-1 border-t border-stone-200/60">
+                      <p className="text-stone-700 leading-relaxed font-medium">
+                        {v.memoryRole}
+                      </p>
+                      <p className="text-stone-500 text-[11px] leading-relaxed pt-1.5 border-t border-stone-100">
                         {v.explanation}
                       </p>
                     </div>
@@ -700,12 +689,12 @@ export default function StudentLiveSessionPage({
                   {copiedCodeNotice ? (
                     <>
                       <Check className="w-3.5 h-3.5 text-emerald-600" />
-                      <span className="text-emerald-700 font-semibold">Tersalin ke Uji Praktik</span>
+                      <span className="text-emerald-700 font-semibold">Tersalin ke Latihan</span>
                     </>
                   ) : (
                     <>
                       <Copy className="w-3.5 h-3.5 text-stone-400" />
-                      <span>Salin ke Uji Praktik di Bawah</span>
+                      <span>Salin ke Latihan Mandiri</span>
                     </>
                   )}
                 </button>
@@ -716,30 +705,38 @@ export default function StudentLiveSessionPage({
                 <pre>{activeSubMaterial.demoCode}</pre>
               </div>
 
-              {/* Line-by-Line Breakdown Table */}
+              {/* Line-by-Line Breakdown Table (Clean, Uncut Code Walkthrough) */}
               <div className="space-y-2 pt-2">
-                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
-                  Alur Kerja Komputer Baris demi Baris:
+                <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
+                  Alur Eksekusi Baris demi Baris:
                 </span>
-                <div className="divide-y divide-stone-100 border border-stone-200/80 rounded-xl overflow-hidden bg-stone-50/50">
+                <div className="border border-stone-200/80 rounded-xl overflow-hidden divide-y divide-stone-100 bg-white">
                   {activeSubMaterial.lineByLine.map((step) => (
-                    <div key={step.line} className="p-3.5 flex flex-col sm:flex-row sm:items-start gap-3 text-xs font-sans">
-                      <div className="shrink-0 flex items-center space-x-2 sm:w-28">
-                        <span className="font-mono font-bold text-stone-400">
-                          Baris {step.line}
-                        </span>
-                        <code className="font-mono text-indigo-700 bg-white border border-stone-200 px-1.5 py-0.5 rounded text-[11px]">
-                          {step.code.length > 20 ? step.code.slice(0, 18) + "..." : step.code}
-                        </code>
+                    <div
+                      key={step.line}
+                      className="p-3.5 sm:p-4 flex flex-col md:flex-row md:items-start gap-2.5 md:gap-5 text-xs font-sans hover:bg-stone-50/50 transition-colors"
+                    >
+                      {/* Line Number & Full Code */}
+                      <div className="shrink-0 md:w-72 space-y-1">
+                        <div className="flex items-center space-x-2">
+                          <span className="font-mono text-stone-400 font-semibold text-xs shrink-0 w-6">
+                            {String(step.line).padStart(2, "0")}
+                          </span>
+                          <code className="font-mono font-semibold text-stone-900 text-xs bg-stone-100 px-2 py-1 rounded block truncate max-w-full">
+                            {step.code}
+                          </code>
+                        </div>
                       </div>
-                      <div className="flex-1 space-y-1">
-                        <p className="text-stone-800 leading-relaxed font-medium">
+
+                      {/* Explanation & Memory Note */}
+                      <div className="flex-1 space-y-1 md:pl-2">
+                        <p className="text-stone-800 leading-relaxed font-normal">
                           {step.explanation}
                         </p>
                         {step.memoryState && (
-                          <span className="text-[11px] font-mono text-emerald-700 block">
-                            {step.memoryState}
-                          </span>
+                          <p className="text-[11px] font-mono text-stone-500 leading-normal">
+                            ↳ <span className="text-stone-600">{step.memoryState}</span>
+                          </p>
                         )}
                       </div>
                     </div>
@@ -748,12 +745,12 @@ export default function StudentLiveSessionPage({
               </div>
 
               {/* Aturan Emas / Golden Rules */}
-              <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 text-xs text-indigo-950 space-y-1.5">
-                <span className="font-bold text-indigo-950 flex items-center space-x-1.5">
-                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+              <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-2">
+                <div className="flex items-center space-x-2 font-semibold text-stone-900">
+                  <Sparkles className="w-3.5 h-3.5 text-stone-500" />
                   <span>Aturan Emas Pemrograman Python:</span>
-                </span>
-                <ul className="list-disc list-inside space-y-1 text-stone-700 leading-relaxed font-sans">
+                </div>
+                <ul className="list-disc list-inside space-y-1 text-stone-600 leading-relaxed font-sans">
                   {activeSubMaterial.keyRules.map((rule, idx) => (
                     <li key={idx}>{rule}</li>
                   ))}
@@ -761,36 +758,30 @@ export default function StudentLiveSessionPage({
               </div>
             </div>
 
-            {/* 4. Kartu Uji Praktik Simpel (Interactive Mini Playground 1 Kolom) */}
+            {/* 6. Kartu Latihan Praktik Mandiri */}
             <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
-                <div className="space-y-0.5">
-                  <div className="flex items-center space-x-2 text-xs">
-                    <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
-                      Uji Praktik Simpel
-                    </span>
-                    <span className="text-stone-400">&bull;</span>
-                    <span className="text-stone-500">Coba Langsung di Sini</span>
-                  </div>
+                <div>
                   <h3 className="text-base font-bold text-stone-900">
-                    Latihan Koding Interaktif Sub {currentSubStep}
+                    Latihan Praktik Mandiri (Sub {currentSubStep})
                   </h3>
+                  <p className="text-xs text-stone-500 font-sans">
+                    Ketik dan jalankan kodemu untuk menguji pemahaman konsep secara langsung.
+                  </p>
                 </div>
 
-                <div className="flex items-center space-x-2">
-                  <button
-                    onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
-                    className="text-stone-600 hover:text-stone-900 text-xs font-medium underline cursor-pointer"
-                  >
-                    Gunakan Kerangka Latihan
-                  </button>
-                </div>
+                <button
+                  onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
+                  className="text-stone-600 hover:text-stone-900 text-xs font-medium transition cursor-pointer self-start sm:self-auto"
+                >
+                  Muat Kerangka Latihan
+                </button>
               </div>
 
               {/* Petunjuk Soal Praktik */}
-              <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-xs text-stone-700 space-y-1">
-                <span className="font-bold text-emerald-950 block">Tugas Uji Coba:</span>
-                <p className="leading-relaxed font-sans">{activeSubMaterial.trialInstruction}</p>
+              <div className="p-4 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1">
+                <span className="font-semibold text-stone-900 block">Tugas Latihan:</span>
+                <p className="leading-relaxed font-sans text-stone-600">{activeSubMaterial.trialInstruction}</p>
               </div>
 
               {/* Integrated Code Editor & Controls */}
