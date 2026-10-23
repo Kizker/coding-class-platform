@@ -59,16 +59,6 @@ export function Navbar() {
                       Dashboard
                     </Link>
                     <Link
-                      href="/student/learn/4/senin"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
-                        pathname.startsWith("/student/learn")
-                          ? "bg-blue-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
-                      }`}
-                    >
-                      Split Studio
-                    </Link>
-                    <Link
                       href="/student/assignments"
                       className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/student/assignments"
