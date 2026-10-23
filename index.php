@@ -8,6 +8,27 @@ $pidFile = __DIR__ . '/app.pid';
 $logFile = __DIR__ . '/runner.log';
 $portFile = __DIR__ . '/port.txt';
 
+// Detect node binary
+function findNodeBinary() {
+    $candidates = [
+        '/opt/alt/alt-nodejs22/root/usr/bin/node',
+        '/opt/alt/alt-nodejs20/root/usr/bin/node',
+        '/opt/alt/alt-nodejs18/root/usr/bin/node',
+        '/usr/local/bin/node',
+        '/usr/bin/node',
+        'node'
+    ];
+    foreach ($candidates as $bin) {
+        $out = @shell_exec("{$bin} -v 2>/dev/null");
+        if ($out && strpos(trim($out), 'v') === 0) {
+            return [$bin, trim($out)];
+        }
+    }
+    return ['/opt/alt/alt-nodejs22/root/usr/bin/node', 'v22.23.4'];
+}
+
+list($nodeBin, $nodeVersion) = findNodeBinary();
+
 // Helper: Get active port
 function getActivePort($portFile) {
     if (@file_exists($portFile)) {
