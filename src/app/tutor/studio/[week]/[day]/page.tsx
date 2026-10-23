@@ -124,19 +124,19 @@ export default function TutorTeachingStudioPage({
             </div>
 
             {/* Steps Accordion */}
-            <div className="space-y-2.5 font-mono text-xs">
+            <div className="space-y-3 font-mono text-xs">
               {/* Langkah 1 */}
               <div
                 onClick={() => setActiveStep(1)}
-                className={`p-4 rounded-xl border transition cursor-pointer ${
+                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                   activeStep === 1
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-1 ring-amber-300"
+                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
                     : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                 }`}
               >
-                <div className="flex items-center justify-between font-bold text-xs mb-1">
-                  <span>01 // KONSEP &amp; ANALOGI (25 MENIT)</span>
-                  <span className="text-[10px] text-slate-500 font-semibold">PEMANASAN</span>
+                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
+                  <span className="text-amber-800 font-extrabold">01 // KONSEP &amp; ANALOGI (25 MENIT)</span>
+                  <span className="text-[10px] text-slate-500 font-bold uppercase px-2 py-0.5 rounded-md bg-slate-100">PEMANASAN</span>
                 </div>
                 <p className="font-sans text-xs text-slate-700 leading-relaxed">
                   Jelaskan bagaimana logika percabangan if-else bekerja menggunakan analogi rambu lalu lintas atau seleksi diskon toko.
@@ -146,15 +146,15 @@ export default function TutorTeachingStudioPage({
               {/* Langkah 2 */}
               <div
                 onClick={() => setActiveStep(2)}
-                className={`p-4 rounded-xl border transition cursor-pointer ${
+                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                   activeStep === 2
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-1 ring-amber-300"
+                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
                     : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                 }`}
               >
-                <div className="flex items-center justify-between font-bold text-xs mb-1">
-                  <span>02 // DEMONSTRASI KODE CONTOH (45 MENIT)</span>
-                  <span className="text-[10px] text-amber-700 font-bold">TUTOR DEMO</span>
+                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
+                  <span className="text-amber-800 font-extrabold">02 // DEMONSTRASI KODE CONTOH (45 MENIT)</span>
+                  <span className="text-[10px] text-amber-700 font-bold uppercase px-2 py-0.5 rounded-md bg-amber-50 border border-amber-200">TUTOR DEMO</span>
                 </div>
                 <p className="font-sans text-xs text-slate-700 leading-relaxed">
                   Ketik kode contoh di panel kanan, lalu tekan tombol <strong>&ldquo;PUSH KODE KE SISWA&rdquo;</strong> agar kode langsung masuk ke editor Andi.
@@ -164,15 +164,15 @@ export default function TutorTeachingStudioPage({
               {/* Langkah 3 */}
               <div
                 onClick={() => setActiveStep(3)}
-                className={`p-4 rounded-xl border transition cursor-pointer ${
+                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                   activeStep === 3
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-1 ring-amber-300"
+                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
                     : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                 }`}
               >
-                <div className="flex items-center justify-between font-bold text-xs mb-1">
-                  <span>03 // PRAKTIK MANDIRI SISWA (40 MENIT)</span>
-                  <span className="text-[10px] text-emerald-700 font-bold">SISWA KODING</span>
+                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
+                  <span className="text-amber-800 font-extrabold">03 // PRAKTIK MANDIRI SISWA (40 MENIT)</span>
+                  <span className="text-[10px] text-emerald-700 font-bold uppercase px-2 py-0.5 rounded-md bg-emerald-50 border border-emerald-200">SISWA KODING</span>
                 </div>
                 <p className="font-sans text-xs text-slate-700 leading-relaxed">
                   Tantang siswa memprogram: <em>{sessionData.practiceChallenge}</em>. Pantau ketikan siswa via Live Inspector.
@@ -182,15 +182,15 @@ export default function TutorTeachingStudioPage({
               {/* Langkah 4 */}
               <div
                 onClick={() => setActiveStep(4)}
-                className={`p-4 rounded-xl border transition cursor-pointer ${
+                className={`p-5 rounded-2xl border transition-all cursor-pointer ${
                   activeStep === 4
-                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-1 ring-amber-300"
+                    ? "bg-white border-amber-400 text-slate-900 shadow-xs ring-2 ring-amber-300/60"
                     : "bg-white border-slate-200 text-slate-600 hover:border-slate-300"
                 }`}
               >
-                <div className="flex items-center justify-between font-bold text-xs mb-1">
-                  <span>04 // REFLEKSI &amp; CATATAN ORTU (10 MENIT)</span>
-                  <span className="text-[10px] text-slate-500 font-semibold">EVALUASI</span>
+                <div className="flex items-center justify-between font-bold text-xs mb-1.5">
+                  <span className="text-amber-800 font-extrabold">04 // REFLEKSI &amp; CATATAN ORTU (10 MENIT)</span>
+                  <span className="text-[10px] text-slate-500 font-bold uppercase px-2 py-0.5 rounded-md bg-slate-100">EVALUASI</span>
                 </div>
                 <p className="font-sans text-xs text-slate-700 leading-relaxed">
                   Beri feedback langsung, beri apresiasi poin, dan tulis rangkuman nalar untuk dimasukkan ke rapor mingguan orang tua.
@@ -200,18 +200,18 @@ export default function TutorTeachingStudioPage({
           </div>
 
           {/* Quick Actions at bottom */}
-          <div className="pt-4 border-t border-slate-200 space-y-2 font-mono text-xs">
+          <div className="pt-4 border-t border-slate-200 space-y-2.5 font-mono text-xs">
             <div className="flex gap-2">
               <button
                 onClick={handleGiveStar}
-                className="flex-1 py-2 px-3 rounded-lg bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-semibold transition cursor-pointer"
+                className="flex-1 py-2.5 px-3 rounded-xl bg-amber-50 hover:bg-amber-100 border border-amber-200 text-amber-900 font-bold transition cursor-pointer shadow-2xs"
               >
                 {appreciationSent ? "POIN TERKIRIM (+50 XP)" : "APRESIASI (+50 XP)"}
               </button>
 
               <Link
                 href="/tutor/grading"
-                className="py-2 px-3 rounded-lg bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-semibold transition text-center"
+                className="py-2.5 px-4 rounded-xl bg-white hover:bg-slate-100 border border-slate-200 text-slate-700 font-bold transition text-center shadow-2xs"
               >
                 CATATAN ORTU
               </Link>
@@ -219,7 +219,7 @@ export default function TutorTeachingStudioPage({
 
             <button
               onClick={() => setIsSessionMarkedDone(true)}
-              className={`w-full py-2.5 rounded-lg font-bold transition cursor-pointer shadow-xs ${
+              className={`w-full py-3 rounded-xl font-bold transition cursor-pointer shadow-xs ${
                 isSessionMarkedDone
                   ? "bg-emerald-600 text-white"
                   : "bg-slate-900 text-white hover:bg-slate-800"
@@ -245,9 +245,9 @@ export default function TutorTeachingStudioPage({
 
             <button
               onClick={handlePushCode}
-              className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-xs"
+              className="px-5 py-2.5 rounded-xl bg-amber-600 hover:bg-amber-700 text-white font-bold transition flex items-center space-x-2 cursor-pointer shadow-xs"
             >
-              <Send className="w-3.5 h-3.5" />
+              <Send className="w-4 h-4" />
               <span>PUSH KODE KE SISWA</span>
             </button>
           </div>
@@ -262,30 +262,30 @@ export default function TutorTeachingStudioPage({
           </div>
 
           {/* Live Student Keystrokes Inspector */}
-          <div className="space-y-2 pt-2 border-t border-slate-200 font-mono text-xs">
+          <div className="space-y-2.5 pt-3 border-t border-slate-200 font-mono text-xs">
             <div className="flex items-center justify-between">
               <span className="font-bold text-slate-800 flex items-center space-x-2">
-                <Eye className="w-3.5 h-3.5 text-blue-700" />
+                <Eye className="w-4 h-4 text-blue-700" />
                 <span>LIVE_INSPECTOR // SISWA: ANDI PRATAMA</span>
               </span>
-              <span className="text-emerald-700 text-[11px] font-bold flex items-center space-x-1">
+              <span className="text-emerald-700 text-[11px] font-bold flex items-center space-x-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-600 animate-pulse" />
                 <span>SYNC_ACTIVE</span>
               </span>
             </div>
 
             {/* Read-only snapshot of student's editor */}
-            <div className="rounded-xl border border-slate-200 bg-white p-3.5 text-xs text-slate-800 max-h-[160px] overflow-y-auto leading-relaxed shadow-xs font-mono">
+            <div className="rounded-2xl border border-slate-200 bg-white p-4 text-xs text-slate-800 max-h-[160px] overflow-y-auto leading-relaxed shadow-xs font-mono">
               <pre className="whitespace-pre-wrap">{studentLiveCode}</pre>
             </div>
 
-            <div className="p-3 bg-white border border-slate-200 rounded-lg text-slate-600 flex items-center justify-between text-xs shadow-2xs">
-              <span className="flex items-center space-x-1.5">
+            <div className="p-3.5 bg-white border border-slate-200 rounded-xl text-slate-600 flex items-center justify-between text-xs shadow-2xs font-mono">
+              <span className="flex items-center space-x-2">
                 <Terminal className="w-3.5 h-3.5 text-slate-500" />
-                <span className="font-semibold">OUTPUT SISWA:</span>
-                <strong className="text-slate-900">&gt;&gt; Luas Persegi Panjang: 50</strong>
+                <span className="font-bold">OUTPUT SISWA:</span>
+                <strong className="text-slate-900 font-bold">&gt;&gt; Luas Persegi Panjang: 50</strong>
               </span>
-              <span className="text-emerald-700 font-bold">ALL TESTS PASSED</span>
+              <span className="text-emerald-700 font-extrabold">ALL TESTS PASSED</span>
             </div>
           </div>
         </div>

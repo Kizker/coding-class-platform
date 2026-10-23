@@ -88,14 +88,14 @@ function LoginContent() {
         </div>
 
         {/* Role Separation Selector Tabs */}
-        <div className="bg-slate-200/80 p-1 rounded-lg grid grid-cols-3 gap-1 text-xs font-medium border border-slate-300">
+        <div className="bg-slate-100 p-1.5 rounded-2xl grid grid-cols-3 gap-1.5 text-xs font-bold border border-slate-200">
           <button
             type="button"
             onClick={() => handleQuickFill("student")}
-            className={`py-2 px-2 rounded-md transition text-center cursor-pointer ${
+            className={`py-2.5 px-2 rounded-xl transition-all text-center cursor-pointer ${
               activeRole === "student"
-                ? "bg-white text-blue-700 font-semibold shadow-sm border border-slate-200"
-                : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/50"
+                ? "bg-white text-blue-700 font-extrabold shadow-2xs border border-slate-200"
+                : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
             }`}
           >
             Siswa
@@ -103,10 +103,10 @@ function LoginContent() {
           <button
             type="button"
             onClick={() => handleQuickFill("tutor")}
-            className={`py-2 px-2 rounded-md transition text-center cursor-pointer ${
+            className={`py-2.5 px-2 rounded-xl transition-all text-center cursor-pointer ${
               activeRole === "tutor"
-                ? "bg-white text-amber-700 font-semibold shadow-sm border border-slate-200"
-                : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/50"
+                ? "bg-white text-amber-700 font-extrabold shadow-2xs border border-slate-200"
+                : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
             }`}
           >
             Pengajar
@@ -114,10 +114,10 @@ function LoginContent() {
           <button
             type="button"
             onClick={() => handleQuickFill("parent")}
-            className={`py-2 px-2 rounded-md transition text-center cursor-pointer ${
+            className={`py-2.5 px-2 rounded-xl transition-all text-center cursor-pointer ${
               activeRole === "parent"
-                ? "bg-white text-emerald-700 font-semibold shadow-sm border border-slate-200"
-                : "text-slate-700 hover:text-slate-900 hover:bg-slate-100/50"
+                ? "bg-white text-emerald-700 font-extrabold shadow-2xs border border-slate-200"
+                : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
             }`}
           >
             Wali Murid
@@ -125,19 +125,19 @@ function LoginContent() {
         </div>
 
         {/* Login Card for Current Role */}
-        <div className="bg-white rounded-xl border border-slate-200 shadow-sm p-6 sm:p-8 space-y-6">
+        <div className="ui-card-outer rounded-3xl p-6 sm:p-8 space-y-6">
           <div className="border-b border-slate-100 pb-4">
             <div className="flex items-center justify-between">
-              <span className="text-[11px] font-mono tracking-wider uppercase text-slate-500 font-semibold">
+              <span className="text-[11px] font-mono tracking-wider uppercase text-slate-500 font-bold">
                 {activeRole === "student" && "AKUN SISWA // 1-ON-1"}
                 {activeRole === "tutor" && "AKUN INSTRUKTUR // FLIGHT DECK"}
                 {activeRole === "parent" && "AKUN WALI MURID // EXECUTIVE"}
               </span>
-              <span className="text-xs px-2 py-0.5 rounded bg-slate-100 text-slate-700 font-mono">
+              <span className="text-xs px-2.5 py-0.5 rounded-full bg-slate-100 text-slate-700 font-mono font-bold">
                 {activeRole.toUpperCase()}
               </span>
             </div>
-            <h2 className="text-lg font-bold text-slate-900 mt-1">
+            <h2 className="text-xl font-extrabold text-slate-900 mt-1.5">
               {ROLE_ACCOUNTS[activeRole].label}
             </h2>
             <p className="text-xs text-slate-600 mt-1 leading-relaxed">
@@ -146,7 +146,7 @@ function LoginContent() {
           </div>
 
           {errorMsg && (
-            <div className="p-3 rounded-lg bg-red-50 border border-red-200 flex items-start space-x-2 text-xs text-red-700">
+            <div className="p-3.5 rounded-xl bg-red-50 border border-red-200 flex items-start space-x-2 text-xs text-red-700">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5 text-red-600" />
               <span>{errorMsg}</span>
             </div>
@@ -154,11 +154,11 @@ function LoginContent() {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 mb-1.5">
+              <label className="block text-xs font-bold text-slate-700 mb-1.5">
                 Alamat Email Terdaftar
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <Mail className="w-4 h-4" />
                 </div>
                 <input
@@ -166,7 +166,7 @@ function LoginContent() {
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
+                  className="w-full bg-slate-50/70 border border-slate-300 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition"
                   placeholder="email@domain.com"
                 />
               </div>
@@ -174,7 +174,7 @@ function LoginContent() {
 
             <div>
               <div className="flex items-center justify-between mb-1.5">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-bold text-slate-700">
                   {activeRole === "student" ? "PIN Akses (6 Digit)" : "Kata Sandi Akses"}
                 </label>
                 <span className="text-[11px] text-slate-500 font-mono">
@@ -182,7 +182,7 @@ function LoginContent() {
                 </span>
               </div>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-slate-400">
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none text-slate-400">
                   <KeyRound className="w-4 h-4" />
                 </div>
                 <input
@@ -190,7 +190,7 @@ function LoginContent() {
                   required
                   value={secret}
                   onChange={(e) => setSecret(e.target.value)}
-                  className="w-full bg-slate-50 border border-slate-300 rounded-lg pl-9 pr-3 py-2 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition font-mono"
+                  className="w-full bg-slate-50/70 border border-slate-300 rounded-xl pl-10 pr-3.5 py-2.5 text-sm text-slate-900 placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white transition font-mono"
                   placeholder="Masukkan kata sandi / PIN"
                 />
               </div>
@@ -200,7 +200,7 @@ function LoginContent() {
               <button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2.5 px-4 rounded-lg bg-blue-600 hover:bg-blue-700 text-white text-sm font-semibold transition flex items-center justify-center space-x-2 shadow-sm cursor-pointer disabled:opacity-50"
+                className="w-full py-3 px-4 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold transition flex items-center justify-center space-x-2 shadow-xs cursor-pointer disabled:opacity-50 hover:shadow-md"
               >
                 <span>
                   {isLoading
@@ -213,31 +213,31 @@ function LoginContent() {
           </form>
 
           {/* 1-Click Fast Verification for Reviewers */}
-          <div className="border-t border-slate-100 pt-4 space-y-2">
-            <span className="text-[11px] font-mono text-slate-500 uppercase tracking-wide block text-center">
+          <div className="border-t border-slate-100 pt-4 space-y-2.5">
+            <span className="text-[11px] font-mono text-slate-500 uppercase tracking-widest block text-center font-bold">
               DEMO AUTENTIKASI CEPAT:
             </span>
             <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
                 onClick={() => handleQuickFill("student")}
-                className="px-2 py-1.5 rounded border border-slate-200 bg-slate-50 hover:bg-blue-50 text-[11px] font-medium text-slate-700 hover:text-blue-700 transition text-center cursor-pointer"
+                className="px-2.5 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-blue-50 text-[11px] font-bold text-slate-700 hover:text-blue-700 transition text-center cursor-pointer shadow-2xs"
               >
-                Isi Akun Siswa
+                Isi Siswa
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickFill("tutor")}
-                className="px-2 py-1.5 rounded border border-slate-200 bg-slate-50 hover:bg-amber-50 text-[11px] font-medium text-slate-700 hover:text-amber-700 transition text-center cursor-pointer"
+                className="px-2.5 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-amber-50 text-[11px] font-bold text-slate-700 hover:text-amber-700 transition text-center cursor-pointer shadow-2xs"
               >
-                Isi Akun Tutor
+                Isi Tutor
               </button>
               <button
                 type="button"
                 onClick={() => handleQuickFill("parent")}
-                className="px-2 py-1.5 rounded border border-slate-200 bg-slate-50 hover:bg-emerald-50 text-[11px] font-medium text-slate-700 hover:text-emerald-700 transition text-center cursor-pointer"
+                className="px-2.5 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-emerald-50 text-[11px] font-bold text-slate-700 hover:text-emerald-700 transition text-center cursor-pointer shadow-2xs"
               >
-                Isi Akun Wali
+                Isi Wali
               </button>
             </div>
           </div>

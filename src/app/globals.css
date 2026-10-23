@@ -31,25 +31,50 @@ body {
   overflow-x: hidden;
 }
 
-/* Hairline borders and utility surfaces for light mode */
-.border-hairline {
-  border: 1px solid var(--border-subtle);
+/* ========================================================
+   STANDARDIZED INNER BOX & CARD DESIGN SYSTEM
+   Memastikan estetika inner box seragam, rapi & memikat
+   ======================================================== */
+
+/* Outer Section Card */
+.ui-card-outer {
+  background-color: #ffffff;
+  border-radius: 1rem; /* 16px */
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04), 0 6px 12px -2px rgba(0, 0, 0, 0.02);
 }
 
-.border-hairline-strong {
-  border: 1px solid var(--border-strong);
+/* Inner Box (Static Component) */
+.ui-card-inner {
+  background-color: #f8fafc;
+  border-radius: 0.75rem; /* 12px */
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
 }
 
-.bg-surface-1 {
-  background-color: var(--surface-primary);
+/* Inner Box (Interactive / Clickable) */
+.ui-card-inner-interactive {
+  background-color: #f8fafc;
+  border-radius: 0.75rem; /* 12px */
+  border: 1px solid #e2e8f0;
+  padding: 1rem;
+  transition: all 180ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.bg-surface-2 {
-  background-color: var(--surface-secondary);
+.ui-card-inner-interactive:hover {
+  background-color: #ffffff;
+  border-color: #60a5fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px -2px rgba(37, 99, 235, 0.08);
 }
 
-.bg-surface-3 {
-  background-color: var(--surface-tertiary);
+/* Code Snippet Inner Box */
+.ui-code-box {
+  background-color: #0f172a;
+  color: #34d399;
+  border-radius: 0.75rem;
+  border: 1px solid #1e293b;
+  font-family: var(--font-mono), monospace;
 }
 
 /* Custom Scrollbar - Precision Minimal Light */

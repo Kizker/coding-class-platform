@@ -74,46 +74,46 @@ export default function ParentSchedulePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="border-b border-slate-200 pb-5">
-          <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-bold mb-1">
+        <div className="ui-card-outer p-6 sm:p-7 space-y-2">
+          <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-extrabold mb-1">
             EXECUTIVE AUDIT // JADWAL &amp; LOG KEHADIRAN
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
             Log Kehadiran Sesi Les Tatap Muka 2 Jam
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600">
             Total 24 pertemuan langsung tatap muka (120 menit per sesi) terjadwal bersama pengajar.
           </p>
         </div>
 
         {/* Attendance stats */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="p-5 rounded-xl border border-slate-200 bg-white text-left space-y-1 shadow-xs font-mono">
+          <div className="ui-card-inner bg-white border border-slate-200 p-5 rounded-2xl text-left space-y-1 shadow-xs font-mono">
             <span className="text-slate-500 text-[11px] font-bold block">TINGKAT KEHADIRAN</span>
-            <strong className="text-2xl sm:text-3xl font-bold text-emerald-700 block tabular-nums">100%</strong>
+            <strong className="text-2xl sm:text-3xl font-extrabold text-emerald-700 block tabular-nums">100%</strong>
             <span className="text-xs text-slate-600 block">07 DARI 07 SESI TUNTAS</span>
           </div>
 
-          <div className="p-5 rounded-xl border border-slate-200 bg-white text-left space-y-1 shadow-xs font-mono">
+          <div className="ui-card-inner bg-white border border-slate-200 p-5 rounded-2xl text-left space-y-1 shadow-xs font-mono">
             <span className="text-slate-500 text-[11px] font-bold block">TOTAL DURASI TATAP MUKA</span>
-            <strong className="text-2xl sm:text-3xl font-bold text-blue-700 block tabular-nums">14 JAM</strong>
+            <strong className="text-2xl sm:text-3xl font-extrabold text-blue-700 block tabular-nums">14 JAM</strong>
             <span className="text-xs text-slate-600 block">BIMBINGAN LANGSUNG 1-ON-1</span>
           </div>
         </div>
 
         {/* Sessions list */}
-        <div className="space-y-3">
+        <div className="space-y-4">
           {sessions.map((s) => (
             <div
               key={s.num}
-              className="p-5 rounded-xl border border-slate-200 bg-white space-y-2.5 shadow-xs"
+              className="ui-card-outer p-5 sm:p-6 rounded-2xl space-y-3"
             >
-              <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-2">
-                <span className="text-slate-600 font-semibold">
+              <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-2.5">
+                <span className="text-slate-600 font-bold">
                   SESI {String(s.num).padStart(2, "0")} // PEKAN {String(s.week).padStart(2, "0")}
                 </span>
                 <span
-                  className={`px-2.5 py-0.5 rounded text-[11px] font-mono font-bold ${
+                  className={`px-3 py-1 rounded-lg text-[11px] font-mono font-bold ${
                     s.status === "HADIR"
                       ? "border border-emerald-200 bg-emerald-50 text-emerald-800"
                       : "border border-amber-200 bg-amber-50 text-amber-800"
@@ -131,7 +131,7 @@ export default function ParentSchedulePage() {
                 </div>
               </div>
 
-              <div className="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-200">
+              <div className="ui-card-inner p-3.5 rounded-xl border border-slate-200 bg-slate-50/70 text-xs text-slate-700">
                 <span className="font-mono text-[11px] text-slate-500 font-bold mr-1.5">CATATAN:</span>
                 <span className="font-sans italic">{s.tutorNote}</span>
               </div>

@@ -45,14 +45,14 @@ export function Navbar() {
 
             {/* Role Navigation Links (Only visible when logged in) */}
             {isAuthenticated && (
-              <nav className="hidden md:flex items-center space-x-1 text-xs font-medium">
+              <nav className="hidden md:flex items-center space-x-1.5 text-xs font-semibold">
                 {role === "student" && (
                   <>
                     <Link
                       href="/student/dashboard"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/student/dashboard"
-                          ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                          ? "bg-blue-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -60,9 +60,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/student/learn/1/senin"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname.startsWith("/student/learn")
-                          ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                          ? "bg-blue-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -70,9 +70,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/student/assignments"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/student/assignments"
-                          ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                          ? "bg-blue-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -80,9 +80,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/student/capstone/1"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname.startsWith("/student/capstone")
-                          ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                          ? "bg-blue-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -90,13 +90,13 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/student/profile"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/student/profile"
-                          ? "bg-blue-50 text-blue-700 font-semibold border border-blue-200"
+                          ? "bg-blue-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
-                      Profil & Sertifikat
+                      Profil &amp; Sertifikat
                     </Link>
                   </>
                 )}
@@ -105,9 +105,9 @@ export function Navbar() {
                   <>
                     <Link
                       href="/tutor/dashboard"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/tutor/dashboard"
-                          ? "bg-amber-50 text-amber-800 font-semibold border border-amber-200"
+                          ? "bg-amber-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -115,9 +115,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/tutor/studio/1/jumat"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname.startsWith("/tutor/studio")
-                          ? "bg-amber-50 text-amber-800 font-semibold border border-amber-200"
+                          ? "bg-amber-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -125,9 +125,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/tutor/grading"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/tutor/grading"
-                          ? "bg-amber-50 text-amber-800 font-semibold border border-amber-200"
+                          ? "bg-amber-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -135,9 +135,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/tutor/reports"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/tutor/reports"
-                          ? "bg-amber-50 text-amber-800 font-semibold border border-amber-200"
+                          ? "bg-amber-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -150,9 +150,9 @@ export function Navbar() {
                   <>
                     <Link
                       href="/parent/overview"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/parent/overview"
-                          ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200"
+                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -160,9 +160,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/parent/reports"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/parent/reports"
-                          ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200"
+                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -170,9 +170,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/parent/showcase"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/parent/showcase"
-                          ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200"
+                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -180,9 +180,9 @@ export function Navbar() {
                     </Link>
                     <Link
                       href="/parent/schedule"
-                      className={`px-3 py-1.5 rounded-md transition ${
+                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
                         pathname === "/parent/schedule"
-                          ? "bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200"
+                          ? "bg-emerald-600 text-white shadow-2xs font-bold"
                           : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                       }`}
                     >
@@ -200,14 +200,14 @@ export function Navbar() {
               <>
                 {/* Telemetry Indicator for Student */}
                 {role === "student" && (
-                  <div className="hidden sm:flex items-center space-x-2 font-mono text-[11px] text-slate-700 px-2.5 py-1 rounded bg-slate-100 border border-slate-200">
-                    <span className="w-1.5 h-1.5 rounded-full bg-blue-600 inline-block" />
-                    <span className="text-slate-500">STREAK:</span>
-                    <span className="font-semibold text-blue-700 tabular-nums">
+                  <div className="hidden sm:flex items-center space-x-2 font-mono text-[11px] text-slate-700 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">
+                    <span className="w-2 h-2 rounded-full bg-blue-600 inline-block animate-pulse" />
+                    <span className="text-slate-500 font-bold">STREAK:</span>
+                    <span className="font-bold text-blue-700 tabular-nums">
                       {progress.streakDays.toString().padStart(2, "0")}D
                     </span>
                     <span className="text-slate-300">/</span>
-                    <span className="font-semibold text-slate-800 tabular-nums">
+                    <span className="font-bold text-slate-800 tabular-nums">
                       {progress.xpPoints} XP
                     </span>
                   </div>
@@ -215,11 +215,11 @@ export function Navbar() {
 
                 {/* Role Profile Badge */}
                 <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
-                  <div className="w-8 h-8 rounded-lg bg-slate-100 border border-slate-200 flex items-center justify-center font-mono text-xs font-bold text-slate-700">
+                  <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-mono text-xs font-bold text-slate-800 shadow-2xs">
                     {currentUser.initials}
                   </div>
                   <div className="hidden sm:flex flex-col text-left">
-                    <span className="text-xs font-semibold text-slate-900 leading-tight">
+                    <span className="text-xs font-bold text-slate-900 leading-tight">
                       {currentUser.name}
                     </span>
                     <span className="text-[10px] text-slate-500 font-mono leading-tight">
@@ -232,7 +232,7 @@ export function Navbar() {
                 <button
                   onClick={handleLogout}
                   title="Ganti Akun / Keluar"
-                  className="px-2.5 py-1.5 rounded-md border border-slate-200 bg-slate-50 hover:bg-red-50 hover:text-red-700 hover:border-red-200 text-slate-600 text-xs font-medium transition flex items-center space-x-1.5 cursor-pointer"
+                  className="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-red-50 hover:text-red-700 hover:border-red-200 text-slate-700 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-2xs"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Keluar</span>
@@ -241,7 +241,7 @@ export function Navbar() {
             ) : (
               <Link
                 href="/login"
-                className="px-3.5 py-1.5 rounded-md bg-blue-600 hover:bg-blue-700 text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-sm"
+                className="px-4 py-2 rounded-xl bg-blue-600 hover:bg-blue-700 text-white text-xs font-bold transition flex items-center space-x-1.5 shadow-sm"
               >
                 <LogIn className="w-3.5 h-3.5" />
                 <span>Masuk Portal</span>

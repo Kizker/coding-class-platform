@@ -2,7 +2,7 @@
 
 import React from "react";
 import { useSession } from "@/lib/auth/sessionContext";
-import { Download, Award, ShieldCheck, Terminal } from "lucide-react";
+import { Download, Award, ShieldCheck, Terminal, Flame, Zap, CheckCircle2 } from "lucide-react";
 
 export default function StudentProfilePage() {
   const { currentUser, progress } = useSession();
@@ -10,87 +10,104 @@ export default function StudentProfilePage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8">
-        {/* Profile Card */}
-        <div className="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="w-16 h-16 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-xl font-bold text-blue-700 font-mono shrink-0">
+        {/* Profile Hero Card */}
+        <div className="ui-card-outer p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
+          <div className="w-20 h-20 rounded-2xl bg-blue-600 border-2 border-blue-400 flex items-center justify-center text-2xl font-extrabold text-white font-mono shrink-0 shadow-md">
             {currentUser.initials}
           </div>
 
-          <div className="space-y-2 text-center sm:text-left flex-1">
-            <span className="text-xs font-mono text-blue-700 uppercase tracking-widest block font-semibold">
+          <div className="space-y-2.5 text-center sm:text-left flex-1">
+            <span className="text-xs font-mono text-blue-700 uppercase tracking-widest block font-bold">
               PROFIL // {currentUser.roleLabel}
             </span>
-            <h1 className="text-2xl font-bold text-slate-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
               {currentUser.name}
             </h1>
-            <p className="text-xs text-slate-600">
-              {currentUser.email} &bull; Mentor: Andricha Dea Mitra
+            <p className="text-xs sm:text-sm text-slate-600">
+              {currentUser.email} &bull; Mentor Bimbingan: <strong>Andricha Dea Mitra</strong>
             </p>
 
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2 text-xs font-mono">
-              <span className="px-3 py-1 rounded-md bg-blue-50 border border-blue-200 text-blue-800 font-semibold">
-                STREAK: {progress.streakDays} HARI
+              <span className="px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-bold flex items-center space-x-1.5">
+                <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
+                <span>STREAK: {progress.streakDays} HARI</span>
               </span>
-              <span className="px-3 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-800 font-semibold">
-                TOTAL: {progress.xpPoints} XP
+              <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 font-bold flex items-center space-x-1.5">
+                <Zap className="w-3.5 h-3.5 text-blue-600" />
+                <span>TOTAL: {progress.xpPoints} XP</span>
               </span>
-              <span className="px-3 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold">
-                TUGAS: {progress.completedAssignments} SELESAI
+              <span className="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold flex items-center space-x-1.5">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                <span>TUGAS: {progress.completedAssignments} SELESAI</span>
               </span>
             </div>
           </div>
         </div>
 
-        {/* Badges Collection */}
-        <div className="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-mono">
-            <span className="text-slate-500 uppercase tracking-widest font-semibold block">
-              02 // KOMPETENSI TERVERIFIKASI
+        {/* Badges Collection - Uniform Rounded-2xl Cards */}
+        <div className="ui-card-outer p-6 sm:p-8 space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-xs font-mono">
+            <span className="text-blue-700 uppercase tracking-widest font-bold block">
+              02 // LENCANA KOMPETENSI TERVERIFIKASI
             </span>
-            <span className="text-slate-600 font-medium">
+            <span className="text-slate-600 font-bold">
               {progress.badges.length} DARI 10 TERBUKA
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {progress.badges.map((b) => (
               <div
                 key={b.id}
-                className="p-4 rounded-lg bg-slate-50 border border-slate-200 space-y-1.5"
+                className="ui-card-inner bg-white border border-slate-200 rounded-2xl p-5 space-y-2.5 flex flex-col justify-between shadow-2xs hover:border-blue-400 hover:shadow-xs transition"
               >
-                <div className="text-[10px] text-blue-700 font-mono font-bold">{b.code}</div>
-                <div className="font-bold text-slate-900 text-xs font-sans">{b.name}</div>
-                <div className="text-[10px] text-slate-500 font-mono">{b.unlockedAt}</div>
+                <div className="flex items-center justify-between">
+                  <span className="text-[11px] font-mono font-extrabold text-blue-700 bg-blue-50 border border-blue-200 px-2 py-0.5 rounded-md">
+                    {b.code}
+                  </span>
+                  <Award className="w-4 h-4 text-amber-500" />
+                </div>
+                <div>
+                  <h3 className="font-bold text-slate-900 text-sm font-sans leading-snug">
+                    {b.name}
+                  </h3>
+                  <div className="text-[11px] text-slate-500 font-mono mt-1">
+                    Terbuka pada {b.unlockedAt}
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
 
-        {/* Certificate Section */}
-        <div className="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 shadow-xs space-y-4">
-          <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-mono">
-            <span className="text-slate-500 uppercase tracking-widest font-semibold block">
-              03 // SERTIFIKAT DIGITAL
+        {/* Certificate Section - Uniform Inner Box */}
+        <div className="ui-card-outer p-6 sm:p-8 space-y-5">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-4 text-xs font-mono">
+            <span className="text-blue-700 uppercase tracking-widest font-bold block">
+              03 // SERTIFIKAT KELULUSAN RESMI
             </span>
-            <span className="text-emerald-700 font-semibold">FASE 1 TERVERIFIKASI</span>
+            <span className="text-emerald-700 font-bold">FASE 1 TERVERIFIKASI</span>
           </div>
 
-          <div className="p-5 rounded-lg bg-slate-50 border border-slate-200 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-            <div className="space-y-1">
-              <h3 className="text-sm font-bold text-slate-900">
+          <div className="ui-card-inner bg-slate-50 border border-slate-200 rounded-2xl p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-5">
+            <div className="space-y-1.5">
+              <span className="text-[11px] font-mono font-bold text-emerald-700 uppercase tracking-wider block">
+                E-SERTIFIKAT TERAKREDITASI
+              </span>
+              <h3 className="text-base font-extrabold text-slate-900">
                 Milestone 01: Fondasi Logika &amp; Komputasi Dasar (Python)
               </h3>
-              <p className="text-xs text-slate-600">
-                Tuntas Modul 1 s.d 4 dan Proyek Capstone 1 Game CLI Interaktif.
+              <p className="text-xs sm:text-sm text-slate-600">
+                Tuntas Modul 1 s.d 4 dan Proyek Capstone 1 Game CLI Interaktif dengan predikat kelulusan Sangat Memuaskan (A).
               </p>
             </div>
 
             <button
-              onClick={() => alert("Mengunduh sertifikat digital...")}
-              className="px-4 py-2 rounded-lg bg-blue-600 text-white font-semibold text-xs hover:bg-blue-700 transition flex items-center space-x-1.5 shrink-0 cursor-pointer shadow-xs"
+              onClick={() => alert("Mengunduh sertifikat digital resmi...")}
+              className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition flex items-center space-x-2 shrink-0 cursor-pointer shadow-xs"
             >
-              <Download className="w-3.5 h-3.5" />
-              <span>UNDUH PDF</span>
+              <Download className="w-4 h-4" />
+              <span>UNDUH PDF RESMI</span>
             </button>
           </div>
         </div>

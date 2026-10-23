@@ -45,41 +45,41 @@ export default function ParentReportsPage() {
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="border-b border-slate-200 pb-5">
-          <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-bold mb-1">
+        <div className="ui-card-outer p-6 sm:p-7 space-y-2">
+          <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-extrabold mb-1">
             EXECUTIVE ARCHIVE // ARSIP EVALUASI
           </div>
-          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
+          <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
             Arsip Rapor &amp; Catatan Evaluasi Pengajar
           </h1>
-          <p className="text-xs sm:text-sm text-slate-600 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600">
             Rekapitulasi perkembangan nalar logika dan kepatuhan belajar murid Andi Pratama per pekan.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-5">
           {reports.map((r) => (
             <div
               key={r.week}
-              className="p-6 rounded-xl border border-slate-200 bg-white space-y-3 shadow-xs"
+              className="ui-card-outer p-6 sm:p-7 rounded-2xl space-y-4"
             >
-              <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-2.5">
-                <span className="text-emerald-700 font-bold">
+              <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-3">
+                <span className="text-emerald-700 font-extrabold">
                   {r.period}
                 </span>
-                <span className="text-slate-600">
-                  RATA-RATA: <strong className="text-slate-900 font-bold tabular-nums">{r.averageScore} / 100</strong>
+                <span className="text-slate-600 font-bold">
+                  RATA-RATA: <strong className="text-slate-900 tabular-nums">{r.averageScore} / 100</strong>
                 </span>
               </div>
 
               <div>
-                <h2 className="text-base font-bold text-slate-900">{r.topic}</h2>
-                <div className="text-[11px] font-mono text-slate-500 mt-0.5">
+                <h2 className="text-base font-extrabold text-slate-900">{r.topic}</h2>
+                <div className="text-[11px] font-mono text-slate-500 mt-0.5 font-bold">
                   KONSISTENSI STREAK: {r.streak} BERTURUT-TURUT
                 </div>
               </div>
 
-              <div className="p-4 rounded-lg border border-slate-200 bg-slate-50 text-xs sm:text-sm text-slate-800 leading-relaxed font-sans italic">
+              <div className="ui-card-inner p-4 sm:p-5 rounded-xl border border-slate-200 bg-slate-50/70 text-xs sm:text-sm text-slate-800 leading-relaxed font-sans italic">
                 &ldquo;{r.note}&rdquo;
               </div>
             </div>
