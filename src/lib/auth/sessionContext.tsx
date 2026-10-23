@@ -27,10 +27,41 @@ export interface StudentProgress {
   totalSessions: number;
 }
 
+export interface RoleCredentials {
+  email: string;
+  secret: string; // PIN or Password
+  label: string;
+  description: string;
+}
+
+export const ROLE_ACCOUNTS: Record<UserRole, RoleCredentials> = {
+  student: {
+    email: "andi.pratama@student.id",
+    secret: "123456",
+    label: "Akun Siswa (Andi Pratama)",
+    description: "Akses Split-Screen Studio, Monaco Editor, PR Harian, dan Proyek Capstone.",
+  },
+  tutor: {
+    email: "andri@codingclass.id",
+    secret: "tutor123",
+    label: "Akun Pengajar (Andricha Dea Mitra)",
+    description: "Akses Flight Deck Mengajar 2 Jam, Push Code Realtime, dan Meja Penilaian Kualitatif.",
+  },
+  parent: {
+    email: "bambang.p@parent.id",
+    secret: "987654",
+    label: "Akun Wali Murid (Bambang Pratama)",
+    description: "Akses Executive Briefing Pemantauan Belajar, Log Kehadiran, dan Galeri Portofolio Anak.",
+  },
+};
+
 interface SessionContextType {
   role: UserRole;
   setRole: (role: UserRole) => void;
   currentUser: UserProfile;
+  isAuthenticated: boolean;
+  login: (role: UserRole, email?: string, secret?: string) => { success: boolean; message: string };
+  logout: () => void;
   progress: StudentProgress;
   updateProgress: (partial: Partial<StudentProgress>) => void;
   pushedCode: string | null;
@@ -39,15 +70,15 @@ interface SessionContextType {
   updateStudentLiveCode: (code: string) => void;
 }
 
-const USERS: Record<UserRole, UserProfile> = {
+export const USERS: Record<UserRole, UserProfile> = {
   student: {
     id: "user-student-1",
     name: "Andi Pratama",
     role: "student",
     initials: "AP",
     email: "andi.pratama@student.id",
-    roleLabel: "STUDENT",
-    subtitle: "Siswa Private — Python Track (Pekan 4)",
+    roleLabel: "SISWA PRIVATE",
+    subtitle: "Python Track (Pekan 04)",
   },
   tutor: {
     id: "user-tutor-1",
@@ -64,8 +95,8 @@ const USERS: Record<UserRole, UserProfile> = {
     role: "parent",
     initials: "BP",
     email: "bambang.p@parent.id",
-    roleLabel: "OBSERVER",
-    subtitle: "Wali Murid Andi Pratama (Read-Only)",
+    roleLabel: "WALI MURID",
+    subtitle: "Pemantauan Eksekutif Andi Pratama",
   },
 };
 
@@ -91,6 +122,7 @@ const SessionContext = createContext<SessionContextType | null>(null);
 
 export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [role, setRoleState] = useState<UserRole>("student");
+  const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [progress, setProgress] = useState<StudentProgress>(DEFAULT_PROGRESS);
   const [pushedCode, setPushedCode] = useState<string | null>(null);
   const [studentLiveCode, setStudentLiveCode] = useState<string>(
@@ -98,15 +130,45 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   );
 
   useEffect(() => {
-    const saved = localStorage.getItem("active_role") as UserRole | null;
-    if (saved && (saved === "student" || saved === "tutor" || saved === "parent")) {
-      setRoleState(saved);
+    const savedRole = localStorage.getItem("auth_role") as UserRole | null;
+    const savedAuth = localStorage.getItem("auth_status");
+    if (savedRole && (savedRole === "student" || savedRole === "tutor" || savedRole === "parent")) {
+      setRoleState(savedRole);
+    }
+    if (savedAuth !== null) {
+      setIsAuthenticated(savedAuth === "true");
     }
   }, []);
 
   const setRole = (newRole: UserRole) => {
     setRoleState(newRole);
-    localStorage.setItem("active_role", newRole);
+    localStorage.setItem("auth_role", newRole);
+  };
+
+  const login = (targetRole: UserRole, email?: string, secret?: string) => {
+    const account = ROLE_ACCOUNTS[targetRole];
+    // Allow demo quick-fill or credential check
+    if (
+      !email ||
+      !secret ||
+      (email.trim().toLowerCase() === account.email.toLowerCase() && secret.trim() === account.secret)
+    ) {
+      setRoleState(targetRole);
+      setIsAuthenticated(true);
+      localStorage.setItem("auth_role", targetRole);
+      localStorage.setItem("auth_status", "true");
+      return { success: true, message: "Autentikasi berhasil" };
+    }
+
+    return {
+      success: false,
+      message: `Kredensial tidak valid untuk ${account.label}. Gunakan email ${account.email} dan kata sandi/PIN yang sesuai.`,
+    };
+  };
+
+  const logout = () => {
+    setIsAuthenticated(false);
+    localStorage.setItem("auth_status", "false");
   };
 
   const updateProgress = (partial: Partial<StudentProgress>) => {
@@ -128,6 +190,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         role,
         setRole,
         currentUser: USERS[role],
+        isAuthenticated,
+        login,
+        logout,
         progress,
         updateProgress,
         pushedCode,

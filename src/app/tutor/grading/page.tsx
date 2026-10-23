@@ -86,27 +86,27 @@ export default function TutorGradingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-8 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-5xl mx-auto space-y-8">
-        {/* Header with technical breadcrumb */}
-        <div className="border-b border-white/[0.08] pb-6 flex flex-col md:flex-row md:items-end justify-between gap-4">
+        {/* Header */}
+        <div className="border-b border-slate-200 pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
-            <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2 flex items-center space-x-2">
+            <div className="font-mono text-xs uppercase tracking-widest text-amber-700 font-bold mb-1 flex items-center space-x-2">
               <span>TUTOR // WORKSTATION</span>
               <span>/</span>
-              <span className="text-amber-400">EVALUASI & VERIFIKASI TUGAS</span>
+              <span>EVALUASI &amp; VERIFIKASI TUGAS</span>
             </div>
-            <h1 className="text-2xl font-semibold tracking-tight text-white">
+            <h1 className="text-2xl font-bold tracking-tight text-slate-900">
               Meja Penilaian Kualitatif Siswa
             </h1>
-            <p className="text-xs text-neutral-400 mt-1 max-w-xl">
+            <p className="text-xs sm:text-sm text-slate-600 mt-1 max-w-xl">
               Verifikasi kode tugas harian (Senin–Kamis) siswa Andi Pratama dan susun narasi evaluasi nalar logika untuk laporan orang tua.
             </p>
           </div>
 
           <Link
             href="/tutor/reports"
-            className="inline-flex items-center space-x-2 px-4 py-2 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 hover:bg-emerald-900/30 font-mono text-xs transition shrink-0"
+            className="inline-flex items-center space-x-2 px-4 py-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs transition shrink-0 shadow-xs"
           >
             <MessageSquare className="w-3.5 h-3.5" />
             <span>GENERATE RAPOR WHATSAPP</span>
@@ -115,17 +115,17 @@ export default function TutorGradingPage() {
         </div>
 
         {/* Section 01: Qualitative Narrative Editor */}
-        <div className="p-6 rounded border border-white/[0.08] bg-[#0C1017] space-y-4">
-          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+        <div className="p-6 sm:p-8 rounded-xl border border-slate-200 bg-white space-y-4 shadow-xs">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3">
             <div>
-              <span className="font-mono text-xs text-neutral-400 tracking-wider">
+              <span className="font-mono text-xs text-slate-500 font-bold tracking-wider">
                 01 // CATATAN EVALUASI NALAR PEKAN INI
               </span>
-              <p className="text-xs text-neutral-500 mt-0.5">
+              <p className="text-xs text-slate-600 mt-0.5">
                 Evaluasi deskriptif mengenai pemahaman nalar logika, kemandirian problem solving, dan pencapaian anak.
               </p>
             </div>
-            <span className="font-mono text-xs text-neutral-400 border border-white/[0.08] px-2 py-0.5 rounded bg-white/[0.02]">
+            <span className="font-mono text-xs text-blue-700 border border-blue-200 bg-blue-50 px-2.5 py-0.5 rounded font-bold">
               PEKAN 04
             </span>
           </div>
@@ -134,19 +134,19 @@ export default function TutorGradingPage() {
             rows={4}
             value={weeklyNote}
             onChange={(e) => setWeeklyNote(e.target.value)}
-            className="w-full bg-[#07090D] border border-white/[0.1] rounded p-4 text-xs sm:text-sm text-neutral-200 focus:outline-none focus:border-amber-400/60 font-sans leading-relaxed transition"
+            className="w-full bg-slate-50 border border-slate-300 rounded-lg p-4 text-xs sm:text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:bg-white font-sans leading-relaxed transition"
             placeholder="Tuliskan catatan perkembangan nalar anak..."
           />
 
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2">
-            <div className="font-mono text-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pt-2 font-mono">
+            <div className="text-xs">
               {saveSuccess ? (
-                <span className="text-emerald-400 flex items-center space-x-1.5">
-                  <Check className="w-3.5 h-3.5" />
+                <span className="text-emerald-700 font-bold flex items-center space-x-1.5">
+                  <Check className="w-4 h-4 text-emerald-600" />
                   <span>TERSIMPAN KE PORTAL ORANG TUA</span>
                 </span>
               ) : (
-                <span className="text-neutral-500">
+                <span className="text-slate-500">
                   STATUS: TERKONEKSI KE PORTAL ORANG TUA
                 </span>
               )}
@@ -154,7 +154,7 @@ export default function TutorGradingPage() {
 
             <button
               onClick={handleSaveWeeklyNote}
-              className="px-4 py-2 rounded bg-amber-400 hover:bg-amber-300 text-neutral-950 font-mono text-xs font-semibold transition flex items-center justify-center space-x-1.5 cursor-pointer"
+              className="px-4 py-2 rounded-lg bg-amber-600 hover:bg-amber-700 text-white text-xs font-semibold transition flex items-center justify-center space-x-1.5 cursor-pointer shadow-xs"
             >
               <Save className="w-3.5 h-3.5" />
               <span>SIMPAN EVALUASI</span>
@@ -163,18 +163,18 @@ export default function TutorGradingPage() {
         </div>
 
         {/* Section 02: Daily Homework Submissions Table */}
-        <div className="p-6 rounded border border-white/[0.08] bg-[#0C1017] space-y-5">
-          <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
+        <div className="p-6 sm:p-8 rounded-xl border border-slate-200 bg-white space-y-5 shadow-xs">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3 font-mono">
             <div>
-              <span className="font-mono text-xs text-neutral-400 tracking-wider">
+              <span className="text-xs text-slate-500 font-bold tracking-wider">
                 02 // LOG VERIFIKASI PR HARIAN (SENIN - KAMIS)
               </span>
-              <p className="text-xs text-neutral-500 mt-0.5">
+              <p className="font-sans text-xs text-slate-600 mt-0.5">
                 Kepatuhan rutinitas 15 menit per hari siswa Andi Pratama.
               </p>
             </div>
-            <div className="font-mono text-xs text-emerald-400 flex items-center space-x-2">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+            <div className="text-xs text-emerald-700 font-bold flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-600" />
               <span>4/4 SELESAI PEKAN INI</span>
             </div>
           </div>
@@ -183,24 +183,24 @@ export default function TutorGradingPage() {
             {submissions.map((sub) => (
               <div
                 key={sub.id}
-                className="p-4 rounded border border-white/[0.06] bg-[#07090D] space-y-3"
+                className="p-5 rounded-lg border border-slate-200 bg-slate-50/60 space-y-3"
               >
                 <div className="flex items-start justify-between flex-wrap gap-2">
                   <div>
-                    <div className="flex items-center space-x-2 font-mono text-xs text-neutral-400">
-                      <span className="text-amber-400 uppercase">
+                    <div className="flex items-center space-x-2 font-mono text-xs text-slate-500">
+                      <span className="text-blue-700 font-bold uppercase">
                         [{sub.day.toUpperCase()} // {sub.type}]
                       </span>
                       <span>&bull;</span>
                       <span>{sub.submittedAt}</span>
                     </div>
-                    <h3 className="text-sm font-medium text-white mt-1">
+                    <h3 className="text-sm font-bold text-slate-900 mt-1 font-sans">
                       {sub.title}
                     </h3>
                   </div>
 
                   <div className="flex items-center space-x-3 font-mono text-xs">
-                    <span className="text-neutral-500">SKOR:</span>
+                    <span className="text-slate-500 font-semibold">SKOR:</span>
                     <input
                       type="number"
                       min={0}
@@ -209,20 +209,20 @@ export default function TutorGradingPage() {
                       onChange={(e) =>
                         handleScoreChange(sub.id, parseInt(e.target.value, 10) || 0)
                       }
-                      className="w-14 bg-[#0C1017] border border-white/[0.12] rounded px-2 py-1 text-center font-mono font-medium text-amber-400 focus:outline-none focus:border-amber-400"
+                      className="w-16 bg-white border border-slate-300 rounded px-2 py-1 text-center font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 shadow-2xs"
                     />
-                    <span className="text-neutral-500">/ 100</span>
-                    <span className="px-2 py-0.5 rounded border border-emerald-500/30 bg-emerald-950/20 text-emerald-400 text-[11px]">
+                    <span className="text-slate-500">/ 100</span>
+                    <span className="px-2.5 py-0.5 rounded border border-emerald-200 bg-emerald-50 text-emerald-800 text-[11px] font-bold">
                       VERIFIED
                     </span>
                   </div>
                 </div>
 
                 {/* Code Snapshot */}
-                <div className="border border-white/[0.06] rounded bg-[#05070A] overflow-hidden">
-                  <div className="px-3 py-1.5 border-b border-white/[0.06] flex items-center justify-between text-[11px] font-mono text-neutral-500">
+                <div className="border border-slate-800 rounded-lg bg-slate-900 overflow-hidden">
+                  <div className="px-3.5 py-1.5 border-b border-slate-800 flex items-center justify-between text-[11px] font-mono text-slate-400">
                     <span className="flex items-center space-x-1.5">
-                      <Code2 className="w-3 h-3 text-neutral-400" />
+                      <Code2 className="w-3 h-3 text-slate-400" />
                       <span>student_submission.py</span>
                     </span>
                     <span>PYTHON 3.11</span>

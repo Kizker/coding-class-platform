@@ -1,33 +1,37 @@
 @import "tailwindcss";
 
 :root {
-  --background: #090a0f;
-  --foreground: #f1f3f7;
-  --surface-primary: #0f1117;
-  --surface-secondary: #151821;
-  --surface-tertiary: #1b1e2a;
-  --border-subtle: rgba(255, 255, 255, 0.08);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --accent-amber: #f59e0b;
-  --accent-emerald: #10b981;
+  --background: #f8fafc;
+  --foreground: #0f172a;
+  --surface-primary: #ffffff;
+  --surface-secondary: #f1f5f9;
+  --surface-tertiary: #e2e8f0;
+  --border-subtle: #e2e8f0;
+  --border-strong: #cbd5e1;
+  --text-primary: #0f172a;
+  --text-secondary: #334155;
+  --text-muted: #64748b;
+  --accent-primary: #2563eb;
+  --accent-emerald: #059669;
+  --accent-amber: #d97706;
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-poppins);
+  --font-mono: var(--font-mono);
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
-  letter-spacing: -0.015em;
+  font-family: var(--font-sans), 'Poppins', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.01em;
   overflow-x: hidden;
 }
 
-/* Hairline borders and utility surfaces */
+/* Hairline borders and utility surfaces for light mode */
 .border-hairline {
   border: 1px solid var(--border-subtle);
 }
@@ -48,26 +52,26 @@ body {
   background-color: var(--surface-tertiary);
 }
 
-/* Custom Scrollbar - Precision Minimal */
+/* Custom Scrollbar - Precision Minimal Light */
 ::-webkit-scrollbar {
-  width: 5px;
-  height: 5px;
+  width: 6px;
+  height: 6px;
 }
 
 ::-webkit-scrollbar-track {
-  background: #090a0f;
+  background: #f1f5f9;
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #232734;
-  border-radius: 2px;
+  background: #cbd5e1;
+  border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #363c4e;
+  background: #94a3b8;
 }
 
-/* Subtle border and surface transitions */
-.transition-surface {
-  transition: background-color 150ms ease, border-color 150ms ease, color 150ms ease;
+/* High contrast inputs and text */
+input, textarea, select {
+  font-family: inherit;
 }

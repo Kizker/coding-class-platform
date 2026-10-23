@@ -11,24 +11,27 @@ import {
   Layers,
   Terminal,
   Activity,
+  Calendar,
 } from "lucide-react";
 
 export default function StudentDashboardPage() {
   const { progress } = useSession();
 
   return (
-    <div className="min-h-screen bg-[#090a0f] text-slate-200 py-8 px-4 sm:px-6 lg:px-8 font-sans">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8">
       <div className="max-w-6xl mx-auto space-y-8">
-        {/* Welcome Studio Banner - Left-Aligned Restraint */}
-        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6">
-          <div className="space-y-3">
-            <p className="font-mono text-xs uppercase tracking-widest text-slate-400">
-              01 // DASHBOARD SISWA &bull; ANDI PRATAMA
-            </p>
-            <h1 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
+        {/* Welcome Studio Banner */}
+        <div className="border border-slate-200 rounded-xl bg-white p-6 sm:p-8 flex flex-col md:flex-row md:items-center justify-between gap-6 shadow-xs">
+          <div className="space-y-2">
+            <div className="inline-flex items-center space-x-2 text-xs font-mono font-semibold text-blue-700 uppercase tracking-widest">
+              <span>01 // RUANG KERJA SISWA</span>
+              <span>&bull;</span>
+              <span>ANDI PRATAMA</span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
               Pekan 04: Fungsi Modular &amp; Proyek Capstone 1.
             </h1>
-            <p className="text-xs sm:text-sm text-slate-300 max-w-xl leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-600 max-w-xl leading-relaxed">
               Fokus pekan ini: Mengabstraksi kode berulang menjadi fungsi mandiri (def/return) serta menyelesaikan game konsol interaktif.
             </p>
           </div>
@@ -36,7 +39,7 @@ export default function StudentDashboardPage() {
           <div className="shrink-0">
             <Link
               href="/student/learn/1/senin"
-              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded bg-white text-black font-mono text-xs font-bold hover:bg-slate-200 transition"
+              className="inline-flex items-center space-x-2 px-5 py-2.5 rounded-lg bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition shadow-sm"
             >
               <span>BUKA PR HARI INI</span>
               <ArrowRight className="w-3.5 h-3.5" />
@@ -44,42 +47,42 @@ export default function StudentDashboardPage() {
           </div>
         </div>
 
-        {/* 3 Telemetry Cards (Precision Tabular Nums) */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 font-mono">
-          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
-            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+        {/* 3 Telemetry Cards */}
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="border border-slate-200 rounded-xl bg-white p-5 space-y-1.5 shadow-xs">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
               KONSISTENSI_STREAK
             </div>
-            <div className="text-3xl font-bold text-amber-400 tabular-nums">
+            <div className="text-3xl font-bold text-blue-700 tabular-nums">
               {progress.streakDays.toString().padStart(2, "0")} HARI
             </div>
-            <p className="font-sans text-[11px] text-slate-400">
-              Aktif mengerjakan PR harian Senin s.d Kamis.
+            <p className="text-xs text-slate-600">
+              Aktif mengerjakan PR harian 15 menit (Senin s.d Kamis).
             </p>
           </div>
 
-          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
-            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+          <div className="border border-slate-200 rounded-xl bg-white p-5 space-y-1.5 shadow-xs">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
               AKUMULASI_PENGALAMAN
             </div>
-            <div className="text-3xl font-bold text-slate-200 tabular-nums">
+            <div className="text-3xl font-bold text-slate-900 tabular-nums">
               {progress.xpPoints} XP
             </div>
-            <p className="font-sans text-[11px] text-slate-400">
-              Poin evaluasi otomatis dari penuntasan tugas logika.
+            <p className="text-xs text-slate-600">
+              Poin evaluasi otomatis dari penuntasan tantangan logika.
             </p>
           </div>
 
-          <div className="border border-white/[0.08] rounded-lg bg-[#0e1017] p-5 space-y-2">
-            <div className="text-[11px] uppercase tracking-wider text-slate-400">
+          <div className="border border-slate-200 rounded-xl bg-white p-5 space-y-1.5 shadow-xs">
+            <div className="text-[11px] font-mono uppercase tracking-wider text-slate-500 font-semibold">
               PROGRES_ROADMAP
             </div>
-            <div className="text-3xl font-bold text-emerald-400 tabular-nums">
-              {progress.currentWeek.toString().padStart(2, "0")} / 12 MINGGU
+            <div className="text-3xl font-bold text-emerald-700 tabular-nums">
+              {progress.currentWeek.toString().padStart(2, "0")} / 12 PEKAN
             </div>
-            <div className="w-full bg-[#1b1e2a] h-1.5 rounded-full overflow-hidden mt-1">
+            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden mt-2 border border-slate-200">
               <div
-                className="bg-emerald-500 h-full rounded-full"
+                className="bg-emerald-600 h-full rounded-full transition-all duration-500"
                 style={{ width: `${(progress.currentWeek / progress.totalWeeks) * 100}%` }}
               />
             </div>
@@ -87,127 +90,127 @@ export default function StudentDashboardPage() {
         </div>
 
         {/* Weekly Routine Matrix (Senin s.d Minggu) */}
-        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 space-y-4 font-mono">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 text-xs">
+        <div className="border border-slate-200 rounded-xl bg-white p-6 space-y-4 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
             <div>
-              <span className="text-slate-400 uppercase tracking-widest block">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-widest font-semibold block">
                 02 // SIKLUS MINGGUAN BELAJAR
               </span>
-              <span className="text-slate-200 font-bold text-sm">
-                Rutinitas Pekan ke-4
-              </span>
+              <h2 className="text-base font-bold text-slate-900 mt-0.5">
+                Rutinitas Belajar Pekan ke-4
+              </h2>
             </div>
-            <span className="text-slate-400">
+            <span className="text-xs font-mono text-slate-500">
               Senin–Kamis 15-20 Mnt &bull; Jumat–Sabtu 2 Jam Tatap Muka
             </span>
           </div>
 
-          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs">
+          <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3 text-xs font-mono">
             {/* Senin */}
             <Link
               href="/student/learn/1/senin"
-              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
+              className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:border-blue-400 hover:bg-blue-50/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>SENIN</span>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
               </div>
               <div>
-                <span className="font-bold text-slate-200 block">PR 1: RECALL</span>
-                <span className="text-[10px] text-emerald-400">STATUS: 100/100</span>
+                <span className="font-bold text-slate-900 block font-sans">PR 1: RECALL</span>
+                <span className="text-[11px] text-emerald-700 font-semibold">100 / 100</span>
               </div>
             </Link>
 
             {/* Selasa */}
             <Link
               href="/student/learn/1/selasa"
-              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
+              className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:border-blue-400 hover:bg-blue-50/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>SELASA</span>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
               </div>
               <div>
-                <span className="font-bold text-slate-200 block">PR 2: READING</span>
-                <span className="text-[10px] text-emerald-400">STATUS: 95/100</span>
+                <span className="font-bold text-slate-900 block font-sans">PR 2: READING</span>
+                <span className="text-[11px] text-emerald-700 font-semibold">95 / 100</span>
               </div>
             </Link>
 
             {/* Rabu */}
             <Link
               href="/student/learn/1/rabu"
-              className="p-3 rounded border border-white/[0.08] bg-[#141620] hover:border-white/30 transition flex flex-col justify-between h-24"
+              className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/70 hover:border-blue-400 hover:bg-blue-50/30 transition flex flex-col justify-between h-24"
             >
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
+              <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>RABU</span>
-                <Check className="w-3.5 h-3.5 text-emerald-400" />
+                <Check className="w-3.5 h-3.5 text-emerald-600" />
               </div>
               <div>
-                <span className="font-bold text-slate-200 block">PR 3: DEBUG</span>
-                <span className="text-[10px] text-emerald-400">STATUS: 95/100</span>
+                <span className="font-bold text-slate-900 block font-sans">PR 3: DEBUG</span>
+                <span className="text-[11px] text-emerald-700 font-semibold">95 / 100</span>
               </div>
             </Link>
 
             {/* Kamis */}
             <Link
               href="/student/learn/1/kamis"
-              className="p-3 rounded border border-amber-500/40 bg-[#141620] hover:border-amber-400 transition flex flex-col justify-between h-24"
+              className="p-3.5 rounded-lg border border-blue-300 bg-blue-50/80 hover:border-blue-500 transition flex flex-col justify-between h-24 shadow-xs"
             >
-              <div className="flex items-center justify-between text-[11px] text-amber-400 font-bold">
+              <div className="flex items-center justify-between text-[11px] text-blue-800 font-bold">
                 <span>KAMIS</span>
-                <Clock className="w-3.5 h-3.5 text-amber-400" />
+                <Clock className="w-3.5 h-3.5 text-blue-700" />
               </div>
               <div>
-                <span className="font-bold text-white block">PR 4: PRE-READ</span>
-                <span className="text-[10px] text-amber-300">TUGAS HARI INI</span>
+                <span className="font-bold text-blue-950 block font-sans">PR 4: PRE-READ</span>
+                <span className="text-[11px] text-blue-700 font-bold">TUGAS HARI INI</span>
               </div>
             </Link>
 
             {/* Jumat */}
-            <div className="p-3 rounded border border-white/[0.08] bg-[#10121a] flex flex-col justify-between h-24">
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>JUMAT</span>
-                <span className="text-[10px] bg-white/[0.08] px-1 rounded">2 JAM</span>
+                <span className="text-[10px] bg-slate-200 px-1.5 py-0.5 rounded font-semibold text-slate-700">2 JAM</span>
               </div>
               <div>
-                <span className="font-bold text-slate-300 block">SESI LIVE 1</span>
-                <span className="text-[10px] text-slate-400">16.00 - 18.00</span>
+                <span className="font-bold text-slate-800 block font-sans">SESI LIVE 1</span>
+                <span className="text-[10px] text-slate-600">16.00 - 18.00</span>
               </div>
             </div>
 
             {/* Sabtu */}
-            <div className="p-3 rounded border border-white/[0.08] bg-[#10121a] flex flex-col justify-between h-24">
-              <div className="flex items-center justify-between text-[11px] text-slate-400">
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50 flex flex-col justify-between h-24">
+              <div className="flex items-center justify-between text-[11px] text-slate-500">
                 <span>SABTU</span>
-                <span className="text-[10px] bg-white/[0.08] px-1 rounded">2 JAM</span>
+                <span className="text-[10px] bg-slate-200 px-1.5 py-0.5 rounded font-semibold text-slate-700">2 JAM</span>
               </div>
               <div>
-                <span className="font-bold text-slate-300 block">SESI LIVE 2</span>
-                <span className="text-[10px] text-slate-400">16.00 - 18.00</span>
+                <span className="font-bold text-slate-800 block font-sans">SESI LIVE 2</span>
+                <span className="text-[10px] text-slate-600">16.00 - 18.00</span>
               </div>
             </div>
 
             {/* Minggu */}
-            <div className="p-3 rounded border border-white/[0.04] bg-[#0c0d14] flex flex-col justify-between h-24 opacity-60">
-              <div className="text-[11px] text-slate-400">MINGGU</div>
+            <div className="p-3.5 rounded-lg border border-slate-200 bg-slate-50/50 flex flex-col justify-between h-24 text-slate-400">
+              <div className="text-[11px] font-semibold">MINGGU</div>
               <div>
-                <span className="font-medium text-slate-400 block">REST &amp; REPORT</span>
-                <span className="text-[10px] text-slate-400">RAPOR ORTU</span>
+                <span className="font-medium text-slate-600 block font-sans">REST &amp; REVIEW</span>
+                <span className="text-[10px] text-slate-500">RAPOR ORTU</span>
               </div>
             </div>
           </div>
         </div>
 
         {/* 12-Week Roadmap Table */}
-        <div className="border border-white/[0.08] rounded-xl bg-[#0f1118] p-6 space-y-4 font-mono">
-          <div className="flex items-center justify-between border-b border-white/[0.08] pb-3 text-xs">
-            <span className="text-slate-400 uppercase tracking-widest block">
-              03 // SILABUS ROADMAP 12 MINGGU
+        <div className="border border-slate-200 rounded-xl bg-white p-6 sm:p-8 space-y-4 shadow-xs">
+          <div className="flex items-center justify-between border-b border-slate-100 pb-3 text-xs font-mono">
+            <span className="text-slate-500 uppercase tracking-widest font-semibold block">
+              03 // SILABUS ROADMAP 12 PEKAN
             </span>
-            <span className="text-slate-400">TRACK: PYTHON_CORE</span>
+            <span className="text-slate-600 font-medium">TRACK: PYTHON_CORE</span>
           </div>
 
-          <div className="divide-y divide-white/[0.06] text-xs">
+          <div className="divide-y divide-slate-100 text-xs font-mono">
             {CURRICULUM_DATA.map((w) => {
               const isCurrent = w.week === progress.currentWeek;
               const isCompleted = w.week < progress.currentWeek;
@@ -216,24 +219,24 @@ export default function StudentDashboardPage() {
                 <div
                   key={w.week}
                   className={`py-3.5 flex flex-col sm:flex-row sm:items-center justify-between gap-3 ${
-                    isCurrent ? "text-white" : isCompleted ? "text-slate-400" : "text-slate-600"
+                    isCurrent ? "bg-blue-50/40 -mx-2 px-2 rounded-lg" : ""
                   }`}
                 >
                   <div className="flex items-start sm:items-center space-x-4">
-                    <span className="w-12 text-slate-400">
+                    <span className="w-12 text-slate-500 font-semibold">
                       M{w.week.toString().padStart(2, "0")}
                     </span>
 
                     <div>
                       <div className="flex items-center space-x-2">
-                        <span className="font-bold text-slate-200">{w.title}</span>
+                        <span className="font-bold text-slate-900 font-sans text-sm">{w.title}</span>
                         {w.capstoneInfo && (
-                          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300 border border-amber-500/30">
+                          <span className="text-[10px] px-2 py-0.5 rounded bg-amber-50 text-amber-800 border border-amber-200 font-bold">
                             CAPSTONE
                           </span>
                         )}
                       </div>
-                      <p className="font-sans text-[11px] text-slate-400 hidden sm:block mt-0.5">
+                      <p className="font-sans text-xs text-slate-600 hidden sm:block mt-0.5">
                         {w.description}
                       </p>
                     </div>
@@ -243,17 +246,17 @@ export default function StudentDashboardPage() {
                     {isCurrent ? (
                       <Link
                         href={`/student/learn/${w.week}/senin`}
-                        className="px-3 py-1 rounded bg-white text-black font-bold text-xs hover:bg-slate-200 transition"
+                        className="px-3 py-1.5 rounded-md bg-blue-600 text-white font-medium text-xs hover:bg-blue-700 transition shadow-xs inline-block"
                       >
                         BUKA MODUL &rarr;
                       </Link>
                     ) : isCompleted ? (
-                      <span className="text-emerald-400 flex items-center space-x-1 sm:justify-end">
-                        <Check className="w-3.5 h-3.5" />
+                      <span className="text-emerald-700 font-semibold flex items-center space-x-1 sm:justify-end">
+                        <Check className="w-3.5 h-3.5 text-emerald-600" />
                         <span>SELESAI</span>
                       </span>
                     ) : (
-                      <span className="text-slate-600">TERKUNCI</span>
+                      <span className="text-slate-400">TERKUNCI</span>
                     )}
                   </div>
                 </div>

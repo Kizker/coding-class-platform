@@ -2,7 +2,7 @@
 
 import React, { useRef } from "react";
 import Editor, { OnMount } from "@monaco-editor/react";
-import { RotateCcw, Check, Clock } from "lucide-react";
+import { RotateCcw } from "lucide-react";
 
 interface CodeEditorProps {
   value: string;
@@ -32,24 +32,24 @@ export function CodeEditor({
   };
 
   return (
-    <div className="flex flex-col border border-white/[0.08] rounded-lg overflow-hidden bg-[#0d0e15] shadow-lg">
-      {/* Editor Header Bar - Swiss Technical Studio */}
-      <div className="flex items-center justify-between px-3.5 py-2 bg-[#12141d] border-b border-white/[0.06] text-xs font-mono">
+    <div className="flex flex-col border border-slate-200 rounded-xl overflow-hidden bg-white shadow-xs">
+      {/* Editor Header Bar */}
+      <div className="flex items-center justify-between px-4 py-2.5 bg-slate-100 border-b border-slate-200 text-xs font-mono">
         <div className="flex items-center space-x-3">
-          <span className="text-slate-300 font-semibold tracking-wider">
+          <span className="text-slate-800 font-bold tracking-wider">
             WORKSPACE // main.py
           </span>
-          <span className="text-[11px] text-slate-400 hidden sm:inline">
-            (Python 3.11 WASM)
+          <span className="text-[11px] text-slate-500 hidden sm:inline">
+            (Python 3.11 Pyodide)
           </span>
         </div>
 
         <div className="flex items-center space-x-3 text-[11px]">
           {lastSavedAt && (
-            <span className="flex items-center space-x-1.5 text-slate-400">
+            <span className="flex items-center space-x-1.5 text-slate-600">
               <span
                 className={`w-1.5 h-1.5 rounded-full ${
-                  isSaved ? "bg-emerald-400" : "bg-amber-400 animate-pulse"
+                  isSaved ? "bg-emerald-600" : "bg-amber-500 animate-pulse"
                 }`}
               />
               <span className="hidden md:inline">{lastSavedAt}</span>
@@ -59,7 +59,7 @@ export function CodeEditor({
           {onReset && !readOnly && (
             <button
               onClick={onReset}
-              className="flex items-center space-x-1 px-2 py-0.5 rounded bg-white/[0.06] hover:bg-white/[0.12] text-slate-300 hover:text-white transition border border-white/[0.08] cursor-pointer"
+              className="flex items-center space-x-1 px-2.5 py-1 rounded bg-white hover:bg-slate-200 text-slate-700 transition border border-slate-300 font-semibold cursor-pointer shadow-2xs"
               title="Reset ke kode awal"
             >
               <RotateCcw className="w-3 h-3" />
@@ -69,13 +69,13 @@ export function CodeEditor({
         </div>
       </div>
 
-      {/* Editor Main Canvas */}
+      {/* Editor Main Canvas with Monaco Light Theme */}
       <div className="relative" style={{ height }}>
         <Editor
           height="100%"
           language={language}
           value={value}
-          theme="vs-dark"
+          theme="vs"
           onChange={(val) => onChange(val || "")}
           onMount={handleEditorDidMount}
           options={{
@@ -91,10 +91,10 @@ export function CodeEditor({
             renderWhitespace: "selection",
             cursorBlinking: "smooth",
             smoothScrolling: true,
-            padding: { top: 10, bottom: 10 },
+            padding: { top: 12, bottom: 12 },
           }}
           loading={
-            <div className="h-full flex items-center justify-center bg-[#0d0e15] text-slate-400 text-xs font-mono">
+            <div className="h-full flex items-center justify-center bg-slate-50 text-slate-500 text-xs font-mono">
               MEMUAT MONACO EDITOR...
             </div>
           }

@@ -72,32 +72,32 @@ export default function ParentSchedulePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#07090D] text-neutral-200 py-6 px-4 sm:px-6 lg:px-8">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
-        <div className="border-b border-white/[0.08] pb-5">
-          <div className="font-mono text-xs uppercase tracking-widest text-neutral-500 mb-2">
-            EXECUTIVE AUDIT // JADWAL & LOG KEHADIRAN
+        <div className="border-b border-slate-200 pb-5">
+          <div className="font-mono text-xs uppercase tracking-widest text-emerald-700 font-bold mb-1">
+            EXECUTIVE AUDIT // JADWAL &amp; LOG KEHADIRAN
           </div>
-          <h1 className="text-xl sm:text-2xl font-semibold tracking-tight text-white">
+          <h1 className="text-xl sm:text-2xl font-bold tracking-tight text-slate-900">
             Log Kehadiran Sesi Les Tatap Muka 2 Jam
           </h1>
-          <p className="text-xs text-neutral-400 mt-1">
+          <p className="text-xs sm:text-sm text-slate-600 mt-1">
             Total 24 pertemuan langsung tatap muka (120 menit per sesi) terjadwal bersama pengajar.
           </p>
         </div>
 
         {/* Attendance stats */}
-        <div className="grid grid-cols-2 gap-3 text-xs font-mono">
-          <div className="p-4 rounded border border-white/[0.08] bg-[#0C1017] text-left space-y-1">
-            <span className="text-neutral-500 text-[11px] block">TINGKAT KEHADIRAN</span>
-            <strong className="text-2xl font-medium text-emerald-400 block tabular-nums">100%</strong>
-            <span className="text-[11px] text-neutral-400 block">07 DARI 07 SESI TUNTAS</span>
+        <div className="grid grid-cols-2 gap-4">
+          <div className="p-5 rounded-xl border border-slate-200 bg-white text-left space-y-1 shadow-xs font-mono">
+            <span className="text-slate-500 text-[11px] font-bold block">TINGKAT KEHADIRAN</span>
+            <strong className="text-2xl sm:text-3xl font-bold text-emerald-700 block tabular-nums">100%</strong>
+            <span className="text-xs text-slate-600 block">07 DARI 07 SESI TUNTAS</span>
           </div>
 
-          <div className="p-4 rounded border border-white/[0.08] bg-[#0C1017] text-left space-y-1">
-            <span className="text-neutral-500 text-[11px] block">TOTAL DURASI TATAP MUKA</span>
-            <strong className="text-2xl font-medium text-amber-400 block tabular-nums">14 JAM</strong>
-            <span className="text-[11px] text-neutral-400 block">BIMBINGAN LANGSUNG 1-ON-1</span>
+          <div className="p-5 rounded-xl border border-slate-200 bg-white text-left space-y-1 shadow-xs font-mono">
+            <span className="text-slate-500 text-[11px] font-bold block">TOTAL DURASI TATAP MUKA</span>
+            <strong className="text-2xl sm:text-3xl font-bold text-blue-700 block tabular-nums">14 JAM</strong>
+            <span className="text-xs text-slate-600 block">BIMBINGAN LANGSUNG 1-ON-1</span>
           </div>
         </div>
 
@@ -106,17 +106,17 @@ export default function ParentSchedulePage() {
           {sessions.map((s) => (
             <div
               key={s.num}
-              className="p-4 rounded border border-white/[0.08] bg-[#0C1017] space-y-2.5"
+              className="p-5 rounded-xl border border-slate-200 bg-white space-y-2.5 shadow-xs"
             >
-              <div className="flex items-center justify-between text-xs font-mono border-b border-white/[0.06] pb-2">
-                <span className="text-neutral-400">
+              <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-2">
+                <span className="text-slate-600 font-semibold">
                   SESI {String(s.num).padStart(2, "0")} // PEKAN {String(s.week).padStart(2, "0")}
                 </span>
                 <span
-                  className={`px-2 py-0.5 rounded text-[11px] font-mono ${
+                  className={`px-2.5 py-0.5 rounded text-[11px] font-mono font-bold ${
                     s.status === "HADIR"
-                      ? "border border-emerald-500/30 bg-emerald-950/20 text-emerald-400"
-                      : "border border-amber-500/30 bg-amber-950/20 text-amber-400"
+                      ? "border border-emerald-200 bg-emerald-50 text-emerald-800"
+                      : "border border-amber-200 bg-amber-50 text-amber-800"
                   }`}
                 >
                   {s.status === "HADIR" ? "HADIR (120 MIN)" : "TERJADWAL"}
@@ -124,16 +124,16 @@ export default function ParentSchedulePage() {
               </div>
 
               <div>
-                <h2 className="text-sm font-medium text-white">{s.title}</h2>
-                <div className="flex items-center space-x-1.5 text-xs text-neutral-400 font-mono mt-1">
-                  <Clock className="w-3.5 h-3.5 text-neutral-500" />
+                <h2 className="text-base font-bold text-slate-900">{s.title}</h2>
+                <div className="flex items-center space-x-1.5 text-xs text-slate-600 font-mono mt-1">
+                  <Clock className="w-3.5 h-3.5 text-slate-400" />
                   <span>{s.day}</span>
                 </div>
               </div>
 
-              <div className="text-xs text-neutral-400 bg-[#07090D] p-2.5 rounded border border-white/[0.06]">
-                <span className="font-mono text-[11px] text-neutral-500 mr-1.5">CATATAN:</span>
-                <span className="text-neutral-300 font-sans italic">{s.tutorNote}</span>
+              <div className="text-xs text-slate-700 bg-slate-50 p-3 rounded-lg border border-slate-200">
+                <span className="font-mono text-[11px] text-slate-500 font-bold mr-1.5">CATATAN:</span>
+                <span className="font-sans italic">{s.tutorNote}</span>
               </div>
             </div>
           ))}

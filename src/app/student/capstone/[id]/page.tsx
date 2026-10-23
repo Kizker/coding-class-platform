@@ -63,28 +63,28 @@ export default function CapstoneDetailPage({
   const capstone = CAPSTONES.find((c) => c.id === currentId) || CAPSTONES[0];
 
   return (
-    <div className="min-h-screen bg-[#090a0f] text-slate-200 py-8 px-4 sm:px-6 lg:px-8 font-mono">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-6">
         {/* Header navigation */}
-        <div className="flex items-center justify-between border-b border-white/[0.08] pb-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-200 pb-5 gap-4">
           <div>
-            <p className="text-xs uppercase tracking-widest text-slate-400">
-              01 // MILESTONE CAPSTONE
-            </p>
-            <h1 className="text-xl font-bold text-white tracking-tight mt-1">
+            <div className="inline-flex items-center space-x-2 text-xs font-mono font-semibold text-blue-700 uppercase tracking-widest">
+              <span>01 // MILESTONE CAPSTONE</span>
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
               Dokumentasi Proyek Siswa
             </h1>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs">
+          <div className="flex items-center space-x-2 text-xs font-mono">
             {CAPSTONES.map((c) => (
               <Link
                 key={c.id}
                 href={`/student/capstone/${c.id}`}
-                className={`px-3 py-1 rounded transition ${
+                className={`px-3 py-1.5 rounded-md transition font-semibold ${
                   c.id === capstone.id
-                    ? "bg-white text-black font-bold"
-                    : "bg-[#11131b] text-slate-400 hover:text-slate-200 border border-white/[0.06]"
+                    ? "bg-blue-600 text-white shadow-xs"
+                    : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200"
                 }`}
               >
                 CAPSTONE_{c.id}
@@ -94,36 +94,36 @@ export default function CapstoneDetailPage({
         </div>
 
         {/* Project Card */}
-        <div className="p-6 rounded-lg bg-[#0e1017] border border-white/[0.08] space-y-5">
-          <div className="flex items-start justify-between flex-wrap gap-3 border-b border-white/[0.06] pb-4">
+        <div className="p-6 sm:p-8 rounded-xl bg-white border border-slate-200 shadow-xs space-y-6">
+          <div className="flex items-start justify-between flex-wrap gap-3 border-b border-slate-100 pb-4">
             <div>
-              <span className="text-[11px] text-slate-400 block">
-                PEKAN KE-{capstone.week} // MILESTONE
+              <span className="text-xs font-mono text-blue-700 font-semibold block">
+                PEKAN KE-{capstone.week} // MILESTONE RESMI
               </span>
-              <h2 className="text-xl font-bold text-white mt-1">
+              <h2 className="text-xl font-bold text-slate-900 mt-1">
                 {capstone.title}
               </h2>
             </div>
 
-            <span className="text-xs font-mono font-semibold px-2.5 py-1 rounded bg-[#161a25] border border-white/[0.08] text-emerald-400">
+            <span className="text-xs font-mono font-semibold px-3 py-1 rounded-md bg-emerald-50 border border-emerald-200 text-emerald-800">
               {capstone.status}
             </span>
           </div>
 
-          <p className="font-sans text-xs sm:text-sm text-slate-300 leading-relaxed">
+          <p className="text-sm text-slate-700 leading-relaxed font-sans">
             {capstone.description}
           </p>
 
           {/* Tech badges */}
           <div className="space-y-2">
-            <span className="text-[11px] text-slate-400 uppercase tracking-widest block font-semibold">
+            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block font-bold">
               KOMPETENSI_TEKNOLOGI:
             </span>
-            <div className="flex flex-wrap gap-2 text-xs">
+            <div className="flex flex-wrap gap-2 text-xs font-mono">
               {capstone.technologies.map((t, idx) => (
                 <span
                   key={idx}
-                  className="px-2.5 py-1 rounded bg-[#151822] border border-white/[0.06] text-slate-300"
+                  className="px-2.5 py-1 rounded-md bg-slate-100 border border-slate-200 text-slate-700 font-medium"
                 >
                   {t}
                 </span>
@@ -133,15 +133,15 @@ export default function CapstoneDetailPage({
 
           {/* Code Viewer */}
           <div className="space-y-2 pt-2">
-            <div className="flex items-center justify-between text-xs text-slate-400">
+            <div className="flex items-center justify-between text-xs font-mono text-slate-600">
               <span className="flex items-center space-x-1.5 font-semibold">
-                <FileCode className="w-3.5 h-3.5" />
+                <FileCode className="w-3.5 h-3.5 text-slate-500" />
                 <span>SOURCE_CODE // main.py</span>
               </span>
-              <span className="text-slate-400">READ_ONLY</span>
+              <span className="text-slate-500">READ_ONLY</span>
             </div>
 
-            <pre className="p-4 rounded bg-[#07080c] border border-white/[0.06] text-xs text-emerald-400 overflow-x-auto leading-relaxed whitespace-pre-wrap">
+            <pre className="p-4 rounded-xl bg-slate-900 border border-slate-800 text-xs text-emerald-400 font-mono overflow-x-auto leading-relaxed whitespace-pre-wrap">
               {capstone.codeSnippet}
             </pre>
           </div>

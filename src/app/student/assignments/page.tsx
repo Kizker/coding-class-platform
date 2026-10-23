@@ -17,28 +17,28 @@ export default function StudentAssignmentsPage() {
   });
 
   return (
-    <div className="min-h-screen bg-[#090a0f] text-slate-200 py-8 px-4 sm:px-6 lg:px-8 font-mono">
+    <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-5xl mx-auto space-y-6">
         {/* Header */}
-        <div className="border-b border-white/[0.08] pb-4 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="border-b border-slate-200 pb-5 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <p className="text-xs uppercase tracking-widest text-slate-400">
-              01 // INDEX TUGAS MANDIRI
-            </p>
-            <h1 className="text-2xl font-bold text-white tracking-tight mt-1">
+            <div className="inline-flex items-center space-x-2 text-xs font-mono font-semibold text-blue-700 uppercase tracking-widest">
+              <span>01 // INDEKS TUGAS MANDIRI</span>
+            </div>
+            <h1 className="text-2xl font-bold text-slate-900 tracking-tight mt-1">
               Daftar Tugas Harian (PR Senin–Kamis)
             </h1>
-            <p className="font-sans text-xs text-slate-300 mt-0.5">
+            <p className="text-xs sm:text-sm text-slate-600 mt-1">
               Latihan mandiri 15–20 menit sehari untuk mengasah ketajaman logika koding.
             </p>
           </div>
 
-          <div className="flex items-center space-x-2 text-xs">
-            <span className="text-slate-400">PEKAN:</span>
+          <div className="flex items-center space-x-2 text-xs font-mono">
+            <span className="text-slate-500 font-semibold">PEKAN:</span>
             <select
               value={selectedWeek}
               onChange={(e) => setSelectedWeek(parseInt(e.target.value, 10))}
-              className="bg-[#12141d] border border-white/[0.12] rounded px-3 py-1.5 text-xs text-white focus:outline-none"
+              className="bg-white border border-slate-300 rounded-lg px-3 py-1.5 text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-500 font-medium shadow-2xs"
             >
               {CURRICULUM_DATA.map((w) => (
                 <option key={w.week} value={w.week}>
@@ -50,8 +50,8 @@ export default function StudentAssignmentsPage() {
         </div>
 
         {/* Filter Bar */}
-        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
-          <span className="text-slate-400 mr-1 flex items-center space-x-1">
+        <div className="flex items-center space-x-2 overflow-x-auto pb-1 text-xs font-mono">
+          <span className="text-slate-500 mr-1 flex items-center space-x-1 font-semibold">
             <Filter className="w-3.5 h-3.5" />
             <span>FILTER:</span>
           </span>
@@ -65,10 +65,10 @@ export default function StudentAssignmentsPage() {
             <button
               key={tab.id}
               onClick={() => setFilterType(tab.id)}
-              className={`px-3 py-1 rounded transition text-xs ${
+              className={`px-3 py-1.5 rounded-md transition text-xs cursor-pointer ${
                 filterType === tab.id
-                  ? "bg-white text-black font-bold"
-                  : "bg-[#11131b] text-slate-400 hover:text-slate-200 border border-white/[0.06]"
+                  ? "bg-blue-600 text-white font-semibold shadow-xs"
+                  : "bg-white text-slate-600 hover:text-slate-900 hover:bg-slate-100 border border-slate-200"
               }`}
             >
               {tab.label}
@@ -81,32 +81,34 @@ export default function StudentAssignmentsPage() {
           {filteredAssignments.map((a) => (
             <div
               key={a.id}
-              className="p-5 rounded-lg bg-[#0e1017] border border-white/[0.08] flex flex-col justify-between space-y-4 hover:border-white/20 transition"
+              className="p-5 rounded-xl bg-white border border-slate-200 shadow-xs flex flex-col justify-between space-y-4 hover:border-blue-400 hover:shadow-md transition"
             >
               <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-slate-400">
-                    {a.day.toUpperCase()} // {a.type}
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="text-blue-700 font-semibold uppercase">
+                    [{a.day.toUpperCase()} // {a.type}]
                   </span>
-                  <span className="text-amber-400 font-bold">
+                  <span className="text-slate-900 font-bold">
                     +{a.points} XP
                   </span>
                 </div>
 
-                <h3 className="text-base font-bold text-white tracking-tight">{a.title}</h3>
-                <p className="font-sans text-xs text-slate-300 leading-relaxed line-clamp-2">
+                <h3 className="text-base font-bold text-slate-900 tracking-tight font-sans">
+                  {a.title}
+                </h3>
+                <p className="text-xs text-slate-600 leading-relaxed line-clamp-2">
                   {a.challengeInstructions}
                 </p>
               </div>
 
-              <div className="pt-3 border-t border-white/[0.06] flex items-center justify-between text-xs">
-                <span className="text-slate-400">
+              <div className="pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-mono">
+                <span className="text-slate-500">
                   DURASI: {a.durationMinutes} MENIT
                 </span>
 
                 <Link
                   href={`/student/learn/${selectedWeek}/${a.day}`}
-                  className="px-3.5 py-1.5 rounded bg-white text-black font-bold text-xs hover:bg-slate-200 transition flex items-center space-x-1"
+                  className="px-3.5 py-1.5 rounded-lg bg-blue-600 text-white font-semibold text-xs hover:bg-blue-700 transition flex items-center space-x-1 shadow-xs"
                 >
                   <span>BUKA STUDIO</span>
                   <ArrowRight className="w-3.5 h-3.5" />
@@ -116,7 +118,7 @@ export default function StudentAssignmentsPage() {
           ))}
 
           {filteredAssignments.length === 0 && (
-            <div className="col-span-2 py-12 text-center text-slate-500 text-xs">
+            <div className="col-span-2 py-12 text-center text-slate-500 text-xs font-mono">
               TIDAK ADA TUGAS PADA FILTER YANG DIPILIH.
             </div>
           )}
