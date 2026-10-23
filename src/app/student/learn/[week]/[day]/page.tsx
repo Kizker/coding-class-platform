@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, use, useEffect } from "react";
+import React, { useState, use, useEffect, useRef } from "react";
 import { CURRICULUM_DATA } from "@/data/curriculum";
 import { usePyodide, ExecutionResult } from "@/lib/pyodide/usePyodide";
 import { CodeEditor } from "@/components/editor/CodeEditor";
@@ -70,9 +70,11 @@ export default function StudentLearnPage({
   const [isPassed, setIsPassed] = useState<boolean>(isTaskCompleted(weekNum, dayKey));
   const [showConfirmation, setShowConfirmation] = useState<boolean>(false);
   const [pushedAlert, setPushedAlert] = useState<string | null>(null);
+  const lastHandledPushedCodeRef = useRef<string | null>(null);
 
   useEffect(() => {
-    if (pushedCode) {
+    if (pushedCode && pushedCode !== lastHandledPushedCodeRef.current) {
+      lastHandledPushedCodeRef.current = pushedCode;
       setPushedAlert("Pengajar baru saja memperbarui kode peraga di editormu.");
       setCode(pushedCode);
       const timer = setTimeout(() => setPushedAlert(null), 5000);

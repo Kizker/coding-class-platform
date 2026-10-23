@@ -1,6 +1,6 @@
 "use client";
 
-import React, { use, useState, useEffect } from "react";
+import React, { use, useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { CURRICULUM_DATA, LiveSessionItem } from "@/data/curriculum";
 import { useSession } from "@/lib/auth/sessionContext";
@@ -187,16 +187,18 @@ print(suit("Batu"))`,
     updateStudentLiveCode(newCode);
   };
 
+  const lastHandledPushedCodeRef = useRef<string | null>(null);
+
   // Realtime notification when tutor pushes new guidance code
   useEffect(() => {
-    if (pushedCode) {
+    if (pushedCode && pushedCode !== lastHandledPushedCodeRef.current) {
+      lastHandledPushedCodeRef.current = pushedCode;
       setPushedAlert("Mentor baru saja mengirimkan kode peraga ke editormu.");
       setEditorCode(pushedCode);
-      updateStudentLiveCode(pushedCode);
       const timer = setTimeout(() => setPushedAlert(null), 6000);
       return () => clearTimeout(timer);
     }
-  }, [pushedCode, updateStudentLiveCode]);
+  }, [pushedCode]);
 
   // Run student code locally in Pyodide & sync output with tutor's live inspector
   const handleRunCode = async () => {

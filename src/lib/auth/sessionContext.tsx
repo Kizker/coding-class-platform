@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useState, useEffect, useCallback, useRef } from "react";
 
 export type UserRole = "student" | "tutor" | "parent";
 
@@ -276,27 +276,32 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   };
 
   const [liveSync, setLiveSync] = useState<LiveSessionSyncData>(DEFAULT_LIVE_SYNC);
+  const lastUpdatedRef = useRef<number>(0);
+  const lastPushedRef = useRef<string | null>(null);
 
   // Cross-window realtime synchronization polling
   useEffect(() => {
+    let isCancelled = false;
+
     const fetchSync = async () => {
       try {
         const res = await fetch("/api/v1/sync/live-session", { cache: "no-store" });
-        if (res.ok) {
+        if (res.ok && !isCancelled) {
           const json = await res.json();
           if (json.success && json.data) {
-            setLiveSync((prev) => {
-              if (json.data.lastUpdated !== prev.lastUpdated) {
-                if (json.data.pushedCode && json.data.pushedCode !== pushedCode) {
-                  setPushedCode(json.data.pushedCode);
-                }
-                if (json.data.studentLiveCode && role === "tutor") {
-                  setStudentLiveCode(json.data.studentLiveCode);
-                }
-                return json.data;
+            if (json.data.lastUpdated !== lastUpdatedRef.current) {
+              lastUpdatedRef.current = json.data.lastUpdated;
+              setLiveSync(json.data);
+
+              if (json.data.pushedCode && json.data.pushedCode !== lastPushedRef.current) {
+                lastPushedRef.current = json.data.pushedCode;
+                setPushedCode(json.data.pushedCode);
               }
-              return prev;
-            });
+
+              if (json.data.studentLiveCode && role === "tutor") {
+                setStudentLiveCode(json.data.studentLiveCode);
+              }
+            }
           }
         }
       } catch {}
@@ -304,10 +309,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
 
     fetchSync();
     const interval = setInterval(fetchSync, 1200);
-    return () => clearInterval(interval);
-  }, [pushedCode, role]);
+    return () => {
+      isCancelled = true;
+      clearInterval(interval);
+    };
+  }, [role]);
 
-  const updateLiveSync = async (partial: Partial<LiveSessionSyncData>) => {
+  const updateLiveSync = useCallback(async (partial: Partial<LiveSessionSyncData>) => {
     setLiveSync((prev) => ({ ...prev, ...partial }));
     try {
       await fetch("/api/v1/sync/live-session", {
@@ -316,27 +324,37 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         body: JSON.stringify(partial),
       });
     } catch {}
-  };
+  }, []);
 
-  const tutorAdvanceStep = async (step: number, subStep = 1, title = "", note = "") => {
-    await updateLiveSync({
-      currentStep: step,
-      subStep,
-      tutorStepTitle: title,
-      tutorNote: note,
-    });
-  };
+  const tutorAdvanceStep = useCallback(
+    async (step: number, subStep = 1, title = "", note = "") => {
+      await updateLiveSync({
+        currentStep: step,
+        subStep,
+        tutorStepTitle: title,
+        tutorNote: note,
+      });
+    },
+    [updateLiveSync]
+  );
 
-  const pushCodeToStudent = (code: string) => {
-    setPushedCode(code);
-    setStudentLiveCode(code);
-    updateLiveSync({ pushedCode: code, studentLiveCode: code });
-  };
+  const pushCodeToStudent = useCallback(
+    (code: string) => {
+      setPushedCode(code);
+      lastPushedRef.current = code;
+      setStudentLiveCode(code);
+      updateLiveSync({ pushedCode: code, studentLiveCode: code });
+    },
+    [updateLiveSync]
+  );
 
-  const updateStudentLiveCode = (code: string) => {
-    setStudentLiveCode(code);
-    updateLiveSync({ studentLiveCode: code });
-  };
+  const updateStudentLiveCode = useCallback(
+    (code: string) => {
+      setStudentLiveCode(code);
+      updateLiveSync({ studentLiveCode: code });
+    },
+    [updateLiveSync]
+  );
 
   return (
     <SessionContext.Provider
