@@ -24,7 +24,7 @@ export default function TutorDashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-black py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="max-w-5xl mx-auto space-y-9">
+      <div className="max-w-7xl mx-auto space-y-9">
         {/* ======================================================== */}
         {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT (NEO)       */}
         {/* ======================================================== */}
@@ -77,49 +77,49 @@ export default function TutorDashboardPage() {
             </div>
           </div>
 
-          {/* Integrated Learning Snapshot */}
+          {/* Integrated Learning Snapshot - Standardized Uniform Height Inner Boxes */}
           <div className="pt-4 border-t-2 border-black">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-2">
               {/* Stat 1: Next Schedule */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🗓️
                 </div>
-                <div>
-                  <div className="text-sm font-black text-black">
+                <div className="min-w-0">
+                  <div className="text-sm font-black text-black truncate">
                     Jumat, 16.00 &ndash; 18.00 WIB
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     Pertemuan 1 &bull; Logika &amp; print()
                   </div>
                 </div>
               </div>
 
               {/* Stat 2: Student Consistency */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🔥
                 </div>
-                <div>
-                  <div className="text-lg font-black text-black" suppressHydrationWarning>
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-black leading-tight truncate" suppressHydrationWarning>
                     {isMounted ? progress.streakDays : 3} Hari Berturut
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     PR Mandiri 3 Selesai (Pekan 1)
                   </div>
                 </div>
               </div>
 
               {/* Stat 3: Curriculum Progress */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#FED7AA] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#FED7AA] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🌱
                 </div>
-                <div>
-                  <div className="text-lg font-black text-black" suppressHydrationWarning>
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-black leading-tight truncate" suppressHydrationWarning>
                     Pekan {isMounted ? progress.currentWeek : 1} dari 12
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     Fase 1: Fondasi Logika Dasar
                   </div>
                 </div>

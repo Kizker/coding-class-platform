@@ -42,28 +42,28 @@ export default function StudentAssignmentsPage() {
   };
 
   return (
-    <div className="min-h-[calc(100vh-3.5rem)] bg-[#FAFAF9] text-stone-900 py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="max-w-5xl mx-auto space-y-6">
+    <div className="min-h-screen bg-[#FDFBF7] text-black py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
+      <div className="max-w-7xl mx-auto space-y-6">
         {/* Header Hero */}
-        <div className="bg-white rounded-2xl border border-stone-200/80 p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[5px_5px_0px_#000] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
-            <span className="text-[11px] font-semibold text-stone-400 uppercase tracking-wider block">
+            <span className="text-[11px] font-black text-black uppercase tracking-wider block">
               Latihan Mandiri Terstruktur
             </span>
-            <h1 className="text-2xl font-bold text-stone-900 tracking-tight">
+            <h1 className="text-2xl sm:text-3xl font-black text-black tracking-tight uppercase">
               Tantangan Pemrograman Harian
             </h1>
-            <p className="text-xs text-stone-500 leading-relaxed max-w-xl">
+            <p className="text-xs text-stone-800 font-bold leading-relaxed max-w-xl">
               Latihan mandiri 15 menit sehari untuk membangun insting koding dan pemecahan masalah sebelum sesi tatap muka akhir pekan.
             </p>
           </div>
 
           <div className="flex items-center space-x-2.5 text-xs shrink-0">
-            <span className="text-stone-500 font-medium">Pekan:</span>
+            <span className="text-black font-black uppercase">Pekan:</span>
             <select
               value={selectedWeek}
               onChange={(e) => setSelectedWeek(parseInt(e.target.value, 10))}
-              className="bg-white border border-stone-200 rounded-xl px-3 py-2 text-xs font-semibold text-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-900/15 cursor-pointer shadow-2xs"
+              className="bg-white border-2 border-black shadow-[2px_2px_0px_#000] px-3 py-2 text-xs font-black text-black focus:outline-none cursor-pointer uppercase"
             >
               {CURRICULUM_DATA.map((w) => (
                 <option key={w.week} value={w.week}>
@@ -75,7 +75,7 @@ export default function StudentAssignmentsPage() {
         </div>
 
         {/* Filter Bar */}
-        <div className="flex items-center space-x-1.5 overflow-x-auto text-xs">
+        <div className="flex items-center space-x-2 overflow-x-auto text-xs pb-1">
           {[
             { id: "ALL", label: "Semua Tugas" },
             { id: "RECALL", label: "Recall" },
@@ -86,10 +86,10 @@ export default function StudentAssignmentsPage() {
             <button
               key={tab.id}
               onClick={() => setFilterType(tab.id)}
-              className={`px-3.5 py-1.5 rounded-xl transition text-xs font-medium cursor-pointer ${
+              className={`px-4 py-2 border-2 border-black text-xs font-black uppercase transition-all cursor-pointer ${
                 filterType === tab.id
-                  ? "bg-stone-900 text-white shadow-2xs font-semibold"
-                  : "bg-white text-stone-600 hover:text-stone-900 hover:bg-stone-50 border border-stone-200/80"
+                  ? "bg-black text-[#FACC15] shadow-[3px_3px_0px_#000] translate-x-[-1px] translate-y-[-1px]"
+                  : "bg-white text-black shadow-[2px_2px_0px_#000] hover:bg-[#FEF08A]"
               }`}
             >
               {tab.label}
@@ -106,51 +106,51 @@ export default function StudentAssignmentsPage() {
             return (
               <div
                 key={a.id}
-                className="bg-white border border-stone-200/80 p-5 rounded-2xl shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col justify-between space-y-4"
+                className="bg-white border-2 border-black p-5 shadow-[4px_4px_0px_#000] flex flex-col justify-between space-y-4"
               >
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs">
+                  <div className="flex items-center justify-between text-xs pb-2 border-b-2 border-black/20">
                     <div className="flex items-center space-x-2">
-                      <span className="font-bold text-stone-900">
+                      <span className="font-black text-black uppercase tracking-tight">
                         {dayLabelMap[a.day] || a.day}
                       </span>
-                      <span className={`text-[10px] px-2 py-0.5 rounded-md font-medium ${badge.style}`}>
+                      <span className="text-[10px] px-2 py-0.5 border border-black font-black uppercase bg-[#FEF08A] text-black">
                         {badge.label}
                       </span>
                     </div>
 
-                    <span className="px-2 py-0.5 rounded-md bg-stone-50 text-stone-700 border border-stone-200/60 font-semibold text-[11px] flex items-center space-x-1">
-                      <Zap className="w-3 h-3 text-amber-500 fill-amber-500" />
+                    <span className="px-2 py-0.5 bg-[#86EFAC] text-black border border-black font-black text-[11px] flex items-center space-x-1 shadow-[1px_1px_0px_#000]">
+                      <Zap className="w-3 h-3 text-black fill-black" />
                       <span>+{a.points} XP</span>
                     </span>
                   </div>
 
                   <div>
-                    <h3 className="text-sm font-semibold text-stone-900 tracking-tight leading-snug">
+                    <h3 className="text-sm font-black text-black tracking-tight leading-snug uppercase">
                       {a.title}
                     </h3>
-                    <p className="text-xs text-stone-500 leading-relaxed line-clamp-2 mt-1 font-sans">
+                    <p className="text-xs text-stone-800 font-bold leading-relaxed line-clamp-2 mt-1">
                       {a.challengeInstructions}
                     </p>
                   </div>
                 </div>
 
-                <div className="pt-3 border-t border-stone-100 flex items-center justify-between text-xs">
-                  <span className="text-stone-400 flex items-center space-x-1.5">
-                    <Clock className="w-3.5 h-3.5 text-stone-400" />
+                <div className="pt-3 border-t-2 border-black/20 flex items-center justify-between text-xs">
+                  <span className="text-black font-bold flex items-center space-x-1.5">
+                    <Clock className="w-3.5 h-3.5 text-black stroke-[2.5]" />
                     <span>{a.durationMinutes} Menit</span>
                   </span>
 
                   <Link
                     href={`/student/learn/${selectedWeek}/${a.day}`}
-                    className={`px-3.5 py-1.5 rounded-xl font-semibold text-xs transition flex items-center space-x-1 cursor-pointer ${
+                    className={`px-4 py-2 border-2 border-black font-black text-xs uppercase transition-all flex items-center space-x-1 cursor-pointer shadow-[2px_2px_0px_#000] hover:translate-x-[-1px] hover:translate-y-[-1px] active:translate-x-[2px] active:translate-y-[2px] active:shadow-none ${
                       isDone
-                        ? "bg-emerald-50 text-emerald-800 border border-emerald-200 hover:bg-emerald-100"
-                        : "bg-stone-900 hover:bg-stone-800 text-white shadow-2xs"
+                        ? "bg-[#86EFAC] text-black hover:bg-emerald-400"
+                        : "bg-[#FACC15] hover:bg-yellow-400 text-black"
                     }`}
                   >
                     <span>{isDone ? "Buka Kembali" : "Kerjakan Tugas"}</span>
-                    <ChevronRight className="w-3.5 h-3.5" />
+                    <ChevronRight className="w-3.5 h-3.5 stroke-[3]" />
                   </Link>
                 </div>
               </div>

@@ -163,7 +163,7 @@ export default function StudentDashboardPage() {
 
   return (
     <div className="min-h-screen bg-[#FDFBF7] text-black py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
-      <div className="max-w-5xl mx-auto space-y-9">
+      <div className="max-w-7xl mx-auto space-y-9">
         {/* ======================================================== */}
         {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT (NEO)       */}
         {/* ======================================================== */}
@@ -211,49 +211,49 @@ export default function StudentDashboardPage() {
             </div>
           </div>
 
-          {/* Integrated Learning Snapshot */}
+          {/* Integrated Learning Snapshot - Standardized Uniform Height Inner Boxes */}
           <div className="pt-4 border-t-2 border-black">
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-2">
               {/* Stat 1: Streak */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#FEF08A] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🔥
                 </div>
-                <div>
-                  <div className="text-lg font-black text-black" suppressHydrationWarning>
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-black leading-tight truncate" suppressHydrationWarning>
                     {isMounted ? progress.streakDays : 3} Hari Berturut
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     Konsistensi PR Harian
                   </div>
                 </div>
               </div>
 
               {/* Stat 2: XP */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#86EFAC] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   ⚡
                 </div>
-                <div>
-                  <div className="text-lg font-black text-black" suppressHydrationWarning>
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-black leading-tight truncate" suppressHydrationWarning>
                     {isMounted ? progress.xpPoints : 65} XP Terkumpul
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     Level 01 &bull; Novice Learner
                   </div>
                 </div>
               </div>
 
               {/* Stat 3: Curriculum Roadmap */}
-              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5">
-                <div className="w-12 h-12 bg-[#FED7AA] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
+              <div className="p-3.5 bg-white border-2 border-black shadow-[3px_3px_0px_#000] flex items-center space-x-3.5 h-[78px]">
+                <div className="w-11 h-11 bg-[#FED7AA] border-2 border-black shadow-[2px_2px_0px_#000] flex items-center justify-center text-xl shrink-0">
                   🌱
                 </div>
-                <div>
-                  <div className="text-lg font-black text-black" suppressHydrationWarning>
+                <div className="min-w-0">
+                  <div className="text-base sm:text-lg font-black text-black leading-tight truncate" suppressHydrationWarning>
                     Pekan {isMounted ? currentWeekNum : 1} dari 12
                   </div>
-                  <div className="text-[11px] font-bold text-stone-700 uppercase">
+                  <div className="text-[11px] font-bold text-stone-700 uppercase truncate">
                     Fase {currentWeekData.phase}: {currentWeekData.phaseTitle}
                   </div>
                 </div>
@@ -309,7 +309,7 @@ export default function StudentDashboardPage() {
             </div>
           </div>
 
-          {/* 7 Glanceable Uncrowded Cards */}
+          {/* 7 Glanceable Uncrowded Cards - Uniform Height & Aligned Bottom Status */}
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             {weeklyDays.map((day) => {
               const status = getCardStatus(day);
@@ -318,28 +318,28 @@ export default function StudentDashboardPage() {
                 <Link
                   key={day.key}
                   href={day.href}
-                  className={`p-3.5 transition-all flex flex-col justify-between h-38 cursor-pointer ${status.cardStyle}`}
+                  className={`p-3.5 transition-all flex flex-col justify-between h-[168px] cursor-pointer ${status.cardStyle}`}
                 >
                   {/* Top: Day Label & Status Icon */}
-                  <div className="flex items-center justify-between pb-1 border-b border-black/30">
+                  <div className="flex items-center justify-between pb-1.5 border-b border-black/30">
                     <span className="text-xs font-black text-black uppercase tracking-tight">
                       {day.label}
                     </span>
                     {status.icon}
                   </div>
 
-                  {/* Middle: Type & Short Title */}
+                  {/* Middle: Type & Short Title with fixed title container */}
                   <div className="space-y-1 my-auto">
                     <span className="text-[10px] text-stone-800 font-bold block uppercase leading-none">
                       {day.typeLabel}
                     </span>
-                    <h3 className="text-xs font-black leading-snug line-clamp-2">
+                    <h3 className="text-xs font-black leading-snug line-clamp-2 h-[2.25rem] flex items-center">
                       {day.title}
                     </h3>
                   </div>
 
                   {/* Bottom: Clean Status Pill */}
-                  <div>
+                  <div className="pt-1 border-t border-black/15">
                     <span
                       className={`text-[9px] px-1.5 py-0.5 inline-block ${status.badgeStyle}`}
                     >
