@@ -30,15 +30,26 @@ export default function StudentDashboardPage() {
   const { progress, isTaskCompleted, isMounted } = useSession();
   const { serverTime, activeDayIndex } = useServerTime(15000);
 
-  // 7-day routine data simplified for current week (Pekan 4)
+  const currentWeekNum = progress.currentWeek || 1;
+  const currentWeekData =
+    CURRICULUM_DATA.find((w) => w.week === currentWeekNum) || CURRICULUM_DATA[0];
+
+  const p1 = currentWeekData.assignments.find((a) => a.day === "senin");
+  const p2 = currentWeekData.assignments.find((a) => a.day === "selasa");
+  const p3 = currentWeekData.assignments.find((a) => a.day === "rabu");
+  const p4 = currentWeekData.assignments.find((a) => a.day === "kamis");
+  const l1 = currentWeekData.liveSessions.find((s) => s.day === "jumat");
+  const l2 = currentWeekData.liveSessions.find((s) => s.day === "sabtu");
+
+  // 7-day routine data dynamically populated from current week's curriculum
   const weeklyDays: DayRoutineItem[] = [
     {
       key: "senin",
       dayIndex: 1,
       label: "Senin",
       typeLabel: "PR 15 Menit",
-      title: "Fungsi Modular (def)",
-      href: "/student/learn/4/senin",
+      title: p1 ? p1.title.replace(/^PR \d+:\s*/, "") : "Menyapa Dunia",
+      href: `/student/learn/${currentWeekNum}/senin`,
       isLiveClass: false,
     },
     {
@@ -46,8 +57,8 @@ export default function StudentDashboardPage() {
       dayIndex: 2,
       label: "Selasa",
       typeLabel: "PR 15 Menit",
-      title: "Alur Logika Game CLI",
-      href: "/student/learn/4/selasa",
+      title: p2 ? p2.title.replace(/^PR \d+:\s*/, "") : "Alur Eksekusi",
+      href: `/student/learn/${currentWeekNum}/selasa`,
       isLiveClass: false,
     },
     {
@@ -55,8 +66,8 @@ export default function StudentDashboardPage() {
       dayIndex: 3,
       label: "Rabu",
       typeLabel: "PR 20 Menit",
-      title: "Debug return Terlewat",
-      href: "/student/learn/4/rabu",
+      title: p3 ? p3.title.replace(/^PR \d+:\s*/, "") : "Memperbaiki Petik",
+      href: `/student/learn/${currentWeekNum}/rabu`,
       isLiveClass: false,
     },
     {
@@ -64,8 +75,8 @@ export default function StudentDashboardPage() {
       dayIndex: 4,
       label: "Kamis",
       typeLabel: "PR 20 Menit",
-      title: "Eksplorasi Modul Random",
-      href: "/student/learn/4/kamis",
+      title: p4 ? p4.title.replace(/^PR \d+:\s*/, "") : "Pemanasan Variabel",
+      href: `/student/learn/${currentWeekNum}/kamis`,
       isLiveClass: false,
     },
     {
@@ -73,17 +84,17 @@ export default function StudentDashboardPage() {
       dayIndex: 5,
       label: "Jumat",
       typeLabel: "Tatap Muka 2 Jam",
-      title: "Fungsi Modular & Analogi",
-      href: "/student/live-session/4/jumat",
+      title: l1 ? l1.title.replace(/^Pertemuan \d+:\s*/, "") : "Logika & print()",
+      href: `/student/live-session/${currentWeekNum}/jumat`,
       isLiveClass: true,
     },
     {
       key: "sabtu",
       dayIndex: 6,
       label: "Sabtu",
-      typeLabel: "Capstone 2 Jam",
-      title: "Game Konsol CLI",
-      href: "/student/live-session/4/sabtu",
+      typeLabel: currentWeekData.capstoneInfo ? "Capstone 2 Jam" : "Tatap Muka 2 Jam",
+      title: l2 ? l2.title.replace(/^Pertemuan \d+:\s*/, "") : "Kotak Memori",
+      href: `/student/live-session/${currentWeekNum}/sabtu`,
       isLiveClass: true,
     },
     {
@@ -91,7 +102,7 @@ export default function StudentDashboardPage() {
       dayIndex: 7,
       label: "Minggu",
       typeLabel: "Refleksi",
-      title: "Rapor Belajar Pekan",
+      title: `Rapor Belajar Pekan ${String(currentWeekNum).padStart(2, "0")}`,
       href: "/student/profile",
       isLiveClass: false,
     },
@@ -182,7 +193,7 @@ export default function StudentDashboardPage() {
               <p className="text-sm text-stone-600 max-w-xl leading-relaxed">
                 Hari ini waktunya belajar langsung bersama mentor di{" "}
                 <strong className="text-stone-900 font-semibold">
-                  Pekan 04: Fungsi Modular &amp; Proyek Capstone 1
+                  Pekan {isMounted ? String(currentWeekNum).padStart(2, "0") : "01"}: {currentWeekData.title}
                 </strong>
                 . Klik tombol di samping untuk masuk ke ruang kelas live.
               </p>
@@ -190,7 +201,7 @@ export default function StudentDashboardPage() {
 
             <div className="shrink-0">
               <Link
-                href="/student/live-session/4/jumat"
+                href={`/student/live-session/${currentWeekNum}/jumat`}
                 className="inline-flex items-center space-x-2.5 px-6 py-3 rounded-xl bg-stone-900 text-white font-medium text-xs hover:bg-stone-800 hover:shadow-md transition-all cursor-pointer group"
               >
                 <Video className="w-4 h-4 text-stone-300 group-hover:scale-110 transition-transform" />
@@ -210,7 +221,7 @@ export default function StudentDashboardPage() {
                 </div>
                 <div>
                   <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
-                    {isMounted ? progress.streakDays : 5} Hari Berturut
+                    {isMounted ? progress.streakDays : 3} Hari Berturut
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
                     Konsistensi PR Harian
@@ -225,10 +236,10 @@ export default function StudentDashboardPage() {
                 </div>
                 <div>
                   <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
-                    {isMounted ? progress.xpPoints : 340} XP Terkumpul
+                    {isMounted ? progress.xpPoints : 65} XP Terkumpul
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
-                    Level 02 &bull; Apprentice
+                    Level 01 &bull; Novice Learner
                   </div>
                 </div>
               </div>
@@ -240,10 +251,10 @@ export default function StudentDashboardPage() {
                 </div>
                 <div>
                   <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
-                    Pekan {isMounted ? progress.currentWeek : 4} dari 12
+                    Pekan {isMounted ? currentWeekNum : 1} dari 12
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
-                    Fase 1: Fondasi Logika
+                    Fase {currentWeekData.phase}: {currentWeekData.phaseTitle}
                   </div>
                 </div>
               </div>
@@ -252,13 +263,15 @@ export default function StudentDashboardPage() {
             {/* Subtle Progress Bar */}
             <div className="mt-4 pt-3 border-t border-stone-100 space-y-1.5">
               <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-                <span>Progres Pekan 4 Menuju Capstone 1</span>
-                <span className="font-semibold text-stone-800">34% Tuntas</span>
+                <span>Progres {currentWeekData.title}</span>
+                <span className="font-semibold text-stone-800" suppressHydrationWarning>
+                  {Math.round((currentWeekNum / 12) * 100)}% Kurikulum
+                </span>
               </div>
               <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
                 <div
                   className="bg-stone-800 h-full rounded-full transition-all duration-500"
-                  style={{ width: "34%" }}
+                  style={{ width: `${Math.round((currentWeekNum / 12) * 100)}%` }}
                 />
               </div>
             </div>

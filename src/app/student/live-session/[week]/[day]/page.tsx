@@ -72,80 +72,65 @@ export default function StudentLiveSessionPage({
   const subMaterials = [
     {
       sub: 1,
-      title: "Sub-Materi 1: Fondasi Sintaks 'def' & Parameter Masukan",
+      title: "Sub-Materi 1: Model Komputasi Input - Proses - Output (IPO) & Fungsi print()",
       concept:
-        "Fungsi adalah blok kode modular yang dapat dipanggil berkali-kali. Parameter adalah wadah data masukan agar fungsi bersifat dinamis dan fleksibel.",
-      demoCode: `# Sub-Materi 1: Kode Peraga Mentor
-def sapa_siswa(nama, pekan):
-    return f"Halo {nama}, selamat belajar di Pekan {pekan}!"
+        "Komputer bekerja dengan model IPO: Menerima Masukan (Input), Mengolah Logika (Proses), dan Menghasilkan Tampilan (Output). Fungsi print() adalah jembatan utama untuk menampilkan teks hasil ke terminal.",
+      demoCode: `# Sub-Materi 1: Model Komputasi IPO
+# 1. Input: Data siswa
+nama = "Andi Pratama"
+pekan = 1
 
-pesan = sapa_siswa("Andi", ${weekNum})
-print(pesan)`,
+# 2. Proses: Merangkai teks informasi
+laporan = f"Siswa: {nama} | Status: Aktif Belajar Pekan {pekan}"
+
+# 3. Output: Cetak ke layar terminal
+print(laporan)`,
       trialInstruction:
-        "Latihan Mandiri: Buat fungsi 'hitung_keliling(sisi)' yang mengembalikan keliling persegi (4 * sisi). Cetak hasil pemanggilannya ke terminal.",
-      trialStarter: `# Latihan Mandiri Sub 1:
-def hitung_keliling(sisi):
-    return 4 * sisi
+        "Uji Praktik Mandiri: Buat variabel 'nama_siswa' dan 'mata_pelajaran' (misal: 'Python Dasar'). Lalu cetak kalimat: 'Halo, saya [nama_siswa] siap menguasai [mata_pelajaran]!'",
+      trialStarter: `# Uji Praktik Mandiri Sub 1:
+nama_siswa = "Andi"
+mata_pelajaran = "Python Dasar"
 
-print("Keliling Persegi (sisi 7):", hitung_keliling(7))`,
+# Cetak kalimatmu di bawah:
+print(f"Halo, saya {nama_siswa} siap menguasai {mata_pelajaran}!")`,
     },
     {
       sub: 2,
-      title: "Sub-Materi 2: Perbedaan Fundamental 'return' vs 'print()'",
+      title: "Sub-Materi 2: Format Teks, Baris Baru (\\n), Tab (\\t), & Escape Characters",
       concept:
-        "'print()' hanya memunculkan teks di terminal tanpa menyimpan nilainya. Sebaliknya, 'return' mengembalikan nilai hasil komputasi ke pemanggil agar dapat diolah pada kalkulasi berikutnya.",
-      demoCode: `# Sub-Materi 2: Kode Peraga Mentor
-def hitung_diskon(total_belanja):
-    if total_belanja >= 100000:
-        return total_belanja * 0.10
-    return 0
-
-belanja = 125000
-diskon = hitung_diskon(belanja)
-total_bayar = belanja - diskon
-print(f"Total Bayar setelah diskon: Rp {int(total_bayar):,}")`,
+        "\\n digunakan untuk membuat baris baru, dan \\t memberikan jarak tabulasi seperti tombol Tab di keyboard. Karakter ini sangat penting untuk menyusun tata letak teks berstruktur rapi tanpa mengetik spasi manual.",
+      demoCode: `# Sub-Materi 2: Format Teks & Tabulasi
+print("DAFTAR NILAI KODING:")
+print("\\t1. Logika Komputasi\\t: A")
+print("\\t2. Sintaksis Python\\t: A+")
+print("\\nCatatan: Tetap konsisten dan eksploratif!")`,
       trialInstruction:
-        "Latihan Mandiri: Buat fungsi 'cek_kelulusan(nilai)' yang mengembalikan 'LULUS' jika nilai >= 75 dan 'REMIDI' jika nilai < 75. Simpan hasilnya ke variabel lalu cetak.",
-      trialStarter: `# Latihan Mandiri Sub 2:
-def cek_kelulusan(nilai):
-    if nilai >= 75:
-        return "LULUS"
-    return "REMIDI"
-
-status = cek_kelulusan(85)
-print("Status Andi:", status)`,
+        "Uji Praktik Mandiri: Buatlah tampilan struk toko sederhana dengan judul di atas, diikuti daftar 2 barang menggunakan tabulasi (\\t), dan status pembayaran di baris baru.",
+      trialStarter: `# Uji Praktik Mandiri Sub 2:
+print("=== TOKO BUKU INFORMATIKA ===")
+print("Item Belanja:\\n\\t1. Buku Logika Python\\n\\t2. Catatan Algoritma")
+print("\\nStatus: Pembayaran Lunas")`,
     },
     {
       sub: 3,
-      title: "Sub-Materi 3: Scope Variabel & Integrasi Modul Eksternal",
+      title: "Sub-Materi 3: Kotak Memori: Variabel, Re-assignment, & F-String",
       concept:
-        "Variabel di dalam fungsi bersifat LOKAL dan tidak mempengaruhi variabel luar bernama sama. Python juga menyediakan pustaka seperti 'random' yang bisa dipadukan di dalam fungsi.",
-      demoCode: `# Sub-Materi 3: Kode Peraga Mentor
-import random
+        "Variabel diibaratkan seperti kotak kardus berlabel nama untuk menyimpan data di memori RAM. Nilai dalam variabel bisa diperbarui (re-assignment) dari atas ke bawah, dan f-string memudahkan menyisipkan data variabel ke dalam kalimat.",
+      demoCode: `# Sub-Materi 3: Kotak Memori & Re-assignment
+saldo = 50000
+print(f"Saldo awal: Rp {saldo:,}")
 
-pilihan = ["Batu", "Gunting", "Kertas"]
-
-def bot_pilih():
-    return random.choice(pilihan)
-
-komputer = bot_pilih()
-print("Langkah Komputer:", komputer)`,
+# Andi membeli buku latihan koding seharga 25000
+saldo = saldo - 25000
+print(f"Sisa saldo sekarang: Rp {saldo:,}")`,
       trialInstruction:
-        "Latihan Mandiri: Buat fungsi 'suit(pemain)' yang mengacak pilihan bot dan menentukan apakah pemain 'Menang', 'Kalah', atau 'Seri'.",
-      trialStarter: `# Latihan Mandiri Sub 3:
-import random
+        "Uji Praktik Mandiri: Deklarasikan variabel 'panjang = 12' dan 'lebar = 5'. Hitung luas persegi panjang ke dalam variabel 'luas', lalu cetak hasilnya dengan f-string: 'Luas Persegi Panjang: [luas] cm2'.",
+      trialStarter: `# Uji Praktik Mandiri Sub 3:
+panjang = 12
+lebar = 5
+luas = panjang * lebar
 
-def suit(pemain):
-    bot = random.choice(["Batu", "Gunting", "Kertas"])
-    print(f"Pemain: {pemain} vs Bot: {bot}")
-    if pemain == bot:
-        return "Hasil: SERI"
-    elif (pemain == "Batu" and bot == "Gunting") or (pemain == "Gunting" and bot == "Kertas") or (pemain == "Kertas" and bot == "Batu"):
-        return "Hasil: ANDI MENANG!"
-    else:
-        return "Hasil: BOT MENANG"
-
-print(suit("Batu"))`,
+print(f"Luas Persegi Panjang: {luas} cm2")`,
     },
   ];
 

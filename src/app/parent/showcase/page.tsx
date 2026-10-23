@@ -1,12 +1,16 @@
 "use client";
 
 import React from "react";
+import { useSession } from "@/lib/auth/sessionContext";
 import { Check, Code2, Terminal } from "lucide-react";
 
 export default function ParentShowcasePage() {
+  const { progress } = useSession();
+
   const projects = [
     {
       id: "cap-1",
+      weekNumber: 4,
       title: "Karya 1: Game CLI Tebak Angka Rahasia",
       week: "PEKAN 04 // CAPSTONE 01",
       status: "TERVERIFIKASI",
@@ -29,6 +33,7 @@ Skor Kemenangan: 100 Poin.`,
     },
     {
       id: "cap-2",
+      weekNumber: 2,
       title: "Latihan Praktik: Kalkulator Konversi Waktu & Bangun Datar",
       week: "PEKAN 02 // PRAKTIK MANDIRI",
       status: "TERVERIFIKASI",
@@ -45,6 +50,7 @@ Perhitungan Luas Segitiga (alas: 10, tinggi: 8): 40.0 cm2`,
     },
     {
       id: "cap-3",
+      weekNumber: 1,
       title: "Latihan Praktik: Kartu Identitas Digital Pelajar",
       week: "PEKAN 01 // PRAKTIK MANDIRI",
       status: "TERVERIFIKASI",
@@ -65,6 +71,8 @@ Status     : Aktif Mengikuti Bimbingan`,
     },
   ];
 
+  const activeProjects = projects.filter((p) => p.weekNumber <= (progress.currentWeek || 1));
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
@@ -81,7 +89,7 @@ Status     : Aktif Mengikuti Bimbingan`,
         </div>
 
         <div className="space-y-6">
-          {projects.map((p) => (
+          {activeProjects.map((p) => (
             <div
               key={p.id}
               className="ui-card-outer p-6 sm:p-7 space-y-5 rounded-2xl"

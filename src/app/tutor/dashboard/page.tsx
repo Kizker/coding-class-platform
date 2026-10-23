@@ -59,7 +59,7 @@ export default function TutorDashboardPage() {
             {/* Action Buttons */}
             <div className="flex flex-wrap items-center gap-3 shrink-0">
               <Link
-                href="/tutor/studio/4/jumat"
+                href={`/tutor/studio/${progress.currentWeek || 1}/jumat`}
                 className="px-5 py-2.5 rounded-xl bg-stone-900 text-white font-semibold text-xs hover:bg-stone-800 transition flex items-center space-x-2 shadow-xs group cursor-pointer"
               >
                 <Terminal className="w-4 h-4 text-stone-300 group-hover:scale-110 transition-transform" />
@@ -90,7 +90,7 @@ export default function TutorDashboardPage() {
                     Jumat, 16.00 &ndash; 18.00 WIB
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
-                    Pertemuan 7 &bull; Fungsi Modular (def)
+                    Pertemuan 1 &bull; Logika Komputer, IPO &amp; print()
                   </div>
                 </div>
               </div>
@@ -102,10 +102,10 @@ export default function TutorDashboardPage() {
                 </div>
                 <div>
                   <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
-                    {isMounted ? progress.streakDays : 5} Hari Berturut
+                    {isMounted ? progress.streakDays : 3} Hari Berturut
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
-                    PR Mandiri Tuntas 100% (4/4 Pekan Ini)
+                    PR Mandiri 3 Selesai (Pekan 1)
                   </div>
                 </div>
               </div>
@@ -117,10 +117,10 @@ export default function TutorDashboardPage() {
                 </div>
                 <div>
                   <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
-                    Pekan {isMounted ? progress.currentWeek : 4} dari 12
+                    Pekan {isMounted ? progress.currentWeek : 1} dari 12
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
-                    Fase 1: Fondasi Logika &amp; Capstone 1
+                    Fase 1: Fondasi Logika &amp; Komputasi Dasar
                   </div>
                 </div>
               </div>
@@ -129,13 +129,13 @@ export default function TutorDashboardPage() {
             {/* Subtle Progress Bar */}
             <div className="mt-4 pt-3 border-t border-stone-100 space-y-1.5">
               <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
-                <span>Status Kepatuhan Tugas Pekan 4</span>
-                <span className="font-semibold text-stone-800">Semua PR Terverifikasi (Auto-Grader OK)</span>
+                <span>Status Kepatuhan Tugas Pekan {progress.currentWeek || 1}</span>
+                <span className="font-semibold text-stone-800">PR Terverifikasi (Auto-Grader OK)</span>
               </div>
               <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
                 <div
                   className="bg-emerald-600 h-full rounded-full transition-all duration-500"
-                  style={{ width: "100%" }}
+                  style={{ width: `${Math.round(((progress.currentWeek || 1) / 12) * 100)}%` }}
                 />
               </div>
             </div>
@@ -160,7 +160,7 @@ export default function TutorDashboardPage() {
             <div className="space-y-3 pt-2">
               {/* Card 1: Studio Mengajar */}
               <Link
-                href="/tutor/studio/4/jumat"
+                href={`/tutor/studio/${progress.currentWeek || 1}/jumat`}
                 className="p-4 rounded-xl border border-stone-200/80 hover:border-stone-400 bg-stone-50/50 hover:bg-white transition-all flex items-start justify-between gap-4 group cursor-pointer"
               >
                 <div className="flex items-start space-x-3.5">

@@ -84,7 +84,7 @@ export function Navbar() {
                       Dashboard
                     </Link>
                     <Link
-                      href="/tutor/studio/4/jumat"
+                      href={`/tutor/studio/${progress?.currentWeek || 1}/jumat`}
                       className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname.startsWith("/tutor/studio")
                           ? "bg-stone-900 text-white shadow-xs font-semibold"

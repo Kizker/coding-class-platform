@@ -33,15 +33,15 @@ export default function StudentProfilePage() {
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2 text-xs font-mono">
               <span className="px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-bold flex items-center space-x-1.5">
                 <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
-                <span suppressHydrationWarning>STREAK: {isMounted ? progress.streakDays : 5} HARI</span>
+                <span suppressHydrationWarning>STREAK: {isMounted ? progress.streakDays : 3} HARI</span>
               </span>
               <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 font-bold flex items-center space-x-1.5">
                 <Zap className="w-3.5 h-3.5 text-blue-600" />
-                <span suppressHydrationWarning>TOTAL: {isMounted ? progress.xpPoints : 340} XP</span>
+                <span suppressHydrationWarning>TOTAL: {isMounted ? progress.xpPoints : 65} XP</span>
               </span>
               <span className="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold flex items-center space-x-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span suppressHydrationWarning>TUGAS: {isMounted ? progress.completedAssignments : 15} SELESAI</span>
+                <span suppressHydrationWarning>TUGAS: {isMounted ? progress.completedAssignments : 3} SELESAI</span>
               </span>
             </div>
           </div>

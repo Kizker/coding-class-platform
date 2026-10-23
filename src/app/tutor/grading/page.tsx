@@ -126,7 +126,7 @@ export default function TutorGradingPage() {
               </p>
             </div>
             <span className="font-mono text-xs text-blue-700 border border-blue-200 bg-blue-50 px-3 py-1 rounded-full font-bold">
-              PEKAN 04
+              PEKAN {String(progress.currentWeek || 1).padStart(2, "0")}
             </span>
           </div>
 

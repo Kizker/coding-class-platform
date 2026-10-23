@@ -54,7 +54,8 @@ export const DEFAULT_LIVE_SYNC: LiveSessionSyncData = {
   tutorStepTitle: "Tahap 1: Tantangan Uji Coba Awal",
   pushedCode: null,
   tutorNote: "Silakan coba selesaikan tantangan awal di bawah. Mentor memantau caramu berpikir dan menulis kode.",
-  studentLiveCode: "def hitung_diskon(total):\n    # Tuliskan logikamu di sini:\n    pass\n",
+  studentLiveCode:
+    "# Buat Kartu Biodata Digitalmu:\\nprint(\\\"===============================\\\")\\nprint(\\\"     KARTU IDENTITAS KODING    \\\")\\nprint(\\\"===============================\\\")\\n# Lengkapi isinya di bawah ini:\\n",
   studentExecutionOutput: "",
   studentOutputSuccess: null,
   studentQuizAnswers: {},
@@ -124,7 +125,7 @@ export const USERS: Record<UserRole, UserProfile> = {
     initials: "AP",
     email: "andi.pratama@student.id",
     roleLabel: "SISWA PRIVATE",
-    subtitle: "Python Track (Pekan 04)",
+    subtitle: "Python Track (Pekan 01)",
   },
   tutor: {
     id: "user-tutor-1",
@@ -147,34 +148,27 @@ export const USERS: Record<UserRole, UserProfile> = {
 };
 
 const DEFAULT_PROGRESS: StudentProgress = {
-  currentWeek: 4,
+  currentWeek: 1,
   totalWeeks: 12,
-  completedAssignments: 15,
+  completedAssignments: 3,
   totalAssignments: 48,
-  streakDays: 5,
-  xpPoints: 340,
+  streakDays: 3,
+  xpPoints: 65,
   badges: [
     { id: "b1", code: "CORE-01", name: "Fondasi Sintaks & IPO", unlockedAt: "Pekan 1" },
-    { id: "b2", code: "LOGIC-02", name: "Percabangan Kondisional", unlockedAt: "Pekan 2" },
-    { id: "b3", code: "LOOP-03", name: "Otomasi Iterasi & List", unlockedAt: "Pekan 3" },
-    { id: "b4", code: "HABIT-04", name: "Konsistensi PR 5 Hari", unlockedAt: "Pekan 4" },
   ],
-  weeklyNote: "Andi memiliki daya tangkap logika yang sangat kuat pada materi if-else dan perulangan. Nalar berpikir analitisnya berkembang pesat, dan ia mampu merancang alur game tebak angka tanpa kesalahan sintaksis.",
-  attendanceCount: 7,
+  weeklyNote: "Andi menunjukkan antusiasme yang sangat baik di pekan pertama. Pemahaman terhadap print() dan konsep kotak memori (variabel) terbangun dengan cepat.",
+  attendanceCount: 0,
   totalSessions: 24,
   completedTasks: {
-    // Week 1 - 3 all completed
-    "1-senin": true, "1-selasa": true, "1-rabu": true, "1-kamis": true, "1-jumat": true, "1-sabtu": true,
-    "2-senin": true, "2-selasa": true, "2-rabu": true, "2-kamis": true, "2-jumat": true, "2-sabtu": true,
-    "3-senin": true, "3-selasa": true, "3-rabu": true, "3-kamis": true, "3-jumat": true, "3-sabtu": true,
-    // Week 4 (Current)
-    "4-senin": true,  // Selesai (100/100) -> HIJAU
-    "4-selasa": true, // Selesai (95/100)  -> HIJAU
-    "4-rabu": true,   // Selesai (95/100)  -> HIJAU
-    "4-kamis": false, // Belum dikerjakan & terlewat (Hari ini Jumat) -> MERAH
-    "4-jumat": false, // Live tatap muka hari ini -> BIRU / AKTIF
-    "4-sabtu": false, // Live Capstone besok -> NETRAL / MENDATANG
-    "4-minggu": false,
+    // Week 1 (Aktif Saat Ini)
+    "1-senin": true,  // Selesai (20/20) -> HIJAU
+    "1-selasa": true, // Selesai (20/20) -> HIJAU
+    "1-rabu": true,   // Selesai (25/25) -> HIJAU
+    "1-kamis": false, // Belum dikerjakan -> MERAH (Terlewat)
+    "1-jumat": false, // Live tatap muka hari ini -> BIRU / AKTIF
+    "1-sabtu": false, // Live pertemuan 2 besok -> NETRAL / MENDATANG
+    "1-minggu": false,
   },
 };
 
@@ -187,7 +181,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [pushedCode, setPushedCode] = useState<string | null>(null);
   const [studentLiveCode, setStudentLiveCode] = useState<string>(
-    "panjang = 10\nlebar = 5\nluas = panjang * lebar\nprint(f\"Luas Persegi Panjang: {luas}\")"
+    "# Tantangan Awal Pekan 1: Buat Kartu Pelajar Digital\\nnama = \\\"Andi Pratama\\\"\\nhobi = \\\"Koding Python\\\"\\ncita_cita = \\\"Game Developer\\\"\\n\\n# Lengkapi dan cetak kartumu di bawah:\\nprint(\\\"===============================\\\")\\nprint(\\\"     KARTU IDENTITAS KODING    \\\")\\nprint(\\\"===============================\\\")\\nprint(f\\\"Nama       : {nama}\\\")\\nprint(f\\\"Hobi       : {hobi}\\\")\\nprint(f\\\"Cita-cita  : {cita_cita}\\\")\\nprint(\\\"===============================\\\")\\n"
   );
 
   useEffect(() => {
@@ -205,7 +199,12 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
     if (savedProgress) {
       try {
         const parsed = JSON.parse(savedProgress);
-        setProgress((prev) => ({ ...prev, ...parsed }));
+        // If savedProgress is an old test state (e.g. week 4), reset to week 1 baseline
+        if (parsed.currentWeek && parsed.currentWeek > 1) {
+          localStorage.removeItem("student_progress");
+        } else {
+          setProgress((prev) => ({ ...prev, ...parsed }));
+        }
       } catch {}
     }
   }, []);

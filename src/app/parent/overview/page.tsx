@@ -25,7 +25,9 @@ export default function ParentOverviewPage() {
             <span className="text-emerald-700 font-extrabold uppercase tracking-widest">
               PORTAL MONITORING WALI MURID
             </span>
-            <span className="text-slate-500 font-bold">PEKAN 04 / 12</span>
+            <span className="text-slate-500 font-bold" suppressHydrationWarning>
+              PEKAN {String(progress.currentWeek).padStart(2, "0")} / 12
+            </span>
           </div>
 
           <div>
@@ -42,19 +44,21 @@ export default function ParentOverviewPage() {
         <div className="ui-card-outer p-6 sm:p-7 space-y-3.5">
           <div className="flex items-center justify-between text-xs font-mono">
             <span className="text-slate-500 font-bold">01 // INDEKS KURIKULUM 12 PEKAN</span>
-            <span className="text-emerald-700 font-extrabold tabular-nums">35% SELESAI (PEKAN 04)</span>
+            <span className="text-emerald-700 font-extrabold tabular-nums" suppressHydrationWarning>
+              {Math.round((progress.currentWeek / progress.totalWeeks) * 100)}% SELESAI (PEKAN {String(progress.currentWeek).padStart(2, "0")})
+            </span>
           </div>
 
           {/* Minimal progress bar */}
           <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
             <div
               className="bg-emerald-600 h-full rounded-full transition-all duration-500"
-              style={{ width: "35%" }}
+              style={{ width: `${Math.round((progress.currentWeek / progress.totalWeeks) * 100)}%` }}
             />
           </div>
 
           <p className="text-xs text-slate-600 leading-relaxed">
-            Status: Menguasai Fondasi Algoritma, Variabel Memori, Percabangan Kondisional (if-else), dan Fungsi Modular (def &amp; return).
+            Status: Menguasai Fondasi Algoritma, Logika Komputer, Model IPO, dan Kotak Penyimpanan Memori (Variabel &amp; Tipe Data).
           </p>
         </div>
 
@@ -62,7 +66,7 @@ export default function ParentOverviewPage() {
         <div className="ui-card-outer p-6 sm:p-7 space-y-4">
           <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-3">
             <span className="text-slate-500 font-bold">02 // KEPATUHAN PR HARIAN (15 MENIT)</span>
-            <span className="text-blue-700 font-extrabold tabular-nums">
+            <span className="text-blue-700 font-extrabold tabular-nums" suppressHydrationWarning>
               STREAK: {String(progress.streakDays).padStart(2, "0")} HARI
             </span>
           </div>
@@ -71,7 +75,7 @@ export default function ParentOverviewPage() {
             <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
               <span className="block text-[11px] text-slate-500 font-bold">SENIN</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 1: Recall</span>
+                <span className="text-slate-900 text-xs font-bold block font-sans">PR 1: Menyapa</span>
                 <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
               </div>
             </div>
@@ -79,24 +83,24 @@ export default function ParentOverviewPage() {
             <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
               <span className="block text-[11px] text-slate-500 font-bold">SELASA</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 2: Reading</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">95 / 100</span>
+                <span className="text-slate-900 text-xs font-bold block font-sans">PR 2: Alur Kode</span>
+                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
               </div>
             </div>
 
             <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
               <span className="block text-[11px] text-slate-500 font-bold">RABU</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 3: Debug</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">95 / 100</span>
+                <span className="text-slate-900 text-xs font-bold block font-sans">PR 3: Debug Petik</span>
+                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
               </div>
             </div>
 
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
-              <span className="block text-[11px] text-slate-500 font-bold">KAMIS</span>
+            <div className="ui-card-inner p-4 rounded-xl border border-rose-200 bg-rose-50/50 flex flex-col justify-between h-28">
+              <span className="block text-[11px] text-rose-500 font-bold">KAMIS</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 4: Pre-read</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
+                <span className="text-slate-900 text-xs font-bold block font-sans">PR 4: Variabel</span>
+                <span className="text-rose-600 text-xs font-bold block mt-0.5">Terlewat</span>
               </div>
             </div>
           </div>

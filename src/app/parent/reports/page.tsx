@@ -42,6 +42,8 @@ export default function ParentReportsPage() {
     },
   ];
 
+  const activeReports = reports.filter((r) => r.week <= (progress.currentWeek || 1));
+
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-6 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-3xl mx-auto space-y-6">
@@ -58,7 +60,7 @@ export default function ParentReportsPage() {
         </div>
 
         <div className="space-y-5">
-          {reports.map((r) => (
+          {activeReports.map((r) => (
             <div
               key={r.week}
               className="ui-card-outer p-6 sm:p-7 rounded-2xl space-y-4"

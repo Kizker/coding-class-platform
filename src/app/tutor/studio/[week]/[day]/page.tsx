@@ -30,7 +30,7 @@ export default function TutorTeachingStudioPage({
   params: Promise<{ week: string; day: string }>;
 }) {
   const resolvedParams = use(params);
-  const weekNum = parseInt(resolvedParams.week, 10) || 4;
+  const weekNum = parseInt(resolvedParams.week, 10) || 1;
   const dayKey = (resolvedParams.day || "jumat").toLowerCase();
 
   const {
@@ -43,53 +43,56 @@ export default function TutorTeachingStudioPage({
     setTaskCompleted,
   } = useSession();
 
+  const weekData = CURRICULUM_DATA.find((w) => w.week === weekNum) || CURRICULUM_DATA[0];
+  const sessionItem =
+    weekData.liveSessions.find((s) => s.day === dayKey) ||
+    weekData.liveSessions[0];
+
   // Active Tab: 1: Tantangan, 2: Pembelajaran, 3: Kuis, 4: Refleksi
   const [activeTab, setActiveTab] = useState<number>(liveSync.currentStep || 1);
   const activeSubStep = liveSync.subStep || 1;
 
-  // Sub-materials for Tab 2
+  // Sub-materials for Tab 2 (Pekan 1)
   const subMaterials = [
     {
       sub: 1,
-      title: "Sub 1: Fondasi 'def' & Parameter Masukan",
+      title: "Sub 1: Model Komputasi IPO & Perintah print()",
       concept:
-        "Tegaskan bahwa fungsi adalah mesin terisolasi yang menerima parameter masukan dan menghasilkan luaran.",
-      demoCode: `# Sub 1: Fungsi Berparameter
-def sapa_siswa(nama, pekan):
-    return f"Halo {nama}, selamat belajar di Pekan {pekan}!"
+        "Jelaskan analogi koki restoran (Bahan -> Masak -> Sajikan). Tekankan bagaimana print() menampilkan luaran teks ke terminal dan aturan penulisan huruf kecil di Python.",
+      demoCode: `# Sub 1: Model Komputasi IPO
+# 1. Input: Data siswa
+nama = "Andi Pratama"
+pekan = 1
 
-pesan = sapa_siswa("Andi", ${weekNum})
-print(pesan)`,
+# 2. Proses: Merangkai teks informasi
+laporan = f"Siswa: {nama} | Status: Aktif Belajar Pekan {pekan}"
+
+# 3. Output: Cetak ke layar terminal
+print(laporan)`,
     },
     {
       sub: 2,
-      title: "Sub 2: Perbedaan 'return' vs 'print()'",
+      title: "Sub 2: Format Teks, Baris Baru (\\n) & Tab (\\t)",
       concept:
-        "Tegaskan bahwa 'return' mengembalikan nilai ke pemanggil fungsi agar dapat disimpan ke variabel atau dihitung kembali.",
-      demoCode: `# Sub 2: Return Nilai Kalkulasi
-def hitung_diskon(total):
-    if total >= 100000:
-        return total * 0.1
-    return 0
-
-belanja = 125000
-diskon = hitung_diskon(belanja)
-print(f"Total: {belanja}, Diskon: {diskon}")`,
+        "Bahas karakter escape '\\n' untuk ganti baris dan '\\t' untuk tabulasi rapi. Tunjukkan cara membuat tabel atau struk teks tanpa spasi manual berulang.",
+      demoCode: `# Sub 2: Format Teks & Tabulasi
+print("DAFTAR NILAI KODING:")
+print("\\t1. Logika Komputasi\\t: A")
+print("\\t2. Sintaksis Python\\t: A+")
+print("\\nCatatan: Tetap konsisten dan eksploratif!")`,
     },
     {
       sub: 3,
-      title: "Sub 3: Scope Variabel & Modul Random",
+      title: "Sub 3: Kotak Memori (Variabel) & F-String",
       concept:
-        "Bahas variabel lokal yang tidak bocor ke luar, dan demonstrasikan pemanggilan random.choice().",
-      demoCode: `# Sub 3: Scope & Modul Random
-import random
+        "Jelaskan konsep kotak penyimpanan di RAM dengan nama label. Tunjukkan re-assignment (menimpa nilai lama) dan keanggunan format f-string dibanding tanda plus (+).",
+      demoCode: `# Sub 3: Kotak Memori & Re-assignment
+saldo = 50000
+print(f"Saldo awal: Rp {saldo:,}")
 
-pilihan = ["Batu", "Gunting", "Kertas"]
-
-def bot_pilih():
-    return random.choice(pilihan)
-
-print("Pilihan Komputer:", bot_pilih())`,
+# Andi membeli pulsa internet seharga 25000
+saldo = saldo - 25000
+print(f"Sisa saldo sekarang: Rp {saldo:,}")`,
     },
   ];
 
@@ -326,17 +329,21 @@ print("Pilihan Komputer:", bot_pilih())`,
                   <span>Tantangan yang Dilihat Siswa:</span>
                 </span>
                 <p className="text-xs text-stone-700 leading-relaxed font-sans">
-                  Membuat program Python untuk menghitung luas dan keliling persegi panjang berdasarkan panjang dan lebar yang diberikan.
+                  {sessionItem.practiceChallenge ||
+                    "Buat kartu biodata digital dengan nama, hobi, dan cita-cita menggunakan format teks berbingkai ASCII rapi."}
                 </p>
+                <div className="pt-1 text-[11px] text-stone-500 font-mono">
+                  Ekspektasi: {sessionItem.expectedOutputDesc || "Kartu identitas berbingkai rapi tercetak di konsol."}
+                </div>
               </div>
 
               {/* Catatan Pedagogis */}
               <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/60 text-xs text-amber-900 space-y-1">
                 <span className="font-semibold text-amber-950 block">Poin Observasi Tutor:</span>
                 <ul className="list-disc list-inside space-y-1 text-stone-700 leading-relaxed">
-                  <li>Apakah siswa memahami tipe data angka (integer/float)?</li>
-                  <li>Apakah penamaan variabel jelas dan rapi?</li>
-                  <li>Apakah sintaks `print()` diformat dengan baik?</li>
+                  <li>Apakah siswa memahami alur eksekusi baris demi baris dari atas ke bawah?</li>
+                  <li>Apakah sintaksis print() ditulis benar (huruf kecil &amp; tanda petik genap)?</li>
+                  <li>Apakah penggunaan variabel string atau f-string diterapkan dengan tepat?</li>
                 </ul>
               </div>
 
