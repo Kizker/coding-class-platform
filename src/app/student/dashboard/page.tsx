@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { useSession } from "@/lib/auth/sessionContext";
 import { CURRICULUM_DATA } from "@/data/curriculum";
@@ -11,10 +11,6 @@ import {
   CheckCircle2,
   AlertCircle,
   Clock,
-  Flame,
-  Zap,
-  Award,
-  Code2,
   Video,
   ChevronRight,
   Sparkles,
@@ -39,7 +35,7 @@ export default function StudentDashboardPage() {
     {
       key: "senin",
       dayIndex: 1,
-      label: "SENIN",
+      label: "Senin",
       typeLabel: "PR 15 Menit",
       title: "Fungsi Modular (def)",
       href: "/student/learn/4/senin",
@@ -48,16 +44,16 @@ export default function StudentDashboardPage() {
     {
       key: "selasa",
       dayIndex: 2,
-      label: "SELASA",
+      label: "Selasa",
       typeLabel: "PR 15 Menit",
-      title: "Alur Game CLI",
+      title: "Alur Logika Game CLI",
       href: "/student/learn/4/selasa",
       isLiveClass: false,
     },
     {
       key: "rabu",
       dayIndex: 3,
-      label: "RABU",
+      label: "Rabu",
       typeLabel: "PR 20 Menit",
       title: "Debug return Terlewat",
       href: "/student/learn/4/rabu",
@@ -66,16 +62,16 @@ export default function StudentDashboardPage() {
     {
       key: "kamis",
       dayIndex: 4,
-      label: "KAMIS",
+      label: "Kamis",
       typeLabel: "PR 20 Menit",
-      title: "Modul Random Capstone",
+      title: "Eksplorasi Modul Random",
       href: "/student/learn/4/kamis",
       isLiveClass: false,
     },
     {
       key: "jumat",
       dayIndex: 5,
-      label: "JUMAT",
+      label: "Jumat",
       typeLabel: "Tatap Muka 2 Jam",
       title: "Fungsi Modular & Analogi",
       href: "/student/live-session/4/jumat",
@@ -84,7 +80,7 @@ export default function StudentDashboardPage() {
     {
       key: "sabtu",
       dayIndex: 6,
-      label: "SABTU",
+      label: "Sabtu",
       typeLabel: "Capstone 2 Jam",
       title: "Game Konsol CLI",
       href: "/student/live-session/4/sabtu",
@@ -93,19 +89,19 @@ export default function StudentDashboardPage() {
     {
       key: "minggu",
       dayIndex: 7,
-      label: "MINGGU",
-      typeLabel: "Evaluasi",
+      label: "Minggu",
+      typeLabel: "Refleksi",
       title: "Rapor Belajar Pekan",
       href: "/student/profile",
       isLiveClass: false,
     },
   ];
 
-  // Helper to determine clean, uncrowded card states:
-  // 1. HIJAU: Selesai
-  // 2. MERAH: Terlewat & Belum Selesai (hari lampau)
-  // 3. BIRU: Hari Ini (aktif)
-  // 4. NETRAL: Jadwal Mendatang
+  // Human-centered card color & status rules:
+  // 1. Selesai: Warm Sage / Forest Emerald
+  // 2. Terlewat: Warm Terracotta / Rose
+  // 3. Hari Ini: Calm Indigo / Ocean
+  // 4. Mendatang: Clean Warm Neutral
   const getCardStatus = (day: DayRoutineItem) => {
     const isCompleted = isTaskCompleted(progress.currentWeek, day.key);
     const isPast = day.dayIndex < activeDayIndex;
@@ -114,9 +110,9 @@ export default function StudentDashboardPage() {
     if (isCompleted) {
       return {
         cardStyle:
-          "bg-emerald-50/90 border-2 border-emerald-500 text-emerald-950 hover:border-emerald-600 shadow-2xs",
-        badgeStyle: "bg-emerald-100 text-emerald-800 font-bold",
-        statusText: "✓ Selesai",
+          "bg-emerald-50/70 border border-emerald-200 text-emerald-950 hover:border-emerald-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
+        badgeStyle: "bg-emerald-100/90 text-emerald-800 font-semibold",
+        statusText: "Selesai",
         icon: <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />,
       };
     }
@@ -124,195 +120,183 @@ export default function StudentDashboardPage() {
     if (isPast) {
       return {
         cardStyle:
-          "bg-red-50/90 border-2 border-red-500 text-red-950 hover:border-red-600 shadow-2xs ring-1 ring-red-200",
-        badgeStyle: "bg-red-100 text-red-800 font-bold animate-pulse",
-        statusText: "✕ Terlewat",
-        icon: <AlertCircle className="w-4 h-4 text-red-600 shrink-0" />,
+          "bg-rose-50/70 border border-rose-200 text-rose-950 hover:border-rose-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
+        badgeStyle: "bg-rose-100/90 text-rose-800 font-semibold",
+        statusText: "Terlewat",
+        icon: <AlertCircle className="w-4 h-4 text-rose-500 shrink-0" />,
       };
     }
 
     if (isToday) {
       return {
         cardStyle:
-          "bg-blue-50 border-2 border-blue-600 text-blue-950 hover:border-blue-700 shadow-sm ring-2 ring-blue-300",
-        badgeStyle: "bg-blue-600 text-white font-bold",
-        statusText: "● Hari Ini",
+          "bg-indigo-50/80 border-2 border-indigo-500/80 text-indigo-950 shadow-sm ring-4 ring-indigo-100 hover:border-indigo-600",
+        badgeStyle: "bg-indigo-600 text-white font-semibold",
+        statusText: "Hari Ini",
         icon: day.isLiveClass ? (
-          <Video className="w-4 h-4 text-blue-600 animate-pulse shrink-0" />
+          <Video className="w-4 h-4 text-indigo-600 animate-pulse shrink-0" />
         ) : (
-          <Clock className="w-4 h-4 text-blue-600 shrink-0" />
+          <Clock className="w-4 h-4 text-indigo-600 shrink-0" />
         ),
       };
     }
 
     return {
       cardStyle:
-        "bg-white border border-slate-200 text-slate-700 hover:border-slate-300 shadow-2xs",
-      badgeStyle: "bg-slate-100 text-slate-600 font-medium",
+        "bg-white/80 border border-stone-200/80 text-stone-700 hover:border-stone-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]",
+      badgeStyle: "bg-stone-100 text-stone-600 font-medium",
       statusText: "Mendatang",
-      icon: <Clock className="w-4 h-4 text-slate-400 shrink-0" />,
+      icon: <Clock className="w-4 h-4 text-stone-400 shrink-0" />,
     };
   };
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 py-7 px-4 sm:px-6 lg:px-8 font-sans">
-      <div className="max-w-6xl mx-auto space-y-7">
+    <div className="min-h-screen bg-[#FAFAF9] text-stone-900 py-8 px-4 sm:px-6 lg:px-8 font-sans antialiased">
+      <div className="max-w-5xl mx-auto space-y-9">
         {/* ======================================================== */}
-        {/* 1. HERO UTAMA & LIVE SERVER TRACKER (RINGKAS & RAPI)     */}
+        {/* 1. FOCUS HERO & INTEGRATED LEARNING SNAPSHOT             */}
         {/* ======================================================== */}
-        <div className="ui-card-outer p-6 sm:p-7 bg-white border border-slate-200 shadow-xs space-y-5">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
-            {/* Live Server Tracking Chip */}
-            <div className="flex items-center space-x-2 text-xs font-mono">
-              <span className="flex items-center space-x-1.5 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 font-bold">
-                <span className="w-2 h-2 rounded-full bg-emerald-500 animate-ping inline-block" />
-                <span>SERVER LIVE</span>
+        <section className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-8 shadow-[0_2px_8px_rgba(0,0,0,0.03)] space-y-6">
+          {/* Top Date & Context Chip */}
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-stone-500 pb-3 border-b border-stone-100">
+            <div className="flex items-center space-x-2">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block" />
+              <span className="font-medium text-stone-700">
+                {serverTime.dateFormatted}
               </span>
-              <span className="text-slate-300">&bull;</span>
-              <span className="text-slate-600 font-semibold">
-                {serverTime.dateFormatted} // {serverTime.timeFormatted}
-              </span>
+              <span className="text-stone-300">&bull;</span>
+              <span>{serverTime.timeFormatted}</span>
             </div>
 
-            <div className="text-xs font-mono text-slate-500">
-              ROLE: <strong className="text-slate-800">ANDI PRATAMA (SISWA)</strong>
-            </div>
+            <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-medium text-[11px] border border-indigo-100">
+              Sesi Tatap Muka Live 16.00 WIB
+            </span>
           </div>
 
-          {/* Greeting & Headline */}
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-5">
-            <div className="space-y-1.5">
-              <div className="flex items-center space-x-2 text-xs font-mono">
-                <span className="px-2.5 py-0.5 rounded-md bg-blue-100 text-blue-700 font-bold">
-                  LEVEL 02 &bull; LOGIC APPRENTICE
-                </span>
-                <span className="text-slate-300">&bull;</span>
-                <span className="text-slate-500 font-medium">PEKAN KE-4 DARI 12</span>
-              </div>
-              <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-                Pekan 04: Fungsi Modular &amp; Proyek Capstone 1
+          {/* Greeting, Intent & Primary CTA */}
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-2xl sm:text-3xl font-extrabold text-stone-900 tracking-tight">
+                Halo, Andi 👋
               </h1>
-              <p className="text-xs sm:text-sm text-slate-600 max-w-2xl leading-relaxed">
-                Hari ini jadwal{" "}
-                <strong className="text-blue-700 font-bold">
-                  Sesi Tatap Muka 2 Jam (16.00 WIB)
+              <p className="text-sm text-stone-600 max-w-xl leading-relaxed">
+                Hari ini waktunya belajar langsung bersama mentor di{" "}
+                <strong className="text-stone-900 font-semibold">
+                  Pekan 04: Fungsi Modular &amp; Proyek Capstone 1
                 </strong>
-                . Buka modul materi untuk persiapan live coding bersama mentor.
+                . Klik tombol di samping untuk masuk ke ruang kelas live.
               </p>
             </div>
 
-            <div className="shrink-0 flex items-center gap-3">
+            <div className="shrink-0">
               <Link
                 href="/student/live-session/4/jumat"
-                className="px-5 py-2.5 rounded-xl bg-blue-600 text-white font-bold text-xs hover:bg-blue-700 transition flex items-center space-x-2 shadow-xs cursor-pointer"
+                className="inline-flex items-center space-x-2.5 px-6 py-3 rounded-xl bg-stone-900 text-white font-medium text-xs hover:bg-stone-800 hover:shadow-md transition-all cursor-pointer group"
               >
-                <Video className="w-4 h-4" />
-                <span>MASUK KELAS TATAP MUKA LIVE</span>
-                <ArrowRight className="w-3.5 h-3.5" />
+                <Video className="w-4 h-4 text-stone-300 group-hover:scale-110 transition-transform" />
+                <span>Masuk Kelas Tatap Muka</span>
+                <ArrowRight className="w-3.5 h-3.5 text-stone-400 group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* XP Progress Bar */}
-          <div className="pt-2 space-y-1.5">
-            <div className="flex items-center justify-between text-xs font-mono">
-              <span className="text-slate-600 font-semibold flex items-center space-x-1.5">
-                <Zap className="w-3.5 h-3.5 text-amber-500 fill-amber-500" />
-                <span>EXP: 340 / 1000 XP MENUJU LEVEL 3</span>
-              </span>
-              <span className="text-blue-700 font-bold">34% TUNTAS</span>
-            </div>
-            <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
-              <div
-                className="bg-blue-600 h-full rounded-full transition-all duration-500"
-                style={{ width: "34%" }}
-              />
-            </div>
-          </div>
-        </div>
+          {/* Integrated Learning Snapshot (Replaces Cluttered Bento Boxes) */}
+          <div className="pt-4 border-t border-stone-100">
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 py-2">
+              {/* Stat 1: Streak */}
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-amber-50 border border-amber-200/60 flex items-center justify-center text-lg shrink-0">
+                  🔥
+                </div>
+                <div>
+                  <div className="text-base font-bold text-stone-900">
+                    {progress.streakDays} Hari Berturut
+                  </div>
+                  <div className="text-xs text-stone-500 font-medium">
+                    Konsistensi PR Harian
+                  </div>
+                </div>
+              </div>
 
-        {/* ======================================================== */}
-        {/* 2. 3 STATS RINGKAS                                       */}
-        {/* ======================================================== */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-          <div className="ui-card-inner bg-white border border-slate-200 p-4 rounded-xl shadow-2xs flex items-center justify-between">
-            <div>
-              <span className="text-[11px] font-mono font-bold text-slate-500 uppercase block">
-                STREAK_HARIAN
-              </span>
-              <div className="text-2xl font-extrabold text-slate-900 font-mono mt-0.5">
-                {progress.streakDays.toString().padStart(2, "0")}{" "}
-                <span className="text-sm font-bold text-amber-600">Hari Berturut</span>
+              {/* Stat 2: XP */}
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-indigo-50 border border-indigo-200/60 flex items-center justify-center text-lg shrink-0">
+                  ⚡
+                </div>
+                <div>
+                  <div className="text-base font-bold text-stone-900">
+                    {progress.xpPoints} XP Terkumpul
+                  </div>
+                  <div className="text-xs text-stone-500 font-medium">
+                    Level 02 &bull; Apprentice
+                  </div>
+                </div>
+              </div>
+
+              {/* Stat 3: Curriculum Roadmap */}
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200/60 flex items-center justify-center text-lg shrink-0">
+                  🌱
+                </div>
+                <div>
+                  <div className="text-base font-bold text-stone-900">
+                    Pekan {progress.currentWeek} dari 12
+                  </div>
+                  <div className="text-xs text-stone-500 font-medium">
+                    Fase 1: Fondasi Logika
+                  </div>
+                </div>
               </div>
             </div>
-            <div className="w-9 h-9 rounded-lg bg-amber-50 border border-amber-200 flex items-center justify-center">
-              <Flame className="w-4 h-4 text-amber-600 fill-amber-600" />
-            </div>
-          </div>
 
-          <div className="ui-card-inner bg-white border border-slate-200 p-4 rounded-xl shadow-2xs flex items-center justify-between">
-            <div>
-              <span className="text-[11px] font-mono font-bold text-slate-500 uppercase block">
-                TOTAL_PENGALAMAN
-              </span>
-              <div className="text-2xl font-extrabold text-slate-900 font-mono mt-0.5">
-                {progress.xpPoints}{" "}
-                <span className="text-sm font-bold text-blue-600">XP</span>
+            {/* Subtle Progress Bar */}
+            <div className="mt-4 pt-3 border-t border-stone-100 space-y-1.5">
+              <div className="flex items-center justify-between text-xs text-stone-500 font-medium">
+                <span>Progres Pekan 4 Menuju Capstone 1</span>
+                <span className="font-semibold text-stone-800">34% Tuntas</span>
+              </div>
+              <div className="w-full bg-stone-100 h-2 rounded-full overflow-hidden">
+                <div
+                  className="bg-stone-800 h-full rounded-full transition-all duration-500"
+                  style={{ width: "34%" }}
+                />
               </div>
             </div>
-            <div className="w-9 h-9 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center">
-              <Zap className="w-4 h-4 text-blue-600" />
-            </div>
           </div>
-
-          <div className="ui-card-inner bg-white border border-slate-200 p-4 rounded-xl shadow-2xs flex items-center justify-between">
-            <div>
-              <span className="text-[11px] font-mono font-bold text-slate-500 uppercase block">
-                PROGRES_KURIKULUM
-              </span>
-              <div className="text-2xl font-extrabold text-slate-900 font-mono mt-0.5">
-                {progress.currentWeek.toString().padStart(2, "0")}{" "}
-                <span className="text-sm font-bold text-emerald-600">/ 12 Pekan</span>
-              </div>
-            </div>
-            <div className="w-9 h-9 rounded-lg bg-emerald-50 border border-emerald-200 flex items-center justify-center">
-              <Award className="w-4 h-4 text-emerald-600" />
-            </div>
-          </div>
-        </div>
+        </section>
 
         {/* ======================================================== */}
-        {/* 3. TUGAS & RUTINITAS PEKAN INI (CARD TIDAK MENUMPUK)     */}
+        {/* 2. JADWAL BELAJAR PEKAN INI (SENIN - MINGGU)             */}
         {/* ======================================================== */}
-        <div className="ui-card-outer p-6 bg-white border border-slate-200 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
+        <section className="space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-baseline justify-between gap-2">
             <div>
-              <span className="text-xs font-mono text-blue-700 uppercase tracking-widest font-bold block">
-                01 // SIKLUS MINGGUAN PEKAN KE-4
-              </span>
-              <h2 className="text-base font-bold text-slate-900 mt-0.5">
-                Rutinitas Tugas Harian &amp; Sesi Pertemuan
+              <h2 className="text-lg font-bold text-stone-900 tracking-tight">
+                Jadwal Belajar Pekan Ini
               </h2>
+              <p className="text-xs text-stone-500 mt-0.5">
+                4 PR mandiri (15 menit) &amp; 2 sesi tatap muka interaktif bersama mentor.
+              </p>
             </div>
 
-            {/* Clean Legend */}
-            <div className="flex items-center gap-3 text-xs font-mono">
-              <span className="flex items-center space-x-1.5 text-emerald-700 font-medium">
+            {/* Quiet, Human Legend */}
+            <div className="flex items-center gap-3 text-xs text-stone-500 font-medium">
+              <span className="flex items-center space-x-1.5">
                 <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
                 <span>Selesai</span>
               </span>
-              <span className="flex items-center space-x-1.5 text-red-700 font-medium">
-                <span className="w-2 h-2 rounded-full bg-red-500 inline-block" />
+              <span className="flex items-center space-x-1.5">
+                <span className="w-2 h-2 rounded-full bg-rose-500 inline-block" />
                 <span>Terlewat</span>
               </span>
-              <span className="flex items-center space-x-1.5 text-blue-700 font-medium">
-                <span className="w-2 h-2 rounded-full bg-blue-600 inline-block" />
-                <span>Hari Ini</span>
+              <span className="flex items-center space-x-1.5">
+                <span className="w-2 h-2 rounded-full bg-indigo-600 inline-block" />
+                <span className="font-semibold text-stone-800">Hari Ini</span>
               </span>
             </div>
           </div>
 
-          {/* 7 Clean Uncrowded Day Cards */}
+          {/* 7 Glanceable Uncrowded Cards */}
           <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-7 gap-3">
             {weeklyDays.map((day) => {
               const status = getCardStatus(day);
@@ -321,30 +305,30 @@ export default function StudentDashboardPage() {
                 <Link
                   key={day.key}
                   href={day.href}
-                  className={`p-3.5 rounded-xl transition-all duration-150 flex flex-col justify-between h-36 hover:scale-[1.02] cursor-pointer ${status.cardStyle}`}
+                  className={`p-4 rounded-2xl transition-all duration-200 flex flex-col justify-between h-36 hover:-translate-y-0.5 hover:shadow-sm cursor-pointer ${status.cardStyle}`}
                 >
                   {/* Top: Day Label & Status Icon */}
                   <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-extrabold tracking-wider">
+                    <span className="text-xs font-bold text-stone-900">
                       {day.label}
                     </span>
                     {status.icon}
                   </div>
 
                   {/* Middle: Type & Short Title */}
-                  <div className="space-y-1">
-                    <span className="text-[10px] font-mono text-slate-500 uppercase block leading-none">
+                  <div className="space-y-1 my-auto">
+                    <span className="text-[10px] text-stone-500 font-medium block leading-none">
                       {day.typeLabel}
                     </span>
-                    <h3 className="text-xs font-bold leading-tight line-clamp-2">
+                    <h3 className="text-xs font-semibold leading-snug line-clamp-2">
                       {day.title}
                     </h3>
                   </div>
 
-                  {/* Bottom: Clean Status Chip */}
-                  <div className="pt-2 border-t border-current/15">
+                  {/* Bottom: Clean Status Pill */}
+                  <div>
                     <span
-                      className={`text-[10px] font-mono px-2 py-0.5 rounded-md inline-block ${status.badgeStyle}`}
+                      className={`text-[10px] px-2 py-0.5 rounded-md inline-block ${status.badgeStyle}`}
                     >
                       {status.statusText}
                     </span>
@@ -353,27 +337,22 @@ export default function StudentDashboardPage() {
               );
             })}
           </div>
-        </div>
+        </section>
 
         {/* ======================================================== */}
-        {/* 4. DAFTAR SILABUS 12 PEKAN — 1 KOLOM SAJA (LINEAR & RAPI)*/}
+        {/* 3. SILABUS & ROADMAP 12 PEKAN (1 KOLOM LINEAR)           */}
         {/* ======================================================== */}
-        <div className="ui-card-outer p-6 bg-white border border-slate-200 space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between border-b border-slate-100 pb-3 gap-2">
-            <div>
-              <span className="text-xs font-mono text-blue-700 uppercase tracking-widest font-bold block">
-                02 // SILABUS &amp; MATERI LENGKAP 12 PEKAN
-              </span>
-              <h2 className="text-base font-bold text-slate-900 mt-0.5">
-                Daftar Materi Pembelajaran Setiap Minggu
-              </h2>
-            </div>
-            <span className="text-xs font-mono text-slate-500">
-              TRACK: PYTHON 1-ON-1 &bull; 24 PERTEMUAN TATAP MUKA
-            </span>
+        <section className="space-y-4">
+          <div>
+            <h2 className="text-lg font-bold text-stone-900 tracking-tight">
+              Silabus &amp; Roadmap 12 Pekan
+            </h2>
+            <p className="text-xs text-stone-500 mt-0.5">
+              Kurikulum bertahap dari pemahaman nalar logika hingga aplikasi Python mandiri.
+            </p>
           </div>
 
-          {/* 1 COLUMN LIST (1 KOLOM SAJA) */}
+          {/* 1 Column Linear List */}
           <div className="space-y-2.5">
             {CURRICULUM_DATA.map((w) => {
               const isCurrent = w.week === progress.currentWeek;
@@ -382,85 +361,85 @@ export default function StudentDashboardPage() {
               return (
                 <div
                   key={w.week}
-                  className={`p-3.5 sm:p-4 rounded-xl border transition-all flex flex-col sm:flex-row sm:items-center justify-between gap-3.5 ${
+                  className={`p-4 sm:p-5 rounded-2xl border transition-all duration-150 flex flex-col sm:flex-row sm:items-center justify-between gap-4 ${
                     isCurrent
-                      ? "bg-blue-50/70 border-2 border-blue-400 shadow-xs ring-1 ring-blue-200"
+                      ? "bg-white border-stone-800 shadow-sm ring-1 ring-stone-800/10"
                       : isCompleted
-                      ? "bg-white border-slate-200 hover:border-slate-300 shadow-2xs"
-                      : "bg-slate-50/70 border-slate-200 text-slate-500"
+                      ? "bg-white border-stone-200/80 hover:border-stone-300 shadow-[0_1px_3px_rgba(0,0,0,0.02)]"
+                      : "bg-stone-50/60 border-stone-200/60 text-stone-500"
                   }`}
                 >
                   {/* Left: Week Badge + Title & Description in 1 clean unit */}
-                  <div className="flex items-start sm:items-center space-x-3.5 min-w-0">
+                  <div className="flex items-start sm:items-center space-x-4 min-w-0">
                     <span
-                      className={`w-12 h-10 rounded-lg flex items-center justify-center font-mono font-bold text-xs shrink-0 ${
+                      className={`w-11 h-11 rounded-xl flex items-center justify-center font-bold text-xs shrink-0 ${
                         isCurrent
-                          ? "bg-blue-600 text-white"
+                          ? "bg-stone-900 text-white shadow-xs"
                           : isCompleted
-                          ? "bg-emerald-100 text-emerald-800"
-                          : "bg-slate-200 text-slate-600"
+                          ? "bg-emerald-50 text-emerald-800 border border-emerald-200"
+                          : "bg-stone-100 text-stone-500"
                       }`}
                     >
-                      M{w.week.toString().padStart(2, "0")}
+                      {w.week.toString().padStart(2, "0")}
                     </span>
 
-                    <div className="min-w-0">
+                    <div className="min-w-0 space-y-1">
                       <div className="flex flex-wrap items-center gap-2">
                         <h3
-                          className={`text-sm font-bold truncate ${
+                          className={`text-sm font-semibold truncate ${
                             isCurrent
-                              ? "text-blue-950"
+                              ? "text-stone-900 font-bold"
                               : isCompleted
-                              ? "text-slate-900"
-                              : "text-slate-700"
+                              ? "text-stone-900"
+                              : "text-stone-700"
                           }`}
                         >
                           {w.title}
                         </h3>
 
-                        <span className="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-medium hidden md:inline">
+                        <span className="text-[10px] px-2 py-0.5 rounded-md bg-stone-100 text-stone-600 font-medium hidden md:inline">
                           Fase {w.phase}
                         </span>
 
                         {w.capstoneInfo && (
-                          <span className="text-[10px] font-mono px-2 py-0.5 rounded font-bold bg-amber-100 text-amber-800 border border-amber-300 flex items-center space-x-1">
+                          <span className="text-[10px] px-2 py-0.5 rounded-md font-semibold bg-amber-50 text-amber-800 border border-amber-200/80 flex items-center space-x-1">
                             <Sparkles className="w-3 h-3 text-amber-600" />
-                            <span>CAPSTONE</span>
+                            <span>Capstone Milestone</span>
                           </span>
                         )}
                       </div>
 
-                      <p className="text-xs text-slate-600 mt-0.5 line-clamp-1">
+                      <p className="text-xs text-stone-500 line-clamp-1 leading-relaxed">
                         {w.description}
                       </p>
                     </div>
                   </div>
 
-                  {/* Right: Status & Action Button */}
-                  <div className="shrink-0 flex items-center justify-between sm:justify-end space-x-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
+                  {/* Right: Status Pill & Action Button */}
+                  <div className="shrink-0 flex items-center justify-between sm:justify-end space-x-3 pt-2 sm:pt-0 border-t sm:border-t-0 border-stone-100">
                     <div>
                       {isCurrent ? (
-                        <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-blue-100 text-blue-800">
-                          PEKAN AKTIF
+                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-indigo-50 text-indigo-700 border border-indigo-100">
+                          Pekan Berjalan
                         </span>
                       ) : isCompleted ? (
-                        <span className="text-[11px] font-mono font-bold px-2 py-0.5 rounded bg-emerald-100 text-emerald-800 flex items-center space-x-1">
+                        <span className="text-xs font-semibold px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-100 flex items-center space-x-1">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                          <span>SELESAI</span>
+                          <span>Tuntas</span>
                         </span>
                       ) : (
-                        <span className="text-[11px] font-mono font-medium text-slate-400">
-                          TERJADWAL
+                        <span className="text-xs font-medium text-stone-400 px-2">
+                          Terjadwal
                         </span>
                       )}
                     </div>
 
                     <Link
                       href={`/student/curriculum/${w.week}`}
-                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition flex items-center space-x-1 ${
+                      className={`px-3.5 py-2 rounded-xl text-xs font-medium transition flex items-center space-x-1 cursor-pointer ${
                         isCurrent
-                          ? "bg-blue-600 text-white hover:bg-blue-700 shadow-xs"
-                          : "bg-slate-100 text-slate-700 hover:bg-slate-200"
+                          ? "bg-stone-900 text-white hover:bg-stone-800 shadow-xs"
+                          : "bg-stone-100 text-stone-700 hover:bg-stone-200"
                       }`}
                     >
                       <span>Lihat Materi</span>
@@ -471,7 +450,7 @@ export default function StudentDashboardPage() {
               );
             })}
           </div>
-        </div>
+        </section>
       </div>
     </div>
   );

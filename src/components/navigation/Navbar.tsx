@@ -30,40 +30,40 @@ export function Navbar() {
           {/* Logo & Brand */}
           <div className="flex items-center space-x-6">
             <Link href="/" className="flex items-center space-x-2.5 group">
-              <div className="w-8 h-8 rounded-lg bg-blue-50 border border-blue-200 flex items-center justify-center group-hover:border-blue-400 transition">
-                <Terminal className="w-4 h-4 text-blue-600" />
+              <div className="w-8 h-8 rounded-xl bg-stone-900 text-white flex items-center justify-center font-bold text-xs shadow-xs group-hover:scale-105 transition-transform">
+                Py
               </div>
               <div className="flex flex-col">
-                <span className="text-xs font-bold tracking-tight text-slate-900 uppercase">
-                  PY_STUDIO // 1-ON-1
+                <span className="text-sm font-extrabold tracking-tight text-stone-900">
+                  PyStudio
                 </span>
-                <span className="text-[10px] text-slate-500 font-mono tracking-tight">
-                  PYTHON TRACK v2.1
+                <span className="text-[10px] text-stone-500 font-medium leading-none">
+                  Private Mentoring
                 </span>
               </div>
             </Link>
 
             {/* Role Navigation Links (Only visible when logged in) */}
             {isAuthenticated && (
-              <nav className="hidden md:flex items-center space-x-1.5 text-xs font-semibold">
+              <nav className="hidden md:flex items-center space-x-1 text-xs">
                 {role === "student" && (
                   <>
                     <Link
                       href="/student/dashboard"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/student/dashboard"
-                          ? "bg-blue-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Dashboard
                     </Link>
                     <Link
                       href="/student/assignments"
-                      className={`px-3.5 py-1.5 rounded-xl transition-all ${
+                      className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
                         pathname === "/student/assignments"
-                          ? "bg-blue-600 text-white shadow-2xs font-bold"
-                          : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                          ? "bg-stone-900 text-white shadow-xs font-semibold"
+                          : "text-stone-600 hover:text-stone-900 hover:bg-stone-100"
                       }`}
                     >
                       Tugas Harian
@@ -170,30 +170,30 @@ export function Navbar() {
               <>
                 {/* Telemetry Indicator for Student */}
                 {role === "student" && (
-                  <div className="hidden sm:flex items-center space-x-2 font-mono text-[11px] text-slate-700 px-3 py-1.5 rounded-xl bg-slate-100 border border-slate-200">
-                    <span className="w-2 h-2 rounded-full bg-blue-600 inline-block animate-pulse" />
-                    <span className="text-slate-500 font-bold">STREAK:</span>
-                    <span className="font-bold text-blue-700 tabular-nums">
-                      {progress.streakDays.toString().padStart(2, "0")}D
+                  <div className="hidden sm:flex items-center space-x-2 text-xs text-stone-600 px-3 py-1.5 rounded-xl bg-stone-100/80 border border-stone-200/70 font-medium">
+                    <span className="flex items-center space-x-1">
+                      <span>🔥</span>
+                      <strong className="text-stone-900">{progress.streakDays} Hari</strong>
                     </span>
-                    <span className="text-slate-300">/</span>
-                    <span className="font-bold text-slate-800 tabular-nums">
-                      {progress.xpPoints} XP
+                    <span className="text-stone-300">&bull;</span>
+                    <span className="flex items-center space-x-1">
+                      <span>⚡</span>
+                      <strong className="text-stone-900">{progress.xpPoints} XP</strong>
                     </span>
                   </div>
                 )}
 
                 {/* Role Profile Badge */}
-                <div className="flex items-center space-x-2 pl-2 border-l border-slate-200">
-                  <div className="w-8 h-8 rounded-xl bg-slate-100 border border-slate-200 flex items-center justify-center font-mono text-xs font-bold text-slate-800 shadow-2xs">
+                <div className="flex items-center space-x-2.5 pl-2 border-l border-stone-200">
+                  <div className="w-8 h-8 rounded-full bg-stone-200 text-stone-800 flex items-center justify-center font-bold text-xs shadow-2xs">
                     {currentUser.initials}
                   </div>
                   <div className="hidden sm:flex flex-col text-left">
-                    <span className="text-xs font-bold text-slate-900 leading-tight">
+                    <span className="text-xs font-semibold text-stone-900 leading-tight">
                       {currentUser.name}
                     </span>
-                    <span className="text-[10px] text-slate-500 font-mono leading-tight">
-                      {currentUser.roleLabel}
+                    <span className="text-[10px] text-stone-500 font-medium leading-tight">
+                      Siswa Private
                     </span>
                   </div>
                 </div>
@@ -202,7 +202,7 @@ export function Navbar() {
                 <button
                   onClick={handleLogout}
                   title="Ganti Akun / Keluar"
-                  className="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-red-50 hover:text-red-700 hover:border-red-200 text-slate-700 text-xs font-bold transition flex items-center space-x-1.5 cursor-pointer shadow-2xs"
+                  className="px-2.5 py-1.5 rounded-lg border border-stone-200 bg-white hover:bg-rose-50 hover:text-rose-700 hover:border-rose-200 text-stone-600 text-xs font-medium transition flex items-center space-x-1 cursor-pointer"
                 >
                   <LogOut className="w-3.5 h-3.5" />
                   <span className="hidden sm:inline">Keluar</span>
