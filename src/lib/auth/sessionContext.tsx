@@ -25,6 +25,7 @@ export interface StudentProgress {
   weeklyNote: string;
   attendanceCount: number;
   totalSessions: number;
+  completedTasks: Record<string, boolean>; // e.g. "4-senin": true
 }
 
 export interface RoleCredentials {
@@ -64,6 +65,9 @@ interface SessionContextType {
   logout: () => void;
   progress: StudentProgress;
   updateProgress: (partial: Partial<StudentProgress>) => void;
+  isTaskCompleted: (week: number, day: string) => boolean;
+  setTaskCompleted: (week: number, day: string, completed: boolean) => void;
+  toggleTaskCompleted: (week: number, day: string) => void;
   pushedCode: string | null;
   pushCodeToStudent: (code: string) => void;
   studentLiveCode: string;
@@ -116,6 +120,20 @@ const DEFAULT_PROGRESS: StudentProgress = {
   weeklyNote: "Andi memiliki daya tangkap logika yang sangat kuat pada materi if-else dan perulangan. Nalar berpikir analitisnya berkembang pesat, dan ia mampu merancang alur game tebak angka tanpa kesalahan sintaksis.",
   attendanceCount: 7,
   totalSessions: 24,
+  completedTasks: {
+    // Week 1 - 3 all completed
+    "1-senin": true, "1-selasa": true, "1-rabu": true, "1-kamis": true, "1-jumat": true, "1-sabtu": true,
+    "2-senin": true, "2-selasa": true, "2-rabu": true, "2-kamis": true, "2-jumat": true, "2-sabtu": true,
+    "3-senin": true, "3-selasa": true, "3-rabu": true, "3-kamis": true, "3-jumat": true, "3-sabtu": true,
+    // Week 4 (Current)
+    "4-senin": true,  // Selesai (100/100) -> HIJAU
+    "4-selasa": true, // Selesai (95/100)  -> HIJAU
+    "4-rabu": true,   // Selesai (95/100)  -> HIJAU
+    "4-kamis": false, // Belum dikerjakan & terlewat (Hari ini Jumat) -> MERAH
+    "4-jumat": false, // Live tatap muka hari ini -> BIRU / AKTIF
+    "4-sabtu": false, // Live Capstone besok -> NETRAL / MENDATANG
+    "4-minggu": false,
+  },
 };
 
 const SessionContext = createContext<SessionContextType | null>(null);
@@ -132,11 +150,19 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   useEffect(() => {
     const savedRole = localStorage.getItem("auth_role") as UserRole | null;
     const savedAuth = localStorage.getItem("auth_status");
+    const savedProgress = localStorage.getItem("student_progress");
+
     if (savedRole && (savedRole === "student" || savedRole === "tutor" || savedRole === "parent")) {
       setRoleState(savedRole);
     }
     if (savedAuth !== null) {
       setIsAuthenticated(savedAuth === "true");
+    }
+    if (savedProgress) {
+      try {
+        const parsed = JSON.parse(savedProgress);
+        setProgress((prev) => ({ ...prev, ...parsed }));
+      } catch {}
     }
   }, []);
 
@@ -172,7 +198,37 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   };
 
   const updateProgress = (partial: Partial<StudentProgress>) => {
-    setProgress((prev) => ({ ...prev, ...partial }));
+    setProgress((prev) => {
+      const updated = { ...prev, ...partial };
+      localStorage.setItem("student_progress", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const isTaskCompleted = (week: number, day: string): boolean => {
+    const key = `${week}-${day.toLowerCase()}`;
+    return Boolean(progress.completedTasks && progress.completedTasks[key]);
+  };
+
+  const setTaskCompleted = (week: number, day: string, completed: boolean) => {
+    const key = `${week}-${day.toLowerCase()}`;
+    setProgress((prev) => {
+      const updatedTasks = { ...prev.completedTasks, [key]: completed };
+      const updated = { ...prev, completedTasks: updatedTasks };
+      localStorage.setItem("student_progress", JSON.stringify(updated));
+      return updated;
+    });
+  };
+
+  const toggleTaskCompleted = (week: number, day: string) => {
+    const key = `${week}-${day.toLowerCase()}`;
+    setProgress((prev) => {
+      const current = Boolean(prev.completedTasks && prev.completedTasks[key]);
+      const updatedTasks = { ...prev.completedTasks, [key]: !current };
+      const updated = { ...prev, completedTasks: updatedTasks };
+      localStorage.setItem("student_progress", JSON.stringify(updated));
+      return updated;
+    });
   };
 
   const pushCodeToStudent = (code: string) => {
@@ -195,6 +251,9 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         logout,
         progress,
         updateProgress,
+        isTaskCompleted,
+        setTaskCompleted,
+        toggleTaskCompleted,
         pushedCode,
         pushCodeToStudent,
         studentLiveCode,

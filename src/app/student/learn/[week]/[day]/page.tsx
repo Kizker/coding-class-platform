@@ -31,7 +31,7 @@ export default function StudentLearnPage({
   const weekNum = parseInt(resolvedParams.week, 10) || 1;
   const dayKey = (resolvedParams.day || "senin").toLowerCase();
 
-  const { progress, updateProgress, pushedCode } = useSession();
+  const { progress, updateProgress, pushedCode, setTaskCompleted } = useSession();
   const { isRunning, runCode } = usePyodide();
 
   const weekData = CURRICULUM_DATA.find((w) => w.week === weekNum) || CURRICULUM_DATA[0];
@@ -90,6 +90,7 @@ export default function StudentLearnPage({
         xpPoints: progress.xpPoints + assignment.points,
         completedAssignments: progress.completedAssignments + 1,
       });
+      setTaskCompleted(weekNum, dayKey, true);
     }
   };
 
