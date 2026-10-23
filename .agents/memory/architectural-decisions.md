@@ -46,3 +46,18 @@ Dokumen ini berfungsi sebagai pencatatan resmi seluruh keputusan arsitektural (*
      - *Tingkat 2:* Wajib menunggu konfirmasi kata kunci (`acc` atau `eksekusi`) dari Mas Andri sebelum melakukan penghapusan berkas, modifikasi skema destruktif, atau force push.
 - **Konsekuensi:**
   - Menghilangkan friksi konfirmasi berlebihan pada task kecil, sembari menjaga sistem dari kesalahan fatal.
+
+---
+
+### [ADR-004] Arsitektur Platform Edukasi Koding Les Private 1-on-1 (Python Track)
+- **Status:** DITERIMA & TERKUNCI (LOCKED)
+- **Konteks:**
+  Pengembangan platform web terpadu untuk les private koding 1-on-1 dengan 3 aktor: Siswa, Pengajar, dan Orang Tua, sesuai [PRD.md](file:///Users/andrichadeamitra/Documents/PROJECT/coding-class/PRD.md).
+- **Keputusan:**
+  1. **In-Browser Execution Engine:** Menggunakan Pyodide WebAssembly (WASM) di browser siswa agar zero-setup tanpa instalasi Python di komputer lokal.
+  2. **Friendly Error Translator:** Mengonversi error standar Python (SyntaxError, NameError, dsb.) menjadi pesan edukatif berbahasa Indonesia yang bersahabat bagi pemula.
+  3. **Teaching Console & 1-Click Push Code:** Pengajar memiliki kontrol push kode contoh langsung ke editor siswa dan live view monitor kode/output siswa.
+  4. **Parent Monitoring Portal:** Antarmuka khusus orang tua dirancang *Mobile-First* dan murni *read-only* (tanpa compiler/editor) untuk memantau progres 12 minggu, kehadiran sesi 2 jam, dan catatan mingguan.
+  5. **1-Click WhatsApp Report:** Generator laporan terformat rapi untuk dikirimkan pengajar ke nomor WhatsApp orang tua setiap hari Minggu.
+- **Dokumentasi Terkait:** [docs/plans/2026-10-23-coding-class-platform.md](file:///Users/andrichadeamitra/Documents/PROJECT/coding-class/docs/plans/2026-10-23-coding-class-platform.md)
+
