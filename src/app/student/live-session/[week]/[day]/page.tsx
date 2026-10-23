@@ -8,6 +8,7 @@ import { usePyodide, ExecutionResult } from "@/lib/pyodide/usePyodide";
 import { CodeEditor } from "@/components/editor/CodeEditor";
 import { LIVE_QUIZ_QUESTIONS } from "@/data/liveQuizQuestions";
 import confetti from "canvas-confetti";
+import { WEEK_1_SUB_MATERIALS, SubMaterialItem } from "@/data/liveSubMaterials";
 import {
   ArrowLeft,
   Play,
@@ -27,6 +28,8 @@ import {
   GraduationCap,
   Sparkle,
   ArrowRight,
+  Cpu,
+  Layers,
 } from "lucide-react";
 
 export default function StudentLiveSessionPage({
@@ -68,71 +71,8 @@ export default function StudentLiveSessionPage({
       expectedOutputDesc: "Hasil program berjalan sukses.",
     };
 
-  // 3 Sub-materials for Tab 2 (Pembelajaran Interaktif)
-  const subMaterials = [
-    {
-      sub: 1,
-      title: "Sub-Materi 1: Model Komputasi Input - Proses - Output (IPO) & Fungsi print()",
-      concept:
-        "Komputer bekerja dengan model IPO: Menerima Masukan (Input), Mengolah Logika (Proses), dan Menghasilkan Tampilan (Output). Fungsi print() adalah jembatan utama untuk menampilkan teks hasil ke terminal.",
-      demoCode: `# Sub-Materi 1: Model Komputasi IPO
-# 1. Input: Data siswa
-nama = "Andi Pratama"
-pekan = 1
-
-# 2. Proses: Merangkai teks informasi
-laporan = f"Siswa: {nama} | Status: Aktif Belajar Pekan {pekan}"
-
-# 3. Output: Cetak ke layar terminal
-print(laporan)`,
-      trialInstruction:
-        "Uji Praktik Mandiri: Buat variabel 'nama_siswa' dan 'mata_pelajaran' (misal: 'Python Dasar'). Lalu cetak kalimat: 'Halo, saya [nama_siswa] siap menguasai [mata_pelajaran]!'",
-      trialStarter: `# Uji Praktik Mandiri Sub 1:
-nama_siswa = "Andi"
-mata_pelajaran = "Python Dasar"
-
-# Cetak kalimatmu di bawah:
-print(f"Halo, saya {nama_siswa} siap menguasai {mata_pelajaran}!")`,
-    },
-    {
-      sub: 2,
-      title: "Sub-Materi 2: Format Teks, Baris Baru (\\n), Tab (\\t), & Escape Characters",
-      concept:
-        "\\n digunakan untuk membuat baris baru, dan \\t memberikan jarak tabulasi seperti tombol Tab di keyboard. Karakter ini sangat penting untuk menyusun tata letak teks berstruktur rapi tanpa mengetik spasi manual.",
-      demoCode: `# Sub-Materi 2: Format Teks & Tabulasi
-print("DAFTAR NILAI KODING:")
-print("\\t1. Logika Komputasi\\t: A")
-print("\\t2. Sintaksis Python\\t: A+")
-print("\\nCatatan: Tetap konsisten dan eksploratif!")`,
-      trialInstruction:
-        "Uji Praktik Mandiri: Buatlah tampilan struk toko sederhana dengan judul di atas, diikuti daftar 2 barang menggunakan tabulasi (\\t), dan status pembayaran di baris baru.",
-      trialStarter: `# Uji Praktik Mandiri Sub 2:
-print("=== TOKO BUKU INFORMATIKA ===")
-print("Item Belanja:\\n\\t1. Buku Logika Python\\n\\t2. Catatan Algoritma")
-print("\\nStatus: Pembayaran Lunas")`,
-    },
-    {
-      sub: 3,
-      title: "Sub-Materi 3: Kotak Memori: Variabel, Re-assignment, & F-String",
-      concept:
-        "Variabel diibaratkan seperti kotak kardus berlabel nama untuk menyimpan data di memori RAM. Nilai dalam variabel bisa diperbarui (re-assignment) dari atas ke bawah, dan f-string memudahkan menyisipkan data variabel ke dalam kalimat.",
-      demoCode: `# Sub-Materi 3: Kotak Memori & Re-assignment
-saldo = 50000
-print(f"Saldo awal: Rp {saldo:,}")
-
-# Andi membeli buku latihan koding seharga 25000
-saldo = saldo - 25000
-print(f"Sisa saldo sekarang: Rp {saldo:,}")`,
-      trialInstruction:
-        "Uji Praktik Mandiri: Deklarasikan variabel 'panjang = 12' dan 'lebar = 5'. Hitung luas persegi panjang ke dalam variabel 'luas', lalu cetak hasilnya dengan f-string: 'Luas Persegi Panjang: [luas] cm2'.",
-      trialStarter: `# Uji Praktik Mandiri Sub 3:
-panjang = 12
-lebar = 5
-luas = panjang * lebar
-
-print(f"Luas Persegi Panjang: {luas} cm2")`,
-    },
-  ];
+  // 3 Sub-materials for Tab 2 (Pembelajaran Interaktif Pekan 1)
+  const subMaterials = WEEK_1_SUB_MATERIALS;
 
   // Active Tab: 1: Tantangan, 2: Pembelajaran, 3: Kuis, 4: Refleksi
   const [activeTab, setActiveTab] = useState<number>(liveSync.currentStep || 1);
@@ -534,18 +474,21 @@ print(f"Luas Persegi Panjang: {luas} cm2")`,
         {activeTab === 2 && (
           <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn pb-12">
             {/* 1. Header & Sub-Materi Nav Switcher */}
-            <div className="bg-white border border-stone-200/80 rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
-                <div>
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-5 sm:p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-start justify-between gap-3 border-b border-stone-100 pb-4">
+                <div className="space-y-1">
                   <span className="text-[11px] font-semibold text-indigo-700 uppercase tracking-wider block">
                     Tahap 2 &bull; Pembelajaran Terbimbing &amp; Praktik Langsung
                   </span>
-                  <h1 className="text-xl font-bold text-stone-900 tracking-tight mt-0.5">
+                  <h1 className="text-xl sm:text-2xl font-bold text-stone-900 tracking-tight leading-snug">
                     {activeSubMaterial.title}
                   </h1>
+                  <p className="text-xs sm:text-sm text-stone-500 font-sans">
+                    {activeSubMaterial.subtitle}
+                  </p>
                 </div>
 
-                <div className="flex items-center space-x-2 text-xs">
+                <div className="flex items-center space-x-2 text-xs shrink-0 pt-1">
                   <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-medium flex items-center space-x-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
                     <span>Sinkron Mentor Mas Andri</span>
@@ -571,59 +514,182 @@ print(f"Luas Persegi Panjang: {luas} cm2")`,
                       }`}
                     >
                       <span className="hidden sm:inline">Sub-Materi {sub.sub}: </span>
-                      <span>{sub.title.split(":")[1] || `Sub ${sub.sub}`}</span>
+                      <span>{sub.title.split(":")[1]?.trim() || `Sub ${sub.sub}`}</span>
                     </button>
                   );
                 })}
               </div>
             </div>
 
-            {/* 2. Kartu Penjelasan Konsep & Logika Teori */}
-            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+            {/* 2. Kartu Penjelasan Konsep & Analogi Dunia Nyata */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
               <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
                 <BookOpen className="w-4 h-4 text-indigo-600" />
-                <span>Konsep &amp; Nalar Logika</span>
+                <span>1. Konsep &amp; Nalar Logika</span>
               </div>
 
               <p className="text-sm text-stone-700 leading-relaxed font-sans">
                 {activeSubMaterial.concept}
               </p>
 
-              {/* Poin-Poin Penting untuk Siswa */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1">
-                  <span className="font-semibold text-stone-900 flex items-center space-x-1.5">
-                    <Check className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Karakteristik Utama:</span>
-                  </span>
-                  <p className="text-stone-600 leading-relaxed">
-                    {currentSubStep === 1 && "Fungsi membungkus logika agar tidak perlu menulis kode berulang kali."}
-                    {currentSubStep === 2 && "'return' menyerahkan hasil perhitungan agar bisa disimpan ke variabel."}
-                    {currentSubStep === 3 && "Variabel lokal hanya hidup di dalam fungsi dan terisolasi dari luar."}
-                  </p>
+              {/* Analogi Dunia Nyata yang Ramah Siswa */}
+              <div className="p-4 sm:p-5 rounded-2xl bg-amber-50/70 border border-amber-200/70 space-y-2">
+                <div className="flex items-center space-x-2 text-xs font-bold text-amber-950">
+                  <span className="text-lg">{activeSubMaterial.analogy.icon}</span>
+                  <span>{activeSubMaterial.analogy.title}</span>
                 </div>
+                <p className="text-xs sm:text-sm text-stone-700 leading-relaxed font-sans">
+                  {activeSubMaterial.analogy.description}
+                </p>
+              </div>
 
-                <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1">
-                  <span className="font-semibold text-stone-900 flex items-center space-x-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                    <span>Tips Pemrograman:</span>
-                  </span>
-                  <p className="text-stone-600 leading-relaxed">
-                    {currentSubStep === 1 && "Gunakan nama fungsi dan parameter yang deskriptif (misal: hitung_luas)."}
-                    {currentSubStep === 2 && "Bedakan kapan hanya butuh melihat teks dan kapan butuh mengolah nilai."}
-                    {currentSubStep === 3 && "Modul bawaan Python mempermudah tugas rumit seperti pengacakan data."}
-                  </p>
+              {/* Tiga Pilar Pemahaman Logika */}
+              <div className="space-y-2 pt-1">
+                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                  Tiga Pilar Pemahaman Logika:
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5">
+                  {activeSubMaterial.deepExplanation.map((point, idx) => {
+                    const [head, ...rest] = point.split(":");
+                    return (
+                      <div
+                        key={idx}
+                        className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1"
+                      >
+                        <span className="font-bold text-stone-900 block font-sans">
+                          {head}
+                        </span>
+                        <p className="text-stone-600 leading-relaxed font-sans">
+                          {rest.join(":")}
+                        </p>
+                      </div>
+                    );
+                  })}
                 </div>
               </div>
             </div>
 
-            {/* 3. Kartu Kode Peraga Mentor */}
-            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
-              <div className="flex items-center justify-between text-xs">
+            {/* 3. Kartu Bedah Fungsi Bawaan (Deep Dive Built-in Functions) */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
+              <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+                <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
+                  <Cpu className="w-4 h-4 text-emerald-600" />
+                  <span>2. Bedah Fungsi Bawaan Python (Built-in Functions)</span>
+                </div>
+                <span className="text-[11px] font-mono text-emerald-700 bg-emerald-50 border border-emerald-200 px-2.5 py-0.5 rounded-md font-bold">
+                  Standar Komputasi
+                </span>
+              </div>
+
+              <div className="space-y-4">
+                {activeSubMaterial.functionsExplained.map((fn, idx) => (
+                  <div
+                    key={idx}
+                    className="p-5 rounded-2xl border border-stone-200/80 bg-stone-50/50 space-y-3.5"
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <div className="flex items-center space-x-2">
+                        <span className="font-mono text-sm font-bold text-stone-900 bg-white border border-stone-300 px-2.5 py-1 rounded-lg shadow-2xs">
+                          {fn.name}
+                        </span>
+                        <span className="text-xs text-stone-500 font-sans">
+                          Sintaksis: <code className="font-mono text-stone-800 bg-stone-200/60 px-1.5 py-0.5 rounded">{fn.syntax}</code>
+                        </span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                        Peran Teknis Fungsi:
+                      </span>
+                      <p className="text-xs sm:text-sm text-stone-800 font-sans leading-relaxed font-medium">
+                        {fn.role}
+                      </p>
+                    </div>
+
+                    <div className="space-y-1">
+                      <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                        Cara Kerja di Balik Layar (Internal Mesin):
+                      </span>
+                      <p className="text-xs text-stone-600 font-sans leading-relaxed">
+                        {fn.howItWorks}
+                      </p>
+                    </div>
+
+                    {/* Aturan Wajib */}
+                    <div className="p-3.5 rounded-xl bg-white border border-stone-200 text-xs text-stone-700 space-y-1.5">
+                      <span className="font-bold text-stone-900 flex items-center space-x-1.5">
+                        <AlertCircle className="w-3.5 h-3.5 text-amber-600" />
+                        <span>Aturan Penulisan Wajib:</span>
+                      </span>
+                      <ul className="list-disc list-inside space-y-1 text-stone-600 leading-relaxed font-sans">
+                        {fn.importantRules.map((r, rIdx) => (
+                          <li key={rIdx}>{r}</li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 4. Kartu Bedah Variabel & Alokasi Memori RAM (Deep Dive Variables) */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
+              <div className="flex items-center justify-between border-b border-stone-100 pb-3">
+                <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
+                  <Layers className="w-4 h-4 text-blue-600" />
+                  <span>3. Bedah Variabel &amp; Alokasi Memori RAM</span>
+                </div>
+                <span className="text-[11px] font-mono text-blue-700 bg-blue-50 border border-blue-200 px-2.5 py-0.5 rounded-md font-bold">
+                  Penyimpanan Data
+                </span>
+              </div>
+
+              <p className="text-xs text-stone-600 leading-relaxed font-sans">
+                Setiap kali kamu membuat variabel, komputer memesan satu kotak penyimpanan di memori RAM dan menempelkan label nama di atasnya. Komputer wajib mengetahui jenis data apa yang disimpan di dalamnya:
+              </p>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
+                {activeSubMaterial.variablesExplained.map((v, idx) => (
+                  <div
+                    key={idx}
+                    className="p-4 sm:p-5 rounded-2xl border border-stone-200/80 bg-stone-50/50 space-y-2.5 flex flex-col justify-between"
+                  >
+                    <div className="space-y-1.5">
+                      <div className="flex items-center justify-between">
+                        <span className="font-mono text-xs font-bold text-indigo-700 bg-indigo-50 border border-indigo-200 px-2 py-0.5 rounded-md">
+                          Kotak: {v.name}
+                        </span>
+                        <span className="text-[10px] font-semibold text-stone-600 bg-stone-200/70 px-2 py-0.5 rounded-md">
+                          {v.type}
+                        </span>
+                      </div>
+
+                      <div className="p-2 rounded-lg bg-white border border-stone-200/70 font-mono text-xs text-stone-800">
+                        <span className="text-stone-400 text-[10px] block font-sans">Nilai di RAM:</span>
+                        <span className="font-bold text-emerald-700">{v.value}</span>
+                      </div>
+                    </div>
+
+                    <div className="space-y-1 text-xs font-sans">
+                      <span className="font-semibold text-stone-900 block">Peran di Memori:</span>
+                      <p className="text-stone-600 leading-relaxed">{v.memoryRole}</p>
+                      <p className="text-stone-500 text-[11px] leading-relaxed pt-1 border-t border-stone-200/60">
+                        {v.explanation}
+                      </p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* 5. Kartu Kode Peraga Mentor & Bedah Eksekusi Baris demi Baris */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
+              <div className="flex items-center justify-between text-xs border-b border-stone-100 pb-3">
                 <div className="flex items-center space-x-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
                   <span className="font-semibold text-stone-900 text-sm">
-                    Contoh Kode Peraga Mentor
+                    4. Kode Peraga Mentor &amp; Alur Eksekusi Komputer
                   </span>
                 </div>
 
@@ -648,6 +714,50 @@ print(f"Luas Persegi Panjang: {luas} cm2")`,
               {/* Syntax Card */}
               <div className="p-4 rounded-xl bg-stone-900 text-stone-100 font-mono text-xs overflow-x-auto leading-relaxed border border-stone-800 shadow-inner">
                 <pre>{activeSubMaterial.demoCode}</pre>
+              </div>
+
+              {/* Line-by-Line Breakdown Table */}
+              <div className="space-y-2 pt-2">
+                <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider block">
+                  Alur Kerja Komputer Baris demi Baris:
+                </span>
+                <div className="divide-y divide-stone-100 border border-stone-200/80 rounded-xl overflow-hidden bg-stone-50/50">
+                  {activeSubMaterial.lineByLine.map((step) => (
+                    <div key={step.line} className="p-3.5 flex flex-col sm:flex-row sm:items-start gap-3 text-xs font-sans">
+                      <div className="shrink-0 flex items-center space-x-2 sm:w-28">
+                        <span className="font-mono font-bold text-stone-400">
+                          Baris {step.line}
+                        </span>
+                        <code className="font-mono text-indigo-700 bg-white border border-stone-200 px-1.5 py-0.5 rounded text-[11px]">
+                          {step.code.length > 20 ? step.code.slice(0, 18) + "..." : step.code}
+                        </code>
+                      </div>
+                      <div className="flex-1 space-y-1">
+                        <p className="text-stone-800 leading-relaxed font-medium">
+                          {step.explanation}
+                        </p>
+                        {step.memoryState && (
+                          <span className="text-[11px] font-mono text-emerald-700 block">
+                            {step.memoryState}
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Aturan Emas / Golden Rules */}
+              <div className="p-4 rounded-xl bg-indigo-50/70 border border-indigo-200/70 text-xs text-indigo-950 space-y-1.5">
+                <span className="font-bold text-indigo-950 flex items-center space-x-1.5">
+                  <Sparkles className="w-3.5 h-3.5 text-indigo-600" />
+                  <span>Aturan Emas Pemrograman Python:</span>
+                </span>
+                <ul className="list-disc list-inside space-y-1 text-stone-700 leading-relaxed font-sans">
+                  {activeSubMaterial.keyRules.map((rule, idx) => (
+                    <li key={idx}>{rule}</li>
+                  ))}
+                </ul>
               </div>
             </div>
 

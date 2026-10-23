@@ -6,6 +6,7 @@ import { CURRICULUM_DATA } from "@/data/curriculum";
 import { CodeEditor } from "@/components/editor/CodeEditor";
 import { useSession } from "@/lib/auth/sessionContext";
 import { LIVE_QUIZ_QUESTIONS } from "@/data/liveQuizQuestions";
+import { WEEK_1_SUB_MATERIALS, SubMaterialItem } from "@/data/liveSubMaterials";
 import confetti from "canvas-confetti";
 import {
   Send,
@@ -22,6 +23,9 @@ import {
   AlertCircle,
   Target,
   ArrowRight,
+  Cpu,
+  Layers,
+  ListOrdered,
 } from "lucide-react";
 
 export default function TutorTeachingStudioPage({
@@ -53,48 +57,7 @@ export default function TutorTeachingStudioPage({
   const activeSubStep = liveSync.subStep || 1;
 
   // Sub-materials for Tab 2 (Pekan 1)
-  const subMaterials = [
-    {
-      sub: 1,
-      title: "Sub 1: Model Komputasi IPO & Perintah print()",
-      concept:
-        "Jelaskan analogi koki restoran (Bahan -> Masak -> Sajikan). Tekankan bagaimana print() menampilkan luaran teks ke terminal dan aturan penulisan huruf kecil di Python.",
-      demoCode: `# Sub 1: Model Komputasi IPO
-# 1. Input: Data siswa
-nama = "Andi Pratama"
-pekan = 1
-
-# 2. Proses: Merangkai teks informasi
-laporan = f"Siswa: {nama} | Status: Aktif Belajar Pekan {pekan}"
-
-# 3. Output: Cetak ke layar terminal
-print(laporan)`,
-    },
-    {
-      sub: 2,
-      title: "Sub 2: Format Teks, Baris Baru (\\n) & Tab (\\t)",
-      concept:
-        "Bahas karakter escape '\\n' untuk ganti baris dan '\\t' untuk tabulasi rapi. Tunjukkan cara membuat tabel atau struk teks tanpa spasi manual berulang.",
-      demoCode: `# Sub 2: Format Teks & Tabulasi
-print("DAFTAR NILAI KODING:")
-print("\\t1. Logika Komputasi\\t: A")
-print("\\t2. Sintaksis Python\\t: A+")
-print("\\nCatatan: Tetap konsisten dan eksploratif!")`,
-    },
-    {
-      sub: 3,
-      title: "Sub 3: Kotak Memori (Variabel) & F-String",
-      concept:
-        "Jelaskan konsep kotak penyimpanan di RAM dengan nama label. Tunjukkan re-assignment (menimpa nilai lama) dan keanggunan format f-string dibanding tanda plus (+).",
-      demoCode: `# Sub 3: Kotak Memori & Re-assignment
-saldo = 50000
-print(f"Saldo awal: Rp {saldo:,}")
-
-# Andi membeli pulsa internet seharga 25000
-saldo = saldo - 25000
-print(f"Sisa saldo sekarang: Rp {saldo:,}")`,
-    },
-  ];
+  const subMaterials = WEEK_1_SUB_MATERIALS;
 
   const currentSub = subMaterials[activeSubStep - 1] || subMaterials[0];
 
@@ -452,6 +415,77 @@ print(f"Sisa saldo sekarang: Rp {saldo:,}")`,
                   <p className="text-stone-600 font-sans leading-relaxed">{currentSub.concept}</p>
                 </div>
               </div>
+
+              {/* Tutor Talking Points: Bedah Fungsi & Mekanisme Internal */}
+              {currentSub.functionsExplained && currentSub.functionsExplained.length > 0 && (
+                <div className="space-y-2 pt-1 border-t border-stone-100">
+                  <div className="flex items-center space-x-1.5 text-xs font-semibold text-stone-900">
+                    <Cpu className="w-3.5 h-3.5 text-indigo-600" />
+                    <span>Bedah Fungsi untuk Dijelaskan:</span>
+                  </div>
+                  <div className="space-y-2">
+                    {currentSub.functionsExplained.map((fn, idx) => (
+                      <div key={idx} className="p-3 rounded-xl bg-indigo-50/50 border border-indigo-100/80 text-xs space-y-1">
+                        <div className="flex items-center justify-between">
+                          <code className="font-mono font-bold text-indigo-900">{fn.name}</code>
+                          <span className="text-[10px] bg-white px-2 py-0.5 rounded-md border border-indigo-200/60 text-indigo-700 font-medium">
+                            {fn.role}
+                          </span>
+                        </div>
+                        <p className="text-stone-700 text-[11px] leading-relaxed"><strong className="text-stone-900">Cara Kerja:</strong> {fn.howItWorks}</p>
+                        <p className="text-stone-600 text-[11px] leading-relaxed"><strong className="text-stone-900">Aturan Emas:</strong> {fn.importantRules[0]}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Tutor Talking Points: Bedah Variabel & Alokasi RAM */}
+              {currentSub.variablesExplained && currentSub.variablesExplained.length > 0 && (
+                <div className="space-y-2 pt-1 border-t border-stone-100">
+                  <div className="flex items-center space-x-1.5 text-xs font-semibold text-stone-900">
+                    <Layers className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Bedah Variabel &amp; Alokasi RAM:</span>
+                  </div>
+                  <div className="space-y-2">
+                    {currentSub.variablesExplained.map((v, idx) => (
+                      <div key={idx} className="p-3 rounded-xl bg-amber-50/50 border border-amber-200/60 text-xs space-y-1">
+                        <div className="flex items-center justify-between">
+                          <code className="font-mono font-bold text-stone-900">{v.name}</code>
+                          <span className="text-[10px] bg-white px-2 py-0.5 rounded-md border border-amber-200/80 text-amber-800 font-medium font-mono">
+                            {v.type} &bull; Nilai: {v.value}
+                          </span>
+                        </div>
+                        <p className="text-stone-700 text-[11px] leading-relaxed"><strong className="text-stone-900">Di Memori:</strong> {v.memoryRole}</p>
+                        <p className="text-stone-600 text-[11px] leading-relaxed">{v.explanation}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Tutor Talking Points: Alur Eksekusi Baris demi Baris */}
+              {currentSub.lineByLine && currentSub.lineByLine.length > 0 && (
+                <div className="space-y-2 pt-1 border-t border-stone-100">
+                  <div className="flex items-center space-x-1.5 text-xs font-semibold text-stone-900">
+                    <ListOrdered className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Panduan Alur Baris demi Baris:</span>
+                  </div>
+                  <div className="space-y-1.5 max-h-[220px] overflow-y-auto pr-1">
+                    {currentSub.lineByLine.map((line, idx) => (
+                      <div key={idx} className="p-2.5 rounded-lg bg-stone-50 border border-stone-200/60 text-[11px] space-y-0.5">
+                        <div className="flex items-center space-x-2">
+                          <span className="px-1.5 py-0.5 rounded bg-stone-200 text-stone-700 font-mono text-[10px] font-bold">
+                            Baris {line.line}
+                          </span>
+                          <code className="font-mono text-stone-900 font-semibold truncate">{line.code}</code>
+                        </div>
+                        <p className="text-stone-600 pl-1 leading-relaxed">{line.explanation}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Action Buttons */}
               <div className="space-y-2.5 pt-2">
