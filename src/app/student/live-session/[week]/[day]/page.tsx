@@ -26,6 +26,7 @@ import {
   FileQuestion,
   GraduationCap,
   Sparkle,
+  ArrowRight,
 } from "lucide-react";
 
 export default function StudentLiveSessionPage({
@@ -543,173 +544,278 @@ print(suit("Batu"))`,
         )}
 
         {/* ======================================================== */}
-        {/* TAB 2: PEMBELAJARAN INTERAKTIF & UJI COBA SUB-MATERI    */}
+        {/* TAB 2: PEMBELAJARAN INTERAKTIF (1 KOLOM LINEAR MENGALIR) */}
         {/* ======================================================== */}
         {activeTab === 2 && (
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 items-start animate-fadeIn">
-            {/* Left 5/12: Materi & Kode Peraga & Latihan Mandiri */}
-            <section className="lg:col-span-5 bg-white border border-stone-200/80 rounded-2xl p-6 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-5">
-              {/* Header Sub-Materi */}
-              <div className="space-y-1">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-semibold text-indigo-700 uppercase tracking-wider">
-                    Materi Interaktif &bull; Sub {currentSubStep} dari 3
+          <div className="max-w-4xl mx-auto space-y-6 animate-fadeIn pb-12">
+            {/* 1. Header & Sub-Materi Nav Switcher */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-5 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-stone-100 pb-4">
+                <div>
+                  <span className="text-[11px] font-semibold text-indigo-700 uppercase tracking-wider block">
+                    Tahap 2 &bull; Pembelajaran Terbimbing &amp; Praktik Langsung
                   </span>
-                  <span className="text-[11px] text-stone-400 font-medium">
-                    Sinkron Layar Mentor
+                  <h1 className="text-xl font-bold text-stone-900 tracking-tight mt-0.5">
+                    {activeSubMaterial.title}
+                  </h1>
+                </div>
+
+                <div className="flex items-center space-x-2 text-xs">
+                  <span className="px-3 py-1 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200/60 font-medium flex items-center space-x-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                    <span>Sinkron Mentor Mas Andri</span>
                   </span>
                 </div>
-                <h2 className="text-lg font-bold text-stone-900 tracking-tight leading-snug">
-                  {activeSubMaterial.title}
-                </h2>
-                <p className="text-xs text-stone-600 leading-relaxed font-sans">
-                  {activeSubMaterial.concept}
-                </p>
               </div>
 
-              {/* Sub-Material Nav Tabs */}
-              <div className="flex gap-1.5 p-1 bg-stone-100 rounded-xl text-xs">
+              {/* 3 Sub-Material Tabs Switcher */}
+              <div className="flex p-1 bg-stone-100 rounded-xl text-xs">
                 {subMaterials.map((sub) => {
                   const isCurrent = currentSubStep === sub.sub;
                   return (
                     <button
                       key={sub.sub}
-                      onClick={() => updateLiveSync({ subStep: sub.sub })}
-                      className={`flex-1 py-1.5 px-2 rounded-lg font-medium transition cursor-pointer text-center ${
+                      onClick={() => {
+                        updateLiveSync({ subStep: sub.sub });
+                        handleCopyTutorCode(sub.demoCode);
+                      }}
+                      className={`flex-1 py-2 px-3 rounded-lg font-medium transition cursor-pointer text-center ${
                         isCurrent
                           ? "bg-white text-stone-900 shadow-2xs font-semibold"
                           : "text-stone-600 hover:text-stone-900"
                       }`}
                     >
-                      Sub {sub.sub}
+                      <span className="hidden sm:inline">Sub-Materi {sub.sub}: </span>
+                      <span>{sub.title.split(":")[1] || `Sub ${sub.sub}`}</span>
                     </button>
                   );
                 })}
               </div>
+            </div>
 
-              {/* Kode Peraga Mentor */}
-              <div className="space-y-2">
-                <div className="flex items-center justify-between text-xs">
-                  <span className="text-[11px] font-semibold text-stone-500 uppercase tracking-wider">
-                    Kode Peraga Mentor
+            {/* 2. Kartu Penjelasan Konsep & Logika Teori */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+              <div className="flex items-center space-x-2 text-xs font-semibold text-stone-900">
+                <BookOpen className="w-4 h-4 text-indigo-600" />
+                <span>Konsep &amp; Nalar Logika</span>
+              </div>
+
+              <p className="text-sm text-stone-700 leading-relaxed font-sans">
+                {activeSubMaterial.concept}
+              </p>
+
+              {/* Poin-Poin Penting untuk Siswa */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
+                <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1">
+                  <span className="font-semibold text-stone-900 flex items-center space-x-1.5">
+                    <Check className="w-3.5 h-3.5 text-emerald-600" />
+                    <span>Karakteristik Utama:</span>
                   </span>
-                  <button
-                    onClick={() => handleCopyTutorCode(activeSubMaterial.demoCode)}
-                    className="text-stone-600 hover:text-stone-900 flex items-center space-x-1.5 font-medium transition cursor-pointer"
-                  >
-                    {copiedCodeNotice ? (
-                      <>
-                        <Check className="w-3.5 h-3.5 text-emerald-600" />
-                        <span className="text-emerald-700 font-semibold">Tersalin ke Editorku</span>
-                      </>
-                    ) : (
-                      <>
-                        <Copy className="w-3.5 h-3.5 text-stone-400" />
-                        <span>Salin ke Editorku</span>
-                      </>
-                    )}
-                  </button>
+                  <p className="text-stone-600 leading-relaxed">
+                    {currentSubStep === 1 && "Fungsi membungkus logika agar tidak perlu menulis kode berulang kali."}
+                    {currentSubStep === 2 && "'return' menyerahkan hasil perhitungan agar bisa disimpan ke variabel."}
+                    {currentSubStep === 3 && "Variabel lokal hanya hidup di dalam fungsi dan terisolasi dari luar."}
+                  </p>
                 </div>
 
-                <div className="p-4 rounded-xl bg-stone-900 text-stone-100 font-mono text-xs overflow-x-auto leading-relaxed border border-stone-800 shadow-inner">
-                  <pre>{activeSubMaterial.demoCode}</pre>
-                </div>
-              </div>
-
-              {/* Latihan Uji Coba Mandiri Sub-Materi */}
-              <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200/80 space-y-2">
-                <div className="flex items-center justify-between">
-                  <span className="text-xs font-bold text-emerald-950 flex items-center space-x-1.5">
-                    <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
-                    <span>Latihan Uji Coba Mandiri Sub {currentSubStep}:</span>
+                <div className="p-3.5 rounded-xl bg-stone-50 border border-stone-200/70 text-xs text-stone-700 space-y-1">
+                  <span className="font-semibold text-stone-900 flex items-center space-x-1.5">
+                    <Sparkles className="w-3.5 h-3.5 text-amber-600" />
+                    <span>Tips Pemrograman:</span>
                   </span>
-                  <button
-                    onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
-                    className="text-[11px] text-emerald-800 hover:text-emerald-950 underline font-medium cursor-pointer"
-                  >
-                    Pakai Kerangka Ini
-                  </button>
-                </div>
-                <p className="text-xs text-stone-700 leading-relaxed font-sans">
-                  {activeSubMaterial.trialInstruction}
-                </p>
-              </div>
-            </section>
-
-            {/* Right 7/12: Code Editor & Execution */}
-            <section className="lg:col-span-7 bg-white border border-stone-200/80 rounded-2xl overflow-hidden shadow-[0_1px_3px_rgba(0,0,0,0.02)] flex flex-col">
-              <div className="px-5 py-3 border-b border-stone-100 flex items-center justify-between text-xs">
-                <div className="flex items-center space-x-3">
-                  <span className="font-semibold text-stone-900 font-mono">latihan_sub_{currentSubStep}.py</span>
-                  <span className="text-stone-300">&bull;</span>
-                  <div className="flex items-center space-x-1.5 text-stone-500 font-medium">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block animate-pulse" />
-                    <span className="text-[11px]">Terhubung ke layar mentor</span>
-                  </div>
-                </div>
-
-                <div className="flex items-center space-x-2.5">
-                  <button
-                    onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
-                    className="text-stone-400 hover:text-stone-700 transition flex items-center space-x-1 text-xs cursor-pointer"
-                  >
-                    <RotateCcw className="w-3.5 h-3.5" />
-                    <span className="hidden sm:inline">Reset Latihan</span>
-                  </button>
-
-                  <button
-                    onClick={handleRunCode}
-                    disabled={isRunning}
-                    className="px-4 py-2 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold transition flex items-center space-x-2 shadow-2xs disabled:opacity-50 cursor-pointer"
-                  >
-                    <Play className="w-3.5 h-3.5 fill-current text-emerald-400" />
-                    <span>{isRunning ? "Mengeksekusi..." : "Jalankan Kode"}</span>
-                  </button>
+                  <p className="text-stone-600 leading-relaxed">
+                    {currentSubStep === 1 && "Gunakan nama fungsi dan parameter yang deskriptif (misal: hitung_luas)."}
+                    {currentSubStep === 2 && "Bedakan kapan hanya butuh melihat teks dan kapan butuh mengolah nilai."}
+                    {currentSubStep === 3 && "Modul bawaan Python mempermudah tugas rumit seperti pengacakan data."}
+                  </p>
                 </div>
               </div>
+            </div>
 
-              <div className="min-h-[340px]">
-                <CodeEditor
-                  value={editorCode}
-                  onChange={handleEditorChange}
-                  height="340px"
-                  hideHeader={true}
-                  hideBorder={true}
-                />
-              </div>
-
-              <div className="border-t border-stone-200/80 bg-stone-50/70 p-4 sm:p-5 flex flex-col space-y-2">
-                <div className="flex items-center justify-between text-xs text-stone-600 font-medium">
-                  <div className="flex items-center space-x-2">
-                    <Terminal className="w-3.5 h-3.5 text-stone-500" />
-                    <span className="text-stone-900 font-semibold">Hasil Eksekusi Uji Coba</span>
-                  </div>
-                  {lastResult && (
-                    <span
-                      className={
-                        lastResult.isSuccess
-                          ? "text-emerald-700 font-semibold flex items-center space-x-1"
-                          : "text-rose-700 font-semibold flex items-center space-x-1"
-                      }
-                    >
-                      {lastResult.isSuccess ? "Berhasil" : "Error Logika"}
-                    </span>
-                  )}
+            {/* 3. Kartu Kode Peraga Mentor */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+              <div className="flex items-center justify-between text-xs">
+                <div className="flex items-center space-x-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block" />
+                  <span className="font-semibold text-stone-900 text-sm">
+                    Contoh Kode Peraga Mentor
+                  </span>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border border-stone-200/70 font-mono text-xs text-stone-800 min-h-[90px] max-h-[200px] overflow-y-auto">
-                  {lastResult ? (
-                    <pre className="whitespace-pre-wrap leading-relaxed">
-                      {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa teks keluaran)"}
-                    </pre>
+                <button
+                  onClick={() => handleCopyTutorCode(activeSubMaterial.demoCode)}
+                  className="px-3 py-1.5 rounded-lg border border-stone-200 hover:border-stone-300 text-stone-700 hover:text-stone-900 font-medium transition cursor-pointer flex items-center space-x-1.5 text-xs bg-white hover:bg-stone-50"
+                >
+                  {copiedCodeNotice ? (
+                    <>
+                      <Check className="w-3.5 h-3.5 text-emerald-600" />
+                      <span className="text-emerald-700 font-semibold">Tersalin ke Uji Praktik</span>
+                    </>
                   ) : (
-                    <p className="text-stone-400 font-sans text-xs italic">
-                      Coba kode latihanmu dan klik &ldquo;Jalankan Kode&rdquo; untuk melihat hasilnya.
-                    </p>
+                    <>
+                      <Copy className="w-3.5 h-3.5 text-stone-400" />
+                      <span>Salin ke Uji Praktik di Bawah</span>
+                    </>
                   )}
+                </button>
+              </div>
+
+              {/* Syntax Card */}
+              <div className="p-4 rounded-xl bg-stone-900 text-stone-100 font-mono text-xs overflow-x-auto leading-relaxed border border-stone-800 shadow-inner">
+                <pre>{activeSubMaterial.demoCode}</pre>
+              </div>
+            </div>
+
+            {/* 4. Kartu Uji Praktik Simpel (Interactive Mini Playground 1 Kolom) */}
+            <div className="bg-white border border-stone-200/80 rounded-2xl p-6 sm:p-7 shadow-[0_1px_3px_rgba(0,0,0,0.02)] space-y-4">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-stone-100 pb-3">
+                <div className="space-y-0.5">
+                  <div className="flex items-center space-x-2 text-xs">
+                    <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 font-semibold border border-emerald-200">
+                      Uji Praktik Simpel
+                    </span>
+                    <span className="text-stone-400">&bull;</span>
+                    <span className="text-stone-500">Coba Langsung di Sini</span>
+                  </div>
+                  <h3 className="text-base font-bold text-stone-900">
+                    Latihan Koding Interaktif Sub {currentSubStep}
+                  </h3>
+                </div>
+
+                <div className="flex items-center space-x-2">
+                  <button
+                    onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
+                    className="text-stone-600 hover:text-stone-900 text-xs font-medium underline cursor-pointer"
+                  >
+                    Gunakan Kerangka Latihan
+                  </button>
                 </div>
               </div>
-            </section>
+
+              {/* Petunjuk Soal Praktik */}
+              <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200/80 text-xs text-stone-700 space-y-1">
+                <span className="font-bold text-emerald-950 block">Tugas Uji Coba:</span>
+                <p className="leading-relaxed font-sans">{activeSubMaterial.trialInstruction}</p>
+              </div>
+
+              {/* Integrated Code Editor & Controls */}
+              <div className="rounded-xl border border-stone-200/80 overflow-hidden shadow-2xs">
+                {/* Editor Header Bar */}
+                <div className="px-4 py-2.5 bg-stone-50 border-b border-stone-200/70 flex items-center justify-between text-xs">
+                  <div className="flex items-center space-x-2 font-mono text-stone-700">
+                    <span className="font-semibold">uji_praktik_sub_{currentSubStep}.py</span>
+                    <span className="text-stone-300">&bull;</span>
+                    <span className="text-[11px] text-stone-400 font-sans">Python 3.11</span>
+                  </div>
+
+                  <div className="flex items-center space-x-2">
+                    <button
+                      onClick={() => handleCopyTutorCode(activeSubMaterial.trialStarter)}
+                      className="text-stone-400 hover:text-stone-700 transition flex items-center space-x-1 text-xs cursor-pointer px-2 py-1"
+                      title="Reset kode latihan"
+                    >
+                      <RotateCcw className="w-3.5 h-3.5" />
+                      <span>Reset</span>
+                    </button>
+
+                    <button
+                      onClick={handleRunCode}
+                      disabled={isRunning}
+                      className="px-4 py-1.5 rounded-lg bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold transition flex items-center space-x-1.5 shadow-2xs cursor-pointer disabled:opacity-50"
+                    >
+                      <Play className="w-3 h-3 fill-current text-emerald-400" />
+                      <span>{isRunning ? "Mengeksekusi..." : "Jalankan Kode Praktik"}</span>
+                    </button>
+                  </div>
+                </div>
+
+                {/* Editor Canvas */}
+                <div className="min-h-[260px]">
+                  <CodeEditor
+                    value={editorCode}
+                    onChange={handleEditorChange}
+                    height="260px"
+                    hideHeader={true}
+                    hideBorder={true}
+                  />
+                </div>
+
+                {/* Terminal Output */}
+                <div className="border-t border-stone-200/80 bg-stone-50/70 p-4 space-y-2">
+                  <div className="flex items-center justify-between text-xs text-stone-600 font-medium">
+                    <div className="flex items-center space-x-2">
+                      <Terminal className="w-3.5 h-3.5 text-stone-500" />
+                      <span className="text-stone-900 font-semibold">Hasil Eksekusi Program:</span>
+                    </div>
+
+                    {lastResult && (
+                      <span
+                        className={
+                          lastResult.isSuccess
+                            ? "text-emerald-700 font-semibold text-xs flex items-center space-x-1"
+                            : "text-rose-700 font-semibold text-xs flex items-center space-x-1"
+                        }
+                      >
+                        {lastResult.isSuccess ? "Berhasil Berjalan" : "Error Logika"}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="p-3.5 rounded-xl bg-white border border-stone-200/70 font-mono text-xs text-stone-800 min-h-[70px] max-h-[180px] overflow-y-auto">
+                    {lastResult ? (
+                      <pre className="whitespace-pre-wrap leading-relaxed">
+                        {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa teks luaran)"}
+                      </pre>
+                    ) : (
+                      <p className="text-stone-400 font-sans text-xs italic">
+                        Klik tombol &ldquo;Jalankan Kode Praktik&rdquo; di atas untuk melihat luaran programmu di sini.
+                      </p>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* 5. Navigasi Lanjut Antar Sub-Materi */}
+            <div className="flex items-center justify-between pt-2">
+              {currentSubStep > 1 ? (
+                <button
+                  onClick={() => {
+                    const prevSub = currentSubStep - 1;
+                    updateLiveSync({ subStep: prevSub });
+                    handleCopyTutorCode(subMaterials[prevSub - 1].demoCode);
+                  }}
+                  className="px-4 py-2.5 rounded-xl border border-stone-200 hover:bg-stone-50 text-stone-700 text-xs font-semibold transition cursor-pointer flex items-center space-x-1.5"
+                >
+                  <ChevronLeft className="w-4 h-4" />
+                  <span>Sub-Materi Sebelumnya</span>
+                </button>
+              ) : (
+                <div />
+              )}
+
+              {currentSubStep < 3 ? (
+                <button
+                  onClick={() => {
+                    const nextSub = currentSubStep + 1;
+                    updateLiveSync({ subStep: nextSub });
+                    handleCopyTutorCode(subMaterials[nextSub - 1].demoCode);
+                  }}
+                  className="px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-stone-800 text-white text-xs font-semibold transition cursor-pointer flex items-center space-x-2 shadow-2xs"
+                >
+                  <span>Lanjut ke Sub-Materi {currentSubStep + 1}</span>
+                  <ChevronRight className="w-4 h-4" />
+                </button>
+              ) : (
+                <button
+                  onClick={() => setActiveTab(3)}
+                  className="px-5 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-semibold transition cursor-pointer flex items-center space-x-2 shadow-2xs"
+                >
+                  <span>Selesai Belajar &rarr; Lanjut ke Kuis Logika</span>
+                  <ArrowRight className="w-4 h-4" />
+                </button>
+              )}
+            </div>
           </div>
         )}
 
