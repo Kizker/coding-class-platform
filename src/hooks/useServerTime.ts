@@ -4,7 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { DayKey, ServerTimeData } from "@/app/api/v1/server-time/route";
 
 const DEFAULT_SERVER_TIME: ServerTimeData = {
-  timestamp: new Date().toISOString(),
+  timestamp: "2026-10-23T09:45:00.000Z",
   dayKey: "jumat",
   dayIndex: 5,
   dayName: "Jumat",

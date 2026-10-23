@@ -72,6 +72,7 @@ interface SessionContextType {
   pushCodeToStudent: (code: string) => void;
   studentLiveCode: string;
   updateStudentLiveCode: (code: string) => void;
+  isMounted: boolean;
 }
 
 export const USERS: Record<UserRole, UserProfile> = {
@@ -142,12 +143,14 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [role, setRoleState] = useState<UserRole>("student");
   const [isAuthenticated, setIsAuthenticated] = useState<boolean>(true);
   const [progress, setProgress] = useState<StudentProgress>(DEFAULT_PROGRESS);
+  const [isMounted, setIsMounted] = useState<boolean>(false);
   const [pushedCode, setPushedCode] = useState<string | null>(null);
   const [studentLiveCode, setStudentLiveCode] = useState<string>(
     "panjang = 10\nlebar = 5\nluas = panjang * lebar\nprint(f\"Luas Persegi Panjang: {luas}\")"
   );
 
   useEffect(() => {
+    setIsMounted(true);
     const savedRole = localStorage.getItem("auth_role") as UserRole | null;
     const savedAuth = localStorage.getItem("auth_status");
     const savedProgress = localStorage.getItem("student_progress");
@@ -258,6 +261,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
         pushCodeToStudent,
         studentLiveCode,
         updateStudentLiveCode,
+        isMounted,
       }}
     >
       {children}

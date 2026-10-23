@@ -5,40 +5,43 @@ import { useSession } from "@/lib/auth/sessionContext";
 import { Download, Award, ShieldCheck, Terminal, Flame, Zap, CheckCircle2 } from "lucide-react";
 
 export default function StudentProfilePage() {
-  const { currentUser, progress } = useSession();
+  const { currentUser, progress, isMounted } = useSession();
 
   return (
     <div className="min-h-screen bg-slate-50 text-slate-900 py-8 px-4 sm:px-6 lg:px-8 font-sans">
       <div className="max-w-4xl mx-auto space-y-8">
         {/* Profile Hero Card */}
         <div className="ui-card-outer p-6 sm:p-8 flex flex-col sm:flex-row items-center sm:items-start gap-6">
-          <div className="w-20 h-20 rounded-2xl bg-blue-600 border-2 border-blue-400 flex items-center justify-center text-2xl font-extrabold text-white font-mono shrink-0 shadow-md">
-            {currentUser.initials}
+          <div
+            className="w-20 h-20 rounded-2xl bg-blue-600 border-2 border-blue-400 flex items-center justify-center text-2xl font-extrabold text-white font-mono shrink-0 shadow-md"
+            suppressHydrationWarning
+          >
+            {isMounted ? currentUser.initials : "AP"}
           </div>
 
           <div className="space-y-2.5 text-center sm:text-left flex-1">
             <span className="text-xs font-mono text-blue-700 uppercase tracking-widest block font-bold">
-              PROFIL // {currentUser.roleLabel}
+              PROFIL // {isMounted ? currentUser.roleLabel : "SISWA PRIVATE"}
             </span>
-            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight">
-              {currentUser.name}
+            <h1 className="text-2xl sm:text-3xl font-extrabold text-slate-900 tracking-tight" suppressHydrationWarning>
+              {isMounted ? currentUser.name : "Andi Pratama"}
             </h1>
             <p className="text-xs sm:text-sm text-slate-600">
-              {currentUser.email} &bull; Mentor Bimbingan: <strong>Andricha Dea Mitra</strong>
+              <span suppressHydrationWarning>{isMounted ? currentUser.email : "andi.pratama@student.id"}</span> &bull; Mentor Bimbingan: <strong>Andricha Dea Mitra</strong>
             </p>
 
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-3 pt-2 text-xs font-mono">
               <span className="px-3.5 py-1.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 font-bold flex items-center space-x-1.5">
                 <Flame className="w-3.5 h-3.5 text-amber-600 fill-amber-600" />
-                <span>STREAK: {progress.streakDays} HARI</span>
+                <span suppressHydrationWarning>STREAK: {isMounted ? progress.streakDays : 5} HARI</span>
               </span>
               <span className="px-3.5 py-1.5 rounded-xl bg-blue-50 border border-blue-200 text-blue-800 font-bold flex items-center space-x-1.5">
                 <Zap className="w-3.5 h-3.5 text-blue-600" />
-                <span>TOTAL: {progress.xpPoints} XP</span>
+                <span suppressHydrationWarning>TOTAL: {isMounted ? progress.xpPoints : 340} XP</span>
               </span>
               <span className="px-3.5 py-1.5 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 font-bold flex items-center space-x-1.5">
                 <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                <span>TUGAS: {progress.completedAssignments} SELESAI</span>
+                <span suppressHydrationWarning>TUGAS: {isMounted ? progress.completedAssignments : 15} SELESAI</span>
               </span>
             </div>
           </div>

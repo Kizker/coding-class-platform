@@ -27,7 +27,7 @@ interface DayRoutineItem {
 }
 
 export default function StudentDashboardPage() {
-  const { progress, isTaskCompleted } = useSession();
+  const { progress, isTaskCompleted, isMounted } = useSession();
   const { serverTime, activeDayIndex } = useServerTime(15000);
 
   // 7-day routine data simplified for current week (Pekan 4)
@@ -161,11 +161,11 @@ export default function StudentDashboardPage() {
           <div className="flex flex-wrap items-center justify-between gap-2 text-xs text-stone-500 pb-3 border-b border-stone-100">
             <div className="flex items-center space-x-2">
               <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse inline-block" />
-              <span className="font-medium text-stone-700">
+              <span className="font-medium text-stone-700" suppressHydrationWarning>
                 {serverTime.dateFormatted}
               </span>
               <span className="text-stone-300">&bull;</span>
-              <span>{serverTime.timeFormatted}</span>
+              <span suppressHydrationWarning>{serverTime.timeFormatted}</span>
             </div>
 
             <span className="px-2.5 py-0.5 rounded-full bg-indigo-50 text-indigo-700 font-medium text-[11px] border border-indigo-100">
@@ -209,8 +209,8 @@ export default function StudentDashboardPage() {
                   🔥
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900">
-                    {progress.streakDays} Hari Berturut
+                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                    {isMounted ? progress.streakDays : 5} Hari Berturut
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
                     Konsistensi PR Harian
@@ -224,8 +224,8 @@ export default function StudentDashboardPage() {
                   ⚡
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900">
-                    {progress.xpPoints} XP Terkumpul
+                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                    {isMounted ? progress.xpPoints : 340} XP Terkumpul
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
                     Level 02 &bull; Apprentice
@@ -239,8 +239,8 @@ export default function StudentDashboardPage() {
                   🌱
                 </div>
                 <div>
-                  <div className="text-base font-bold text-stone-900">
-                    Pekan {progress.currentWeek} dari 12
+                  <div className="text-base font-bold text-stone-900" suppressHydrationWarning>
+                    Pekan {isMounted ? progress.currentWeek : 4} dari 12
                   </div>
                   <div className="text-xs text-stone-500 font-medium">
                     Fase 1: Fondasi Logika

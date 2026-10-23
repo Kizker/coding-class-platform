@@ -16,7 +16,7 @@ import {
 export function Navbar() {
   const pathname = usePathname();
   const router = useRouter();
-  const { role, currentUser, isAuthenticated, logout, progress } = useSession();
+  const { role, currentUser, isAuthenticated, logout, progress, isMounted } = useSession();
 
   const handleLogout = () => {
     logout();
@@ -173,27 +173,46 @@ export function Navbar() {
                   <div className="hidden sm:flex items-center space-x-2 text-xs text-stone-600 px-3 py-1.5 rounded-xl bg-stone-100/80 border border-stone-200/70 font-medium">
                     <span className="flex items-center space-x-1">
                       <span>🔥</span>
-                      <strong className="text-stone-900">{progress.streakDays} Hari</strong>
+                      <strong className="text-stone-900" suppressHydrationWarning>
+                        {isMounted ? progress.streakDays : 5} Hari
+                      </strong>
                     </span>
                     <span className="text-stone-300">&bull;</span>
                     <span className="flex items-center space-x-1">
                       <span>⚡</span>
-                      <strong className="text-stone-900">{progress.xpPoints} XP</strong>
+                      <strong className="text-stone-900" suppressHydrationWarning>
+                        {isMounted ? progress.xpPoints : 340} XP
+                      </strong>
                     </span>
                   </div>
                 )}
 
                 {/* Role Profile Badge */}
                 <div className="flex items-center space-x-2.5 pl-2 border-l border-stone-200">
-                  <div className="w-8 h-8 rounded-full bg-stone-200 text-stone-800 flex items-center justify-center font-bold text-xs shadow-2xs">
-                    {currentUser.initials}
+                  <div
+                    className="w-8 h-8 rounded-full bg-stone-200 text-stone-800 flex items-center justify-center font-bold text-xs shadow-2xs"
+                    suppressHydrationWarning
+                  >
+                    {isMounted ? currentUser.initials : "AP"}
                   </div>
                   <div className="hidden sm:flex flex-col text-left">
-                    <span className="text-xs font-semibold text-stone-900 leading-tight">
-                      {currentUser.name}
+                    <span
+                      className="text-xs font-semibold text-stone-900 leading-tight"
+                      suppressHydrationWarning
+                    >
+                      {isMounted ? currentUser.name : "Andi Pratama"}
                     </span>
-                    <span className="text-[10px] text-stone-500 font-medium leading-tight">
-                      Siswa Private
+                    <span
+                      className="text-[10px] text-stone-500 font-medium leading-tight"
+                      suppressHydrationWarning
+                    >
+                      {isMounted
+                        ? role === "student"
+                          ? "Siswa Private"
+                          : role === "tutor"
+                          ? "Lead Tutor"
+                          : "Wali Murid"
+                        : "Siswa Private"}
                     </span>
                   </div>
                 </div>
