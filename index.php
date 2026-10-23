@@ -1,46 +1,18 @@
 <?php
 /**
  * Hostinger LiteSpeed to Next.js Reverse Proxy Bridge
- * Resilient Multi-Port Auto-Launcher with Immediate Diagnostics
+ * PID-Tracked Resilient Auto-Launcher for coding-class.labtry.my.id
  */
 
-$candidatePorts = [3089, 3095, 3012, 3125, 3188, 3210];
-$activePort = 3089;
+$port = 3210;
+$pidFile = __DIR__ . '/app.pid';
+$logFile = __DIR__ . '/runner.log';
 
 if (isset($_GET['port']) && is_numeric($_GET['port'])) {
-    $activePort = (int)$_GET['port'];
+    $port = (int)$_GET['port'];
 }
 
-// 1. Kill command (?kill=1)
-if (isset($_GET['kill']) && $_GET['kill'] == '1') {
-    @shell_exec('killall -9 node 2>&1');
-    @shell_exec('pkill -9 -f "server.js" 2>&1');
-    @file_put_contents(__DIR__ . '/runner.log', "=== PROCESSES KILLED AT " . date('Y-m-d H:i:s') . " ===\n");
-}
-
-// Fast check helper
-function checkHttpAlive($port) {
-    $ch = curl_init("http://127.0.0.1:{$port}/");
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_NOBODY, true);
-    curl_setopt($ch, CURLOPT_CONNECTTIMEOUT_MS, 200);
-    curl_setopt($ch, CURLOPT_TIMEOUT_MS, 400);
-    $res = curl_exec($ch);
-    $code = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-    curl_close($ch);
-    return ($code > 0 && $code < 600);
-}
-
-function isPortOpen($port) {
-    $fp = @fsockopen('127.0.0.1', $port, $errno, $errstr, 0.1);
-    if ($fp) {
-        fclose($fp);
-        return true;
-    }
-    return false;
-}
-
-// Detect node binary
+// 1. Detect working node binary
 function findNodeBinary() {
     $candidates = [
         '/opt/alt/alt-nodejs22/root/usr/bin/node',
@@ -61,81 +33,110 @@ function findNodeBinary() {
 
 list($nodeBin, $nodeVersion) = findNodeBinary();
 
-// 2. IMMEDIATE DIAGNOSTIC MODE (?diag=1) - Returns instantly without blocking!
+// Helper: Check if socket is open
+function isSocketOpen($port) {
+    $fp = @fsockopen('127.0.0.1', $port, $errno, $errstr, 0.4);
+    if ($fp) {
+        fclose($fp);
+        return true;
+    }
+    return false;
+}
+
+// Helper: Check if PID is alive
+function isPidRunning($pidFile) {
+    if (!@file_exists($pidFile)) {
+        return false;
+    }
+    $pid = (int)trim(@file_get_contents($pidFile));
+    if ($pid <= 0) {
+        return false;
+    }
+    $res = @shell_exec("kill -0 {$pid} 2>&1");
+    return ($res === "" || $res === null);
+}
+
+// Helper: Kill this app's process safely
+function killAppProcess($pidFile) {
+    if (@file_exists($pidFile)) {
+        $pid = (int)trim(@file_get_contents($pidFile));
+        if ($pid > 0) {
+            @shell_exec("kill -9 {$pid} 2>/dev/null");
+        }
+        @unlink($pidFile);
+    }
+    @shell_exec('pkill -9 -f "coding-class.*server.js" 2>/dev/null');
+}
+
+// 2. Kill command (?kill=1)
+if (isset($_GET['kill']) && $_GET['kill'] == '1') {
+    killAppProcess($pidFile);
+    @file_put_contents($logFile, "=== APP RESTARTED AT " . date('Y-m-d H:i:s') . " ===\n");
+}
+
+// 3. Immediate Diagnostic Mode (?diag=1)
 if (isset($_GET['diag']) && $_GET['diag'] == '1') {
     header('Content-Type: text/html; charset=utf-8');
-    echo '<h2>⚡ Immediate Diagnostic Panel</h2>';
+    $currentPid = @file_exists($pidFile) ? trim(@file_get_contents($pidFile)) : 'None';
+    $isPidAlive = isPidRunning($pidFile);
+    $isSocketAlive = isSocketOpen($port);
+
+    echo '<h2>⚡ Coding Class Diagnostic Panel</h2>';
     echo '<p><strong>Node Binary:</strong> ' . htmlspecialchars($nodeBin) . ' (' . htmlspecialchars($nodeVersion) . ')</p>';
-    echo '<p><strong>PHP User:</strong> ' . htmlspecialchars(@shell_exec('whoami') ?: 'N/A') . '</p>';
-    echo '<p><strong>Memory Limits (ulimit -a):</strong><br><pre>' . htmlspecialchars(@shell_exec('ulimit -a 2>&1') ?: 'N/A') . '</pre></p>';
-    echo '<h3>Running Node Processes (ps x)</h3>';
-    echo '<pre>' . htmlspecialchars(@shell_exec('ps x | grep -E "node|PID" 2>&1') ?: 'No processes') . '</pre>';
-    echo '<h3>Port Probing</h3><ul>';
-    foreach ($candidatePorts as $p) {
-        $http = checkHttpAlive($p) ? '<span style="color:green;font-weight:bold">HTTP_OK</span>' : '<span style="color:gray">HTTP_FAIL</span>';
-        $sock = isPortOpen($p) ? '<span style="color:blue">SOCK_OPEN</span>' : '<span style="color:gray">SOCK_CLOSED</span>';
-        echo "<li>Port {$p}: {$http} | {$sock}</li>";
-    }
-    echo '</ul>';
-    echo '<h3>Runner Log</h3>';
-    $log = @file_exists(__DIR__ . '/runner.log') ? @file_get_contents(__DIR__ . '/runner.log') : 'No log yet';
+    echo '<p><strong>Target Port:</strong> ' . htmlspecialchars($port) . ' | <strong>Socket Status:</strong> ' . ($isSocketAlive ? "<span style='color:green;font-weight:bold'>OPEN (LISTENING)</span>" : "<span style='color:red'>CLOSED</span>") . '</p>';
+    echo '<p><strong>App PID:</strong> ' . htmlspecialchars($currentPid) . ' | <strong>PID Alive:</strong> ' . ($isPidAlive ? "<span style='color:green'>YES</span>" : "<span style='color:red'>NO</span>") . '</p>';
+    echo '<h3>Process Table</h3>';
+    echo '<pre>' . htmlspecialchars(@shell_exec('ps x | grep -E "server.js|PID" 2>&1') ?: 'None') . '</pre>';
+    echo '<h3>Runner Log (Last 2500 chars)</h3>';
+    $log = @file_exists($logFile) ? @file_get_contents($logFile) : 'No log yet';
     echo '<pre style="background:#111;color:#0f0;padding:12px;border-radius:6px;max-height:350px;overflow:auto">' . htmlspecialchars(substr($log, -2500)) . '</pre>';
     echo '<p style="margin-top:20px">';
-    echo '<a href="?diag=1" style="padding:6px 12px;background:#2563eb;color:#fff;border-radius:4px;text-decoration:none">Refresh Diag</a> ';
-    echo '<a href="?kill=1&diag=1" style="padding:6px 12px;background:#dc2626;color:#fff;border-radius:4px;text-decoration:none">Kill Node Processes</a> ';
-    echo '<a href="/" style="padding:6px 12px;background:#059669;color:#fff;border-radius:4px;text-decoration:none">Go to Web App</a>';
+    echo '<a href="?diag=1" style="padding:6px 14px;background:#2563eb;color:#fff;border-radius:6px;text-decoration:none">Refresh Diag</a> ';
+    echo '<a href="?kill=1&diag=1" style="padding:6px 14px;background:#dc2626;color:#fff;border-radius:6px;text-decoration:none">Restart App</a> ';
+    echo '<a href="/" style="padding:6px 14px;background:#059669;color:#fff;border-radius:6px;text-decoration:none">Open Web App</a>';
     echo '</p>';
     exit;
 }
 
-// 3. Find if any port is currently running
-$runningPort = null;
-foreach ($candidatePorts as $p) {
-    if (checkHttpAlive($p)) {
-        $runningPort = $p;
-        break;
-    }
-}
+// 4. Check if backend is alive; if not, launch it!
+$backendReady = isSocketOpen($port);
 
-// 4. Self-Healing Auto-Launch
-if (!$runningPort) {
-    $targetPort = $activePort;
+if (!$backendReady) {
+    if (!isPidRunning($pidFile)) {
+        // Rotasi log jika > 25KB
+        if (@file_exists($logFile) && @filesize($logFile) > 25000) {
+            @file_put_contents($logFile, "=== LOG ROTATED ===\n");
+        }
 
-    // Bersihkan proses node zombie jika port masih tertutup
-    @shell_exec('killall -9 node 2>/dev/null');
-    usleep(150000);
+        $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
+        $cmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$port} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> runner.log 2>&1 & echo $! > " . escapeshellarg($pidFile);
 
-    $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
-    $startCmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$targetPort} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> runner.log 2>&1 &";
-
-    if (@file_exists(__DIR__ . '/runner.log') && @filesize(__DIR__ . '/runner.log') > 25000) {
-        @file_put_contents(__DIR__ . '/runner.log', "=== LOG ROTATED ===\n");
+        if (function_exists('exec')) {
+            @exec($cmd);
+        } elseif (function_exists('shell_exec')) {
+            @shell_exec($cmd);
+        } elseif (function_exists('system')) {
+            @system($cmd);
+        }
     }
 
-    if (function_exists('exec')) {
-        @exec($startCmd);
-    } elseif (function_exists('shell_exec')) {
-        @shell_exec($startCmd);
-    } elseif (function_exists('system')) {
-        @system($startCmd);
-    }
-
-    for ($i = 0; $i < 6; $i++) {
-        usleep(400000);
-        if (checkHttpAlive($targetPort)) {
-            $runningPort = $targetPort;
+    // Tunggu socket terbuka (maksimal 4 detik)
+    for ($i = 0; $i < 8; $i++) {
+        usleep(500000);
+        if (isSocketOpen($port)) {
+            $backendReady = true;
             break;
         }
     }
 }
 
-// 5. Status Page jika masih belum aktif
-if (!$runningPort) {
-    $runnerLog = @file_exists(__DIR__ . '/runner.log') ? @file_get_contents(__DIR__ . '/runner.log') : 'Belum ada log';
+// 5. Jika setelah proses start socket masih belum terbuka, tampilkan fallback status
+if (!$backendReady) {
+    $runnerLog = @file_exists($logFile) ? @file_get_contents($logFile) : 'Belum ada log';
 
     http_response_code(502);
     header('Content-Type: text/html; charset=utf-8');
-    echo '<!DOCTYPE html><html><head><title>Coding Class Platform - Status</title>';
+    echo '<!DOCTYPE html><html><head><title>Coding Class Platform - Initializing</title>';
     echo '<meta name="viewport" content="width=device-width, initial-scale=1">';
     echo '<style>body{font-family:system-ui,-apple-system,sans-serif;background:#090d16;color:#e2e8f0;display:flex;align-items:center;justify-content:center;min-height:100vh;margin:0;padding:20px}';
     echo '.card{background:#111827;border:2px solid #1f2937;border-radius:12px;max-width:650px;width:100%;padding:28px;box-shadow:0 20px 25px -5px rgba(0,0,0,0.5)}';
@@ -144,8 +145,8 @@ if (!$runningPort) {
     echo '</style></head><body>';
     echo '<div class="card">';
     echo '<h1>⚡ Platform Edukasi Koding: Node.js Initializing</h1>';
-    echo '<p>Backend Next.js sedang diinisialisasi pada target port <code>' . htmlspecialchars($activePort) . '</code>.</p>';
-    echo '<pre>' . htmlspecialchars(substr($runnerLog, -1200)) . '</pre>';
+    echo '<p>Backend Next.js sedang proses booting pada port <code>' . htmlspecialchars($port) . '</code>.</p>';
+    echo '<pre>' . htmlspecialchars(substr($runnerLog, -1500)) . '</pre>';
     echo '<p style="margin-top:20px">';
     echo '<a href="javascript:location.reload()" class="btn">Muat Ulang Halaman ↻</a>';
     echo '<a href="?diag=1" class="btn" style="background:#4b5563">Buka Diagnostic Panel</a>';
@@ -154,7 +155,7 @@ if (!$runningPort) {
     exit;
 }
 
-// 6. Reverse Proxy request ke Node.js di 127.0.0.1:$runningPort
+// 6. Reverse Proxy request ke Node.js di 127.0.0.1:$port
 $headers = [];
 foreach (getallheaders() as $name => $value) {
     if (strtolower($name) === 'host') {
@@ -170,7 +171,7 @@ $headers[] = "X-Forwarded-Proto: " . ((isset($_SERVER['HTTPS']) && $_SERVER['HTT
 $input = in_array($_SERVER['REQUEST_METHOD'], ['GET', 'HEAD']) ? null : file_get_contents('php://input');
 
 $ch = curl_init();
-curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:{$runningPort}" . $_SERVER['REQUEST_URI']);
+curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:{$port}" . $_SERVER['REQUEST_URI']);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HEADER, true);
 curl_setopt($ch, CURLOPT_FOLLOWLOCATION, false);
@@ -206,4 +207,5 @@ foreach ($headerLines as $line) {
 }
 
 echo $bodyContent;
+
 

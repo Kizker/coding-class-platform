@@ -10,6 +10,16 @@ process.on('unhandledRejection', (reason) => {
   console.error('[FATAL unhandledRejection]:', reason && reason.stack ? reason.stack : reason);
 });
 
+process.on('exit', (code) => {
+  console.log('[NODE EXIT EVENT] Exit code:', code);
+});
+
+['SIGINT', 'SIGTERM', 'SIGHUP', 'SIGQUIT'].forEach(sig => {
+  process.on(sig, () => {
+    console.log(`[NODE SIGNAL RECEIVED]: ${sig}`);
+  });
+});
+
 if (typeof WebAssembly !== 'undefined' && WebAssembly.instantiate) {
   const origInstantiate = WebAssembly.instantiate;
   WebAssembly.instantiate = function(...args) {
