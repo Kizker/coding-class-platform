@@ -81,10 +81,14 @@ foreach ($candidatePorts as $p) {
 // 3. Self-Healing: Jika belum ada backend yang berjalan, jalankan di port aktif
 if (!$runningPort) {
     $targetPort = $activePort;
+
+    // Bersihkan proses node zombie milik user saat ini sebelum start baru
+    @shell_exec('pkill -f "node.*server.js" 2>/dev/null');
+    usleep(200000); // 200ms grace period untuk melepaskan port socket
     
-    // Siapkan command start dengan isolasi memori V8
-    $nodeOptions = "--max-old-space-size=256";
-    $startCmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$targetPort} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} server.js >> runner.log 2>&1 &";
+    // Siapkan command start dengan isolasi memori V8 dan bypass wasm trap handler
+    $nodeOptions = "--disable-wasm-trap-handler --max-old-space-size=384";
+    $startCmd = "cd " . escapeshellarg(__DIR__) . " && PORT={$targetPort} HOSTNAME=127.0.0.1 NODE_OPTIONS=" . escapeshellarg($nodeOptions) . " nohup {$nodeBin} --disable-wasm-trap-handler --max-old-space-size=384 server.js >> runner.log 2>&1 &";
 
     // Bersihkan runner.log jika terlalu besar (>20KB)
     if (@file_exists(__DIR__ . '/runner.log') && @filesize(__DIR__ . '/runner.log') > 20480) {
@@ -99,8 +103,8 @@ if (!$runningPort) {
         @system($startCmd);
     }
 
-    // Tunggu sampai backend siap merespon HTTP (maksimal 4 detik)
-    for ($i = 0; $i < 8; $i++) {
+    // Tunggu sampai backend siap merespon HTTP (maksimal 5 detik)
+    for ($i = 0; $i < 10; $i++) {
         usleep(500000);
         if (checkHttpAlive($targetPort) || isPortOpen($targetPort)) {
             $runningPort = $targetPort;
