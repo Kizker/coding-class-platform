@@ -158,4 +158,76 @@ Route::prefix('v1')->group(function () {
             ],
         ]);
     });
+
+    // 5. System Health Check
+    Route::get('/health', function () {
+        $dbStatus = 'disconnected';
+        $dbError = null;
+
+        try {
+            DB::connection()->getPdo();
+            $dbStatus = 'connected';
+        } catch (\Throwable $e) {
+            $dbError = $e->getMessage();
+        }
+
+        return response()->json([
+            'success' => $dbStatus === 'connected',
+            'statusCode' => $dbStatus === 'connected' ? 200 : 500,
+            'data' => [
+                'app' => config('app.name'),
+                'env' => config('app.env'),
+                'php_version' => PHP_VERSION,
+                'laravel_version' => app()->version(),
+                'database' => [
+                    'driver' => config('database.default'),
+                    'status' => $dbStatus,
+                    'error' => $dbError,
+                ],
+                'cache_store' => config('cache.default'),
+                'session_driver' => config('session.driver'),
+                'server_time' => now()->toIso8601String(),
+            ],
+        ]);
+    });
+
+    // 6. Secure Database Migration & Seeder Runner
+    Route::get('/system/migrate', function (Request $request) {
+        $token = $request->query('token');
+        $validToken = 'coding_class_secure_deploy_2026';
+
+        if ($token !== $validToken) {
+            return response()->json([
+                'success' => false,
+                'statusCode' => 403,
+                'message' => 'Unauthorized: Invalid security token.',
+            ], 403);
+        }
+
+        try {
+            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+            $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+
+            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+            $seedOutput = \Illuminate\Support\Facades\Artisan::output();
+
+            return response()->json([
+                'success' => true,
+                'statusCode' => 200,
+                'message' => 'Database migrations and seeders executed successfully.',
+                'data' => [
+                    'migrate' => trim($migrateOutput),
+                    'seed' => trim($seedOutput),
+                ],
+            ]);
+        } catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'statusCode' => 500,
+                'message' => 'Migration failed: ' . $e->getMessage(),
+                'trace' => $e->getTraceAsString(),
+            ], 500);
+        }
+    });
 });
+
