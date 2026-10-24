@@ -32,12 +32,20 @@ Route::prefix('student')->name('student.')->group(function () {
         ]);
     })->name('curriculum');
 
+    Route::get('/learn', function () {
+        return redirect()->route('student.learn', ['week' => 4, 'day' => 'senin']);
+    });
+
     Route::get('/learn/{week}/{day}', function ($week, $day) {
         return Inertia::render('Student/Learn', [
             'week' => (int) $week,
             'day' => (string) $day,
         ]);
     })->name('learn');
+
+    Route::get('/live-session', function () {
+        return redirect()->route('student.live-session', ['week' => 4, 'day' => 'jumat']);
+    });
 
     Route::get('/live-session/{week}/{day}', function ($week, $day) {
         return Inertia::render('Student/LiveSession', [
@@ -58,6 +66,10 @@ Route::prefix('tutor')->name('tutor.')->group(function () {
     Route::get('/dashboard', function () {
         return Inertia::render('Tutor/Dashboard');
     })->name('dashboard');
+
+    Route::get('/studio', function () {
+        return redirect()->route('tutor.studio', ['week' => 4, 'day' => 'jumat']);
+    });
 
     Route::get('/studio/{week}/{day}', function ($week, $day) {
         return Inertia::render('Tutor/Studio', [
