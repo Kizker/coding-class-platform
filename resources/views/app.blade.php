@@ -13,5 +13,6 @@
     </head>
     <body class="bg-[#FDFBF7] text-black antialiased font-sans min-h-screen">
         @inertia
+        <script data-page="app" type="application/json">@json($page)</script>
     </body>
 </html>

@@ -193,7 +193,7 @@ Route::prefix('v1')->group(function () {
         ]);
     });
 
-    // 6. Secure Database Migration & Seeder Runner
+    // 6. Secure Database Migration, Seeder & Cache Runner
     Route::get('/system/migrate', function (Request $request) {
         $token = $request->query('token');
         $validToken = 'coding_class_secure_deploy_2026';
@@ -206,27 +206,40 @@ Route::prefix('v1')->group(function () {
             ], 403);
         }
 
-        try {
-            \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
-            $migrateOutput = \Illuminate\Support\Facades\Artisan::output();
+        @ini_set('memory_limit', '512M');
+        @set_time_limit(120);
 
-            \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
-            $seedOutput = \Illuminate\Support\Facades\Artisan::output();
+        $action = $request->query('action', 'all');
+
+        try {
+            $data = [];
+
+            if (in_array($action, ['all', 'migrate'])) {
+                \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
+                $data['migrate'] = trim(\Illuminate\Support\Facades\Artisan::output());
+            }
+
+            if (in_array($action, ['all', 'seed'])) {
+                \Illuminate\Support\Facades\Artisan::call('db:seed', ['--force' => true]);
+                $data['seed'] = trim(\Illuminate\Support\Facades\Artisan::output());
+            }
+
+            if (in_array($action, ['all', 'clear'])) {
+                \Illuminate\Support\Facades\Artisan::call('optimize:clear');
+                $data['clear'] = trim(\Illuminate\Support\Facades\Artisan::output());
+            }
 
             return response()->json([
                 'success' => true,
                 'statusCode' => 200,
-                'message' => 'Database migrations and seeders executed successfully.',
-                'data' => [
-                    'migrate' => trim($migrateOutput),
-                    'seed' => trim($seedOutput),
-                ],
+                'message' => 'System maintenance action executed successfully.',
+                'data' => $data,
             ]);
         } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
                 'statusCode' => 500,
-                'message' => 'Migration failed: ' . $e->getMessage(),
+                'message' => 'Maintenance action failed: ' . $e->getMessage(),
                 'trace' => $e->getTraceAsString(),
             ], 500);
         }
