@@ -1,29 +1,15 @@
-# ==============================================================================
-# Hostinger Shared Hosting (LiteSpeed) - Laravel 13 Root Proxy to /public
-# ==============================================================================
-
 <IfModule mod_rewrite.c>
     RewriteEngine On
+    RewriteBase /
 
-    # Prevent direct access to sensitive hidden directories and files
-    RewriteRule ^\.(.*)$ - [F,L]
-    RewriteRule ^(composer\.(json|lock)|package\.json|pnpm-lock\.yaml|tsconfig\.json|\.env.*)$ - [F,L]
-    RewriteRule ^(app|bootstrap|config|database|resources|routes|storage|tests)/ - [F,L]
+    # 1. Route build assets to public/build
+    RewriteRule ^build/(.*)$ public/build/$1 [L]
 
-    # Rewrite all traffic to public directory
-    RewriteCond %{REQUEST_URI} !^/public/
-    RewriteRule ^(.*)$ public/$1 [L]
+    # 2. If requested file or directory exists in root, serve directly
+    RewriteCond %{REQUEST_FILENAME} -f [OR]
+    RewriteCond %{REQUEST_FILENAME} -d
+    RewriteRule ^ - [L]
+
+    # 3. Route everything else to root index.php
+    RewriteRule ^ index.php [L]
 </IfModule>
-
-# Caching for Vite precompiled assets
-<IfModule mod_expires.c>
-    ExpiresActive On
-    ExpiresByType text/css "access plus 1 year"
-    ExpiresByType application/javascript "access plus 1 year"
-    ExpiresByType font/woff2 "access plus 1 year"
-    ExpiresByType image/svg+xml "access plus 1 month"
-    ExpiresByType image/webp "access plus 1 month"
-    ExpiresByType image/png "access plus 1 month"
-</IfModule>
-
-Options -Indexes
