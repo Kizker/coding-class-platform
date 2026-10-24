@@ -1,58 +1,29 @@
-# macOS System Files (Hygiene Mutlak)
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Dependencies
-node_modules/
-.pnpm-store/
-.npm/
-.yarn/
-
-# Production & Build Outputs
-.next/
-!.next/standalone
-!.next/standalone/**
-!.next/static
-!.next/static/**
-out/
-build/
-dist/
-.turbo/
-.cache/
-
-# Environment Variables & Secrets
-.env
-.env.local
-.env.development.local
-.env.test.local
-.env.production.local
-*.pem
-*.key
-
-# Logs & Debug
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-pnpm-debug.log*
-lerna-debug.log*
 *.log
-
-# Testing & Coverage
-coverage/
-.nyc_output/
-playwright-report/
-test-results/
-
-# Editor & IDE
-.idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/extensions.json
-*.swp
-*.swo
-*~
+*.zip
+.DS_Store
+.next/
+.env
+.env.backup
+.env.production
+.phpactor.json
+.phpunit.result.cache
+/.codex
+/.cursor/
+/.idea
+/.nova
+/.phpunit.cache
+/.vscode
+/.zed
+/auth.json
+/node_modules
+/_legacy_nextjs
+/public/fonts-manifest.dev.json
+/public/hot
+/public/storage
+/storage/*.key
+/storage/pail
+/vendor
+_ide_helper.php
+Homestead.json
+Homestead.yaml
+Thumbs.db
