@@ -57,6 +57,36 @@ export function Navbar() {
                     >
                       Tugas Harian
                     </Link>
+                    <Link
+                      href={`/student/curriculum/${progress?.currentWeek || 1}`}
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
+                        url.startsWith("/student/curriculum")
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
+                      }`}
+                    >
+                      Kurikulum
+                    </Link>
+                    <Link
+                      href="/student/capstone/1"
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
+                        url.startsWith("/student/capstone")
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
+                      }`}
+                    >
+                      Capstone
+                    </Link>
+                    <Link
+                      href="/student/profile"
+                      className={`px-3 py-1.5 rounded-lg text-xs font-bold transition-all border-2 ${
+                        url === "/student/profile"
+                          ? "bg-black text-white border-black shadow-[2px_2px_0px_#000]"
+                          : "border-transparent text-black hover:border-black hover:bg-yellow-100 hover:shadow-[2px_2px_0px_#000]"
+                      }`}
+                    >
+                      Profil &amp; Rapor
+                    </Link>
                   </>
                 )}
 

@@ -10,67 +10,68 @@ use Illuminate\Support\Facades\DB;
 class DatabaseSeeder extends Seeder
 {
     /**
-     * Seed the application's database with demo data.
+     * Seed the application's database with demo data aligned with PRD specifications.
      */
     public function run(): void
     {
-        // 1. Seed Demo Users
+        // 1. Seed Demo Users (Synchronized with Frontend ROLE_ACCOUNTS)
         $student = User::updateOrCreate(
-            ['email' => 'budi@codingclass.id'],
+            ['email' => 'andi.pratama@student.id'],
             [
-                'name' => 'Budi Pratama',
+                'name' => 'Andi Pratama',
                 'role' => 'student',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('123456'),
                 'grade' => 'Kelas 8 SMP',
-                'xp' => 1250,
-                'level' => 4,
-                'streak' => 5,
-                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Budi',
+                'xp' => 65,
+                'level' => 1,
+                'streak' => 3,
+                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Andi',
                 'metadata' => [
-                    'github' => 'budipratama',
+                    'github' => 'andipratama',
                     'favoriteLanguage' => 'Python',
+                    'activeWeek' => 1,
                 ],
             ]
         );
 
         $tutor = User::updateOrCreate(
-            ['email' => 'mentor@codingclass.id'],
+            ['email' => 'andri@codingclass.id'],
             [
-                'name' => 'Kak Dimas Ardiansyah',
+                'name' => 'Andricha Dea Mitra',
                 'role' => 'tutor',
-                'password' => Hash::make('password123'),
-                'grade' => 'Lead Python Instructor & Mentor',
+                'password' => Hash::make('tutor123'),
+                'grade' => 'Lead Tutor & Senior Systems Architect',
                 'xp' => 5400,
                 'level' => 12,
                 'streak' => 24,
-                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Dimas',
+                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Andri',
                 'metadata' => [
-                    'specialization' => 'Python Backend & Data Engineering',
-                    'experience' => '5+ Tahun Mengajar',
+                    'specialization' => 'Python Fullstack, WASM & Systems Architecture',
+                    'experience' => '10+ Tahun Engineering & Mentoring',
                 ],
             ]
         );
 
         $parent = User::updateOrCreate(
-            ['email' => 'ayah.budi@keluarga.id'],
+            ['email' => 'bambang.p@parent.id'],
             [
-                'name' => 'Pak Hendra Pratama',
+                'name' => 'Bambang Pratama',
                 'role' => 'parent',
-                'password' => Hash::make('password123'),
+                'password' => Hash::make('987654'),
                 'grade' => 'Wali Murid (Orang Tua)',
                 'xp' => 0,
                 'level' => 1,
                 'streak' => 0,
-                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Hendra',
+                'avatar' => 'https://api.dicebear.com/7.x/bottts/svg?seed=Bambang',
                 'metadata' => [
-                    'childName' => 'Budi Pratama',
+                    'childName' => 'Andi Pratama',
                     'childId' => $student->id,
                 ],
             ]
         );
 
         // 2. Seed Course
-        $courseId = DB::table('courses')->updateOrInsert(
+        DB::table('courses')->updateOrInsert(
             ['slug' => 'python-track-12-weeks'],
             [
                 'title' => 'Python Mastery Track (12 Minggu Privat 1-on-1)',
@@ -82,17 +83,17 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
-        // 3. Seed Capstone Project for Student
+        // 3. Seed Capstone Projects for Student
         DB::table('capstone_projects')->updateOrInsert(
             [
                 'student_id' => $student->id,
                 'milestone' => 'M4',
             ],
             [
-                'title' => 'CLI Financial Tracker & Budget Planner',
-                'description' => 'Aplikasi pencatatan keuangan pribadi interaktif berbasis Command Line Interface menggunakan Python functions, dictionary, dan file handling CSV.',
-                'repository_url' => 'https://github.com/budipratama/cli-budget-tracker',
-                'demo_url' => 'https://replit.com/@budipratama/cli-budget-tracker',
+                'title' => 'Game CLI Tebak Angka Rahasia',
+                'description' => 'Game konsol interaktif lengkap dengan penentu skor, perulangan game loop, modul random, dan kondisi kemenangan melawan komputer.',
+                'repository_url' => 'https://github.com/andipratama/game-tebak-angka-cli',
+                'demo_url' => 'https://replit.com/@andipratama/game-tebak-angka-cli',
                 'grade_score' => 95,
                 'status' => 'GRADED',
                 'created_at' => now(),
@@ -100,16 +101,69 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        DB::table('capstone_projects')->updateOrInsert(
+            [
+                'student_id' => $student->id,
+                'milestone' => 'M8',
+            ],
+            [
+                'title' => 'Buku Kontak Telepon CRUD + CSV File Storage',
+                'description' => 'Sistem manajemen data kontak mandiri berbasis OOP dengan penyimpanan berkas CSV permanen di harddisk.',
+                'repository_url' => 'https://github.com/andipratama/buku-kontak-crud',
+                'demo_url' => null,
+                'grade_score' => null,
+                'status' => 'IN_PROGRESS',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
+        DB::table('capstone_projects')->updateOrInsert(
+            [
+                'student_id' => $student->id,
+                'milestone' => 'M12',
+            ],
+            [
+                'title' => 'Live Interactive Web App Portfolio (Demo Day)',
+                'description' => 'Aplikasi web interaktif berbasis Python yang dipresentasikan langsung di depan orang tua dan pengajar pada wisuda les privat.',
+                'repository_url' => null,
+                'demo_url' => null,
+                'grade_score' => null,
+                'status' => 'IN_PROGRESS',
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
         // 4. Seed Live Session
         DB::table('live_sessions')->updateOrInsert(
-            ['session_key' => 'live-py-week4-sesi7'],
+            ['session_key' => 'live-py-week1-sesi1'],
             [
-                'week_number' => 4,
-                'session_number' => 7,
+                'week_number' => 1,
+                'session_number' => 1,
                 'tutor_id' => $tutor->id,
                 'student_id' => $student->id,
                 'status' => 'ACTIVE',
                 'started_at' => now(),
+                'created_at' => now(),
+                'updated_at' => now(),
+            ]
+        );
+
+        // 5. Seed Weekly Report for Parent View
+        DB::table('weekly_reports')->updateOrInsert(
+            [
+                'student_id' => $student->id,
+                'week_number' => 1,
+            ],
+            [
+                'tutor_id' => $tutor->id,
+                'attendance_status' => 'Hadir Penuh',
+                'homework_completion_rate' => 100,
+                'qualitative_notes' => 'Andi menunjukkan antusiasme yang sangat baik di pekan pertama. Pemahaman terhadap print() dan konsep kotak memori (variabel) terbangun dengan cepat.',
+                'strengths' => 'Daya tangkap logika IPO cepat dan berani mencoba kode mandiri.',
+                'areas_to_improve' => 'Ketelitian pada penutup tanda kurung dan tanda kutip string.',
+                'whatsapp_message_template' => null,
                 'created_at' => now(),
                 'updated_at' => now(),
             ]

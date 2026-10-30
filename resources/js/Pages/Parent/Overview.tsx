@@ -1,170 +1,142 @@
 import React from "react";
 import { Link } from "@inertiajs/react";
 import { useSession } from "@/lib/auth/sessionContext";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Flame, CheckCircle2, Clock, Calendar } from "lucide-react";
 
 export default function ParentOverviewPage() {
   const { progress } = useSession();
+  const currentWeek = progress.currentWeek || 1;
+  const progressPct = Math.round((currentWeek / (progress.totalWeeks || 12)) * 100);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans">
+    <div className="min-h-screen bg-[#FDFBF7] text-black font-sans antialiased">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 space-y-6">
         {/* Parent Portal Header */}
-        <div className="ui-card-outer p-6 sm:p-7 space-y-3">
-          <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-emerald-700 font-extrabold uppercase tracking-widest">
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[5px_5px_0px_#000] space-y-3">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+            <span className="text-black font-black uppercase tracking-widest bg-[#86EFAC] px-2.5 py-0.5 border border-black">
               PORTAL MONITORING WALI MURID
             </span>
-            <span className="text-slate-500 font-bold" suppressHydrationWarning>
-              PEKAN {String(progress.currentWeek).padStart(2, "0")} / 12
+            <span className="text-black font-black bg-[#FEF08A] px-2.5 py-0.5 border border-black" suppressHydrationWarning>
+              PEKAN {String(currentWeek).padStart(2, "0")} / 12
             </span>
           </div>
 
           <div>
-            <h1 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            <h1 className="text-2xl sm:text-3xl font-black tracking-tight text-black uppercase">
               Monitoring Belajar: Andi Pratama
             </h1>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Pengajar: <strong className="text-slate-900 font-bold">Andricha Dea Mitra</strong> &bull; Program Les Privat 1-on-1 (Python Track)
+            <p className="text-xs sm:text-sm text-stone-800 font-bold mt-1">
+              Pengajar: <strong className="text-black underline">Andricha Dea Mitra</strong> &bull; Program Les Privat 1-on-1 (Python Track 12 Minggu)
             </p>
           </div>
         </div>
 
         {/* Section 01: 12-Week Progress Card */}
-        <div className="ui-card-outer p-6 sm:p-7 space-y-3.5">
-          <div className="flex items-center justify-between text-xs font-mono">
-            <span className="text-slate-500 font-bold">01 // INDEKS KURIKULUM 12 PEKAN</span>
-            <span className="text-emerald-700 font-extrabold tabular-nums" suppressHydrationWarning>
-              {Math.round((progress.currentWeek / progress.totalWeeks) * 100)}% SELESAI (PEKAN {String(progress.currentWeek).padStart(2, "0")})
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[4px_4px_0px_#000] space-y-3.5">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono">
+            <span className="text-stone-700 font-black uppercase">01 // INDEKS KURIKULUM 12 PEKAN</span>
+            <span className="text-black font-black bg-[#86EFAC] px-2.5 py-0.5 border border-black tabular-nums" suppressHydrationWarning>
+              {progressPct}% SELESAI (PEKAN {String(currentWeek).padStart(2, "0")})
             </span>
           </div>
 
-          {/* Minimal progress bar */}
-          <div className="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden border border-slate-200">
+          {/* Progress bar */}
+          <div className="w-full bg-white h-4 border-2 border-black shadow-[2px_2px_0px_#000] overflow-hidden p-0.5">
             <div
-              className="bg-emerald-600 h-full rounded-full transition-all duration-500"
-              style={{ width: `${Math.round((progress.currentWeek / progress.totalWeeks) * 100)}%` }}
+              className="bg-[#4ADE80] h-full border-r-2 border-black transition-all duration-500"
+              style={{ width: `${progressPct}%` }}
             />
           </div>
 
-          <p className="text-xs text-slate-600 leading-relaxed">
-            Status: Menguasai Fondasi Algoritma, Logika Komputer, Model IPO, dan Kotak Penyimpanan Memori (Variabel &amp; Tipe Data).
+          <p className="text-xs text-stone-800 font-bold leading-relaxed">
+            Status Capaian: Menguasai Fondasi Algoritma, Logika Komputer, Model IPO (Input-Proses-Output), dan Variabel Penyimpan Nilai.
           </p>
         </div>
 
         {/* Section 02: Daily PR Routine Matrix (Senin - Kamis) */}
-        <div className="ui-card-outer p-6 sm:p-7 space-y-4">
-          <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-3">
-            <span className="text-slate-500 font-bold">02 // KEPATUHAN PR HARIAN (15 MENIT)</span>
-            <span className="text-blue-700 font-extrabold tabular-nums" suppressHydrationWarning>
-              STREAK: {String(progress.streakDays).padStart(2, "0")} HARI
+        <div className="bg-white border-2.5 border-black p-6 sm:p-7 shadow-[4px_4px_0px_#000] space-y-4">
+          <div className="flex flex-wrap items-center justify-between gap-2 text-xs font-mono border-b-2 border-black pb-3">
+            <span className="text-stone-700 font-black uppercase">02 // KEPATUHAN PR HARIAN (15 MENIT MANDIRI)</span>
+            <span className="text-black font-black bg-[#FEF08A] px-2.5 py-0.5 border border-black tabular-nums" suppressHydrationWarning>
+              STREAK: {String(progress.streakDays).padStart(2, "0")} HARI BERTURUT-TURUT
             </span>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs font-mono">
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
-              <span className="block text-[11px] text-slate-500 font-bold">SENIN</span>
+            <div className="p-4 border-2 border-black bg-[#86EFAC] shadow-[2px_2px_0px_#000] flex flex-col justify-between h-28">
+              <span className="block text-[11px] text-black font-black">SENIN (PR 1)</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 1: Menyapa</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
+                <span className="text-black text-xs font-black block font-sans uppercase">Recall Logika</span>
+                <span className="text-black text-xs font-black block mt-0.5">100 / 100</span>
               </div>
             </div>
 
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
-              <span className="block text-[11px] text-slate-500 font-bold">SELASA</span>
+            <div className="p-4 border-2 border-black bg-[#86EFAC] shadow-[2px_2px_0px_#000] flex flex-col justify-between h-28">
+              <span className="block text-[11px] text-black font-black">SELASA (PR 2)</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 2: Alur Kode</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
+                <span className="text-black text-xs font-black block font-sans uppercase">Alur Kode</span>
+                <span className="text-black text-xs font-black block mt-0.5">95 / 100</span>
               </div>
             </div>
 
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex flex-col justify-between h-28">
-              <span className="block text-[11px] text-slate-500 font-bold">RABU</span>
+            <div className="p-4 border-2 border-black bg-[#86EFAC] shadow-[2px_2px_0px_#000] flex flex-col justify-between h-28">
+              <span className="block text-[11px] text-black font-black">RABU (PR 3)</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 3: Debug Petik</span>
-                <span className="text-emerald-700 text-xs font-extrabold block mt-0.5">100 / 100</span>
+                <span className="text-black text-xs font-black block font-sans uppercase">Debug Syntax</span>
+                <span className="text-black text-xs font-black block mt-0.5">95 / 100</span>
               </div>
             </div>
 
-            <div className="ui-card-inner p-4 rounded-xl border border-rose-200 bg-rose-50/50 flex flex-col justify-between h-28">
-              <span className="block text-[11px] text-rose-500 font-bold">KAMIS</span>
+            <div className="p-4 border-2 border-black bg-[#FEF08A] shadow-[2px_2px_0px_#000] flex flex-col justify-between h-28">
+              <span className="block text-[11px] text-black font-black">KAMIS (PR 4)</span>
               <div>
-                <span className="text-slate-900 text-xs font-bold block font-sans">PR 4: Variabel</span>
-                <span className="text-rose-600 text-xs font-bold block mt-0.5">Terlewat</span>
+                <span className="text-black text-xs font-black block font-sans uppercase">Pre-Read Variabel</span>
+                <span className="text-black text-xs font-black block mt-0.5">100 / 100</span>
               </div>
             </div>
           </div>
         </div>
 
-        {/* Section 03: Qualitative Notes from Kak Tutor */}
-        <div className="ui-card-outer p-6 sm:p-7 space-y-3.5">
-          <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-3">
-            <span className="text-slate-500 font-bold">03 // EVALUASI NALAR DARI PENGAJAR</span>
-            <span className="text-emerald-700 font-bold">TERUPDATE</span>
-          </div>
-
-          <div className="ui-card-inner p-5 rounded-xl border border-slate-200 bg-slate-50/70 text-xs sm:text-sm text-slate-800 leading-relaxed font-sans italic">
-            &ldquo;{progress.weeklyNote}&rdquo;
-          </div>
-
-          <div className="text-[11px] font-mono text-slate-500 text-right font-bold">
-            Ditinjau oleh Andricha Dea Mitra (Tutor)
-          </div>
-        </div>
-
-        {/* Section 04: 2-Hour Weekend Lesson Schedule */}
-        <div className="ui-card-outer p-6 sm:p-7 space-y-4">
-          <div className="flex items-center justify-between text-xs font-mono border-b border-slate-100 pb-3">
-            <span className="text-slate-500 font-bold">04 // SESI TATAP MUKA 2 JAM (AKHIR PEKAN)</span>
+        {/* Section 03: Latest Qualitative Note & Fast Links */}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="bg-white border-2.5 border-black p-6 shadow-[4px_4px_0px_#000] space-y-3">
+            <span className="text-xs font-mono font-black uppercase tracking-wider block bg-[#FEF08A] px-2 py-0.5 border border-black w-fit">
+              CATATAN PENGAJAR TERBARU
+            </span>
+            <div className="bg-[#FEF08A] p-4 border-2 border-black shadow-[2px_2px_0px_#000] text-xs sm:text-sm font-bold text-black italic leading-relaxed">
+              &ldquo;{progress.weeklyNote}&rdquo;
+            </div>
             <Link
-              href="/parent/schedule"
-              className="text-blue-600 hover:text-blue-800 font-bold transition"
+              href="/parent/reports"
+              className="text-xs font-black text-black underline flex items-center space-x-1 hover:text-stone-700 uppercase"
             >
-              LOG KEHADIRAN &rarr;
+              <span>Buka Arsip Catatan Lengkap</span>
+              <ArrowRight className="w-3.5 h-3.5 stroke-[3]" />
             </Link>
           </div>
 
-          <div className="space-y-2.5 text-xs font-mono">
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex items-center justify-between">
-              <div>
-                <span className="text-slate-900 font-bold block font-sans">Jumat, 16.00 - 18.00 WIB</span>
-                <span className="text-slate-600 text-[11px]">Sesi 07: Fungsi Modular (def &amp; return)</span>
-              </div>
-              <span className="px-3 py-1 rounded-lg border border-emerald-200 bg-emerald-50 text-emerald-800 text-[11px] font-bold">
-                HADIR (2 JAM)
-              </span>
-            </div>
-
-            <div className="ui-card-inner p-4 rounded-xl border border-slate-200 bg-slate-50/70 flex items-center justify-between">
-              <div>
-                <span className="text-slate-900 font-bold block font-sans">Sabtu, 16.00 - 18.00 WIB</span>
-                <span className="text-slate-600 text-[11px]">Sesi 08: Eksekusi Capstone 1 (Game CLI)</span>
-              </div>
-              <span className="px-3 py-1 rounded-lg border border-amber-200 bg-amber-50 text-amber-800 text-[11px] font-bold">
-                SESI BERIKUTNYA
-              </span>
-            </div>
-          </div>
-        </div>
-
-        {/* Section 05: Showcase CTA */}
-        <div className="ui-card-outer p-6 sm:p-7 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div>
-            <span className="text-xs font-mono text-slate-500 uppercase tracking-widest block font-bold">
-              05 // PORTOFOLIO KARYA PROGRAM
+          <div className="bg-white border-2.5 border-black p-6 shadow-[4px_4px_0px_#000] space-y-4">
+            <span className="text-xs font-mono font-black uppercase tracking-wider block bg-[#86EFAC] px-2 py-0.5 border border-black w-fit">
+              AKSES CEPAT DOKUMENTASI
             </span>
-            <p className="text-xs sm:text-sm text-slate-600 mt-1">
-              Tinjau galeri program dan hasil eksekusi terminal yang dibuat oleh Andi.
-            </p>
+            <div className="space-y-2.5 text-xs font-black">
+              <Link
+                href="/parent/showcase"
+                className="w-full p-3 border-2 border-black bg-white hover:bg-[#FEF08A] shadow-[2px_2px_0px_#000] flex items-center justify-between transition-all"
+              >
+                <span>Lihat Dokumentasi Karya Program Anak</span>
+                <ArrowRight className="w-4 h-4 stroke-[3]" />
+              </Link>
+              <Link
+                href="/parent/schedule"
+                className="w-full p-3 border-2 border-black bg-white hover:bg-[#FEF08A] shadow-[2px_2px_0px_#000] flex items-center justify-between transition-all"
+              >
+                <span>Lihat Log Kehadiran 24 Sesi Tatap Muka</span>
+                <ArrowRight className="w-4 h-4 stroke-[3]" />
+              </Link>
+            </div>
           </div>
-
-          <Link
-            href="/parent/showcase"
-            className="px-5 py-2.5 rounded-xl bg-blue-600 hover:bg-blue-700 text-white font-bold text-xs transition flex items-center justify-center space-x-1.5 shrink-0 shadow-xs"
-          >
-            <span>BUKA KARYA</span>
-            <ArrowRight className="w-3.5 h-3.5" />
-          </Link>
         </div>
       </div>
     </div>

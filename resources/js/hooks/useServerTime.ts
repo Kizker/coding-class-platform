@@ -11,7 +11,7 @@ const DEFAULT_SERVER_TIME: ServerTimeData = {
   isLiveClassDay: true,
   isWeekdayHomeworkDay: false,
   isRestDay: false,
-  activeWeek: 4,
+  activeWeek: 1,
 };
 
 export function useServerTime(pollingIntervalMs = 30000) {

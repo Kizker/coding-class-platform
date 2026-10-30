@@ -52,7 +52,7 @@ Route::prefix('v1')->group(function () {
             'isLiveClassDay' => in_array($dayKey, ['jumat', 'sabtu']),
             'isWeekdayHomeworkDay' => in_array($dayKey, ['senin', 'selasa', 'rabu', 'kamis']),
             'isRestDay' => $dayKey === 'minggu',
-            'activeWeek' => 4,
+            'activeWeek' => 1,
         ];
 
         return response()->json([

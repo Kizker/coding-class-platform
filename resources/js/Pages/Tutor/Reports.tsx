@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useSession } from "@/lib/auth/sessionContext";
+import { CURRICULUM_DATA } from "@/data/curriculum";
 import {
   Copy,
   Check,
@@ -12,12 +13,21 @@ export default function TutorWhatsAppReportPage() {
   const [copied, setCopied] = useState<boolean>(false);
   const [parentPhone, setParentPhone] = useState<string>("081234567890");
 
-  const reportText = `[LAPORAN PERKEMBANGAN BELAJAR KODING // PEKAN KE-${progress.currentWeek}]
+  const currentWeek = progress.currentWeek || 1;
+  const currentWeekData = CURRICULUM_DATA.find((w) => w.week === currentWeek) || CURRICULUM_DATA[0];
+  const s1 = currentWeekData.liveSessions.find((s) => s.day === "jumat");
+  const s2 = currentWeekData.liveSessions.find((s) => s.day === "sabtu");
+  const s1Title = s1 ? s1.title.replace(/^Pertemuan \d+:\s*/, "") : "Logika & Praktik Terpandu";
+  const s2Title = s2 ? s2.title.replace(/^Pertemuan \d+:\s*/, "") : "Praktik Terapan & Proyek";
+  const s1Num = String((currentWeek - 1) * 2 + 1).padStart(2, "0");
+  const s2Num = String((currentWeek - 1) * 2 + 2).padStart(2, "0");
+
+  const reportText = `[LAPORAN PERKEMBANGAN BELAJAR KODING // PEKAN KE-${currentWeek}]
 Yth. Bapak/Ibu Wali Murid Andi Pratama,
 Berikut kami sampaikan ringkasan capaian pembelajaran les privat koding pekan ini.
 
 1. PROGRES KURIKULUM & TARGET
-- Pekan Berjalan : Minggu ke-${progress.currentWeek} dari 12 Pekan (Fase 1: Fondasi Logika & Capstone 1)
+- Pekan Berjalan : Minggu ke-${currentWeek} dari 12 Pekan (${currentWeekData.title})
 - Akumulasi XP   : ${progress.xpPoints} XP
 - Konsistensi    : ${progress.streakDays} Hari berturut-turut
 
@@ -28,8 +38,8 @@ Berikut kami sampaikan ringkasan capaian pembelajaran les privat koding pekan in
 - Kamis  [Pre-reading]  : 100/100 (Variabel & Tipe Data Memori)
 
 3. SESI TATAP MUKA 2 JAM (AKHIR PEKAN)
-- Jumat  (Sesi 07): Fungsi Modular (def & return)
-- Sabtu  (Sesi 08): Capstone 1 (Game CLI Interaktif Tebak Angka)
+- Jumat  (Sesi ${s1Num}): ${s1Title}
+- Sabtu  (Sesi ${s2Num}): ${s2Title}
 
 4. EVALUASI NALAR LOGIKA PENGAJAR
 "${progress.weeklyNote}"
