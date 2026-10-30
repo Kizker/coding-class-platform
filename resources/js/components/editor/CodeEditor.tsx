@@ -36,38 +36,38 @@ export function CodeEditor({
   };
 
   return (
-    <div className={`flex flex-col overflow-hidden bg-white ${hideBorder ? "" : "border border-slate-200 rounded-2xl shadow-xs"}`}>
+    <div className={`flex flex-col overflow-hidden bg-white ${hideBorder ? "" : "border-2.5 border-black shadow-[4px_4px_0px_#000]"}`}>
       {/* Editor Header Bar */}
       {!hideHeader && (
-        <div className="flex items-center justify-between px-4 py-2.5 bg-slate-100 border-b border-slate-200 text-xs font-mono">
+        <div className="flex items-center justify-between px-4 py-2.5 bg-white border-b-2.5 border-black text-xs font-mono">
         <div className="flex items-center space-x-3">
-          <span className="text-slate-800 font-bold tracking-wider">
+          <span className="text-black font-black tracking-wider uppercase">
             WORKSPACE // main.py
           </span>
-          <span className="text-[11px] text-slate-500 hidden sm:inline">
+          <span className="text-[11px] text-stone-700 font-bold hidden sm:inline">
             (Python 3.11 Pyodide)
           </span>
         </div>
 
         <div className="flex items-center space-x-3 text-[11px]">
           {lastSavedAt && (
-            <span className="flex items-center space-x-1.5 text-slate-600">
+            <span className="flex items-center space-x-1.5 text-stone-700 font-bold">
               <span
-                className={`w-1.5 h-1.5 rounded-full ${
-                  isSaved ? "bg-emerald-600" : "bg-amber-500 animate-pulse"
+                className={`w-2 h-2 border border-black rounded-full ${
+                  isSaved ? "bg-[#86EFAC]" : "bg-[#FEF08A] animate-pulse"
                 }`}
               />
-              <span className="hidden md:inline">{lastSavedAt}</span>
+              <span className="hidden md:inline font-mono">{lastSavedAt}</span>
             </span>
           )}
 
           {onReset && !readOnly && (
             <button
               onClick={onReset}
-              className="flex items-center space-x-1 px-2.5 py-1 rounded bg-white hover:bg-slate-200 text-slate-700 transition border border-slate-300 font-semibold cursor-pointer shadow-2xs"
+              className="flex items-center space-x-1.5 px-3 py-1 bg-white hover:bg-[#FEF08A] text-black transition-all border-2 border-black font-black text-[11px] cursor-pointer shadow-[2px_2px_0px_#000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-none uppercase"
               title="Reset ke kode awal"
             >
-              <RotateCcw className="w-3 h-3" />
+              <RotateCcw className="w-3 h-3 stroke-[2.5]" />
               <span>RESET</span>
             </button>
           )}
@@ -100,7 +100,7 @@ export function CodeEditor({
             padding: { top: 12, bottom: 12 },
           }}
           loading={
-            <div className="h-full flex items-center justify-center bg-slate-50 text-slate-500 text-xs font-mono">
+            <div className="h-full flex items-center justify-center bg-[#FDFBF7] text-black text-xs font-mono font-black uppercase">
               MEMUAT MONACO EDITOR...
             </div>
           }

@@ -40,3 +40,4 @@ class Submission extends Model
         return $this->belongsTo(Assignment::class);
     }
 }
+

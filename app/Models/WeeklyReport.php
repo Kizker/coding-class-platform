@@ -40,3 +40,4 @@ class WeeklyReport extends Model
         return $this->belongsTo(User::class, 'tutor_id');
     }
 }
+

@@ -3,6 +3,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { SessionProvider } from './lib/auth/sessionContext';
+import { AppLayout } from './components/layout/AppLayout';
 
 const appName = import.meta.env.VITE_APP_NAME || 'Coding Class Platform';
 
@@ -38,7 +39,14 @@ createInertiaApp({
         resolvePageComponent(
             `./Pages/${name}.tsx`,
             import.meta.glob<any>('./Pages/**/*.tsx')
-        ),
+        ).then((module: any) => {
+            if (module.default) {
+                module.default.layout =
+                    module.default.layout ||
+                    ((pageNode: React.ReactNode) => <AppLayout>{pageNode}</AppLayout>);
+            }
+            return module;
+        }),
     setup({ el, App, props }) {
         if (!el) return;
         const root = createRoot(el);
@@ -52,4 +60,3 @@ createInertiaApp({
         color: '#facc15',
     },
 });
-

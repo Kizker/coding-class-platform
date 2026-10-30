@@ -28,3 +28,4 @@ class Course extends Model
         return $this->hasMany(LiveSession::class);
     }
 }
+
