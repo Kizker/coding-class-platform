@@ -48,14 +48,40 @@ export interface LiveSessionSyncData {
   lastUpdated: number;
 }
 
+export function sanitizeCodeString(raw: string): string {
+  if (!raw) return "";
+  if (raw.includes("\\n") || raw.includes('\\"')) {
+    return raw
+      .replace(/\\r\\n/g, "\n")
+      .replace(/\\n/g, "\n")
+      .replace(/\\t/g, "\t")
+      .replace(/\\"/g, '"');
+  }
+  return raw;
+}
+
+export const DEFAULT_STUDENT_CODE = `# Tantangan Awal Pekan 1: Buat Kartu Pelajar Digital
+nama = "Andi Pratama"
+hobi = "Koding Python"
+cita_cita = "Game Developer"
+
+# Lengkapi dan cetak kartumu di bawah:
+print("===============================")
+print("     KARTU IDENTITAS KODING    ")
+print("===============================")
+print(f"Nama       : {nama}")
+print(f"Hobi       : {hobi}")
+print(f"Cita-cita  : {cita_cita}")
+print("===============================")
+`;
+
 export const DEFAULT_LIVE_SYNC: LiveSessionSyncData = {
   currentStep: 1,
   subStep: 1,
   tutorStepTitle: "Tahap 1: Tantangan Uji Coba Awal",
   pushedCode: null,
   tutorNote: "Silakan coba selesaikan tantangan awal di bawah. Mentor memantau caramu berpikir dan menulis kode.",
-  studentLiveCode:
-    "# Buat Kartu Biodata Digitalmu:\\nprint(\\\"===============================\\\")\\nprint(\\\"     KARTU IDENTITAS KODING    \\\")\\nprint(\\\"===============================\\\")\\n# Lengkapi isinya di bawah ini:\\n",
+  studentLiveCode: DEFAULT_STUDENT_CODE,
   studentExecutionOutput: "",
   studentOutputSuccess: null,
   studentQuizAnswers: {},
@@ -180,9 +206,7 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
   const [progress, setProgress] = useState<StudentProgress>(DEFAULT_PROGRESS);
   const [isMounted, setIsMounted] = useState<boolean>(false);
   const [pushedCode, setPushedCode] = useState<string | null>(null);
-  const [studentLiveCode, setStudentLiveCode] = useState<string>(
-    "# Tantangan Awal Pekan 1: Buat Kartu Pelajar Digital\\nnama = \\\"Andi Pratama\\\"\\nhobi = \\\"Koding Python\\\"\\ncita_cita = \\\"Game Developer\\\"\\n\\n# Lengkapi dan cetak kartumu di bawah:\\nprint(\\\"===============================\\\")\\nprint(\\\"     KARTU IDENTITAS KODING    \\\")\\nprint(\\\"===============================\\\")\\nprint(f\\\"Nama       : {nama}\\\")\\nprint(f\\\"Hobi       : {hobi}\\\")\\nprint(f\\\"Cita-cita  : {cita_cita}\\\")\\nprint(\\\"===============================\\\")\\n"
-  );
+  const [studentLiveCode, setStudentLiveCode] = useState<string>(DEFAULT_STUDENT_CODE);
 
   useEffect(() => {
     setIsMounted(true);
@@ -293,12 +317,13 @@ export function SessionProvider({ children }: { children: React.ReactNode }) {
               setLiveSync(json.data);
 
               if (json.data.pushedCode && json.data.pushedCode !== lastPushedRef.current) {
+                const sanitized = sanitizeCodeString(json.data.pushedCode);
                 lastPushedRef.current = json.data.pushedCode;
-                setPushedCode(json.data.pushedCode);
+                setPushedCode(sanitized);
               }
 
               if (json.data.studentLiveCode && role === "tutor") {
-                setStudentLiveCode(json.data.studentLiveCode);
+                setStudentLiveCode(sanitizeCodeString(json.data.studentLiveCode));
               }
             }
           }

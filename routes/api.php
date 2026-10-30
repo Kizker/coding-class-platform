@@ -65,13 +65,26 @@ Route::prefix('v1')->group(function () {
 
     // 2. Live Session Sync State (Get)
     Route::get('/sync/live-session', function () {
+        $defaultStarterCode = "# Tantangan Awal Pekan 1: Buat Kartu Pelajar Digital\n" .
+            "nama = \"Andi Pratama\"\n" .
+            "hobi = \"Koding Python\"\n" .
+            "cita_cita = \"Game Developer\"\n\n" .
+            "# Lengkapi dan cetak kartumu di bawah:\n" .
+            "print(\"===============================\")\n" .
+            "print(\"     KARTU IDENTITAS KODING    \")\n" .
+            "print(\"===============================\")\n" .
+            "print(f\"Nama       : {nama}\")\n" .
+            "print(f\"Hobi       : {hobi}\")\n" .
+            "print(f\"Cita-cita  : {cita_cita}\")\n" .
+            "print(\"===============================\")\n";
+
         $defaultState = [
             'currentStep' => 1,
             'subStep' => 1,
             'tutorStepTitle' => 'Tahap 1: Tantangan Uji Coba Awal',
             'pushedCode' => null,
             'tutorNote' => 'Silakan coba selesaikan tantangan awal di bawah. Mentor memantau caramu berpikir dan menulis kode.',
-            'studentLiveCode' => "def hitung_diskon(total):\n    # Tuliskan logikamu di sini:\n    pass\n",
+            'studentLiveCode' => $defaultStarterCode,
             'studentExecutionOutput' => '',
             'studentOutputSuccess' => null,
             'studentQuizAnswers' => (object)[],
@@ -94,13 +107,26 @@ Route::prefix('v1')->group(function () {
 
     // 3. Live Session Sync State (Update)
     Route::post('/sync/live-session', function (Request $request) {
+        $defaultStarterCode = "# Tantangan Awal Pekan 1: Buat Kartu Pelajar Digital\n" .
+            "nama = \"Andi Pratama\"\n" .
+            "hobi = \"Koding Python\"\n" .
+            "cita_cita = \"Game Developer\"\n\n" .
+            "# Lengkapi dan cetak kartumu di bawah:\n" .
+            "print(\"===============================\")\n" .
+            "print(\"     KARTU IDENTITAS KODING    \")\n" .
+            "print(\"===============================\")\n" .
+            "print(f\"Nama       : {nama}\")\n" .
+            "print(f\"Hobi       : {hobi}\")\n" .
+            "print(f\"Cita-cita  : {cita_cita}\")\n" .
+            "print(\"===============================\")\n";
+
         $defaultState = [
             'currentStep' => 1,
             'subStep' => 1,
             'tutorStepTitle' => 'Tahap 1: Tantangan Uji Coba Awal',
             'pushedCode' => null,
             'tutorNote' => 'Silakan coba selesaikan tantangan awal di bawah. Mentor memantau caramu berpikir dan menulis kode.',
-            'studentLiveCode' => "def hitung_diskon(total):\n    # Tuliskan logikamu di sini:\n    pass\n",
+            'studentLiveCode' => $defaultStarterCode,
             'studentExecutionOutput' => '',
             'studentOutputSuccess' => null,
             'studentQuizAnswers' => (object)[],
@@ -113,6 +139,14 @@ Route::prefix('v1')->group(function () {
 
         $state = Cache::get('live_session_sync_state', $defaultState);
         $payload = $request->all();
+
+        // Sanitize code string if payload contains literal escaped characters
+        if (isset($payload['studentLiveCode']) && is_string($payload['studentLiveCode'])) {
+            $payload['studentLiveCode'] = str_replace(['\r\n', '\n', '\t', '\"'], ["\n", "\n", "\t", '"'], $payload['studentLiveCode']);
+        }
+        if (isset($payload['pushedCode']) && is_string($payload['pushedCode'])) {
+            $payload['pushedCode'] = str_replace(['\r\n', '\n', '\t', '\"'], ["\n", "\n", "\t", '"'], $payload['pushedCode']);
+        }
 
         foreach ($payload as $key => $value) {
             $state[$key] = $value;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Link } from "@inertiajs/react";
 import { CURRICULUM_DATA, LiveSessionItem } from "@/data/curriculum";
-import { useSession } from "@/lib/auth/sessionContext";
+import { useSession, sanitizeCodeString } from "@/lib/auth/sessionContext";
 import { usePyodide, ExecutionResult } from "@/lib/pyodide/usePyodide";
 import { CodeEditor } from "@/components/editor/CodeEditor";
 import { LIVE_QUIZ_QUESTIONS } from "@/data/liveQuizQuestions";
@@ -28,6 +28,7 @@ import {
   ArrowRight,
   Cpu,
   Layers,
+  Loader2,
 } from "lucide-react";
 
 interface Props {
@@ -85,11 +86,13 @@ export default function StudentLiveSessionPage({ week, day }: Props) {
   }, [liveSync.currentStep]);
 
   // Code editor state
-  const [editorCode, setEditorCode] = useState<string>(
-    studentLiveCode ||
+  const [editorCode, setEditorCode] = useState<string>(() => {
+    const raw =
+      studentLiveCode ||
       sessionItem.studentStarterCode ||
-      `# Sesi Tatap Muka Pekan ${weekNum} — Hari ${dayKey === "jumat" ? "Jumat" : "Sabtu"}\n`
-  );
+      `# Sesi Tatap Muka Pekan ${weekNum} — Hari ${dayKey === "jumat" ? "Jumat" : "Sabtu"}\n`;
+    return sanitizeCodeString(raw);
+  });
 
   const [lastResult, setLastResult] = useState<ExecutionResult | null>(null);
   const [copiedCodeNotice, setCopiedCodeNotice] = useState<boolean>(false);
@@ -400,7 +403,7 @@ export default function StudentLiveSessionPage({ week, day }: Props) {
                   <button
                     onClick={() =>
                       handleEditorChange(
-                        sessionItem.studentStarterCode || `# Tantangan Awal Pekan ${weekNum}\n`
+                        sanitizeCodeString(sessionItem.studentStarterCode || `# Tantangan Awal Pekan ${weekNum}\n`)
                       )
                     }
                     title="Pulihkan kode awal"
@@ -431,34 +434,103 @@ export default function StudentLiveSessionPage({ week, day }: Props) {
                 />
               </div>
 
-              <div className="border-t-2 border-black bg-stone-100 p-4 sm:p-5 flex flex-col space-y-2">
-                <div className="flex items-center justify-between text-xs text-black font-bold">
+              <div className="border-t-2.5 border-black bg-stone-100 p-4 sm:p-5 flex flex-col space-y-3">
+                <div className="flex items-center justify-between text-xs">
                   <div className="flex items-center space-x-2">
                     <Terminal className="w-4 h-4 text-black stroke-[2.5]" />
-                    <span className="text-black font-black">Hasil Program</span>
-                  </div>
-                  {lastResult && (
-                    <span
-                      className={`font-black text-xs px-2 py-0.5 rounded border-2 border-black shadow-[1.5px_1.5px_0px_#000] ${
-                        lastResult.isSuccess
-                          ? "bg-emerald-300 text-black"
-                          : "bg-rose-300 text-black"
-                      }`}
-                    >
-                      {lastResult.isSuccess ? "Berjalan Normal" : "Perlu Diperiksa"}
+                    <span className="text-black font-black font-mono tracking-wider uppercase">
+                      TERMINAL // HASIL EKSEKUSI
                     </span>
-                  )}
+                  </div>
+
+                  <div className="flex items-center space-x-2 text-[11px]">
+                    {isRunning && (
+                      <span className="flex items-center space-x-1.5 px-2.5 py-0.5 bg-[#FEF08A] border-2 border-black font-black text-[10px] text-black uppercase shadow-[1.5px_1.5px_0px_#000]">
+                        <Loader2 className="w-3 h-3 animate-spin stroke-[2.5]" />
+                        <span>MENGEKSEKUSI...</span>
+                      </span>
+                    )}
+
+                    {!isRunning && lastResult && (
+                      <span
+                        className={`font-black text-[10px] uppercase px-2.5 py-0.5 border-2 border-black shadow-[1.5px_1.5px_0px_#000] flex items-center space-x-1 ${
+                          lastResult.isSuccess
+                            ? "bg-[#86EFAC] text-black"
+                            : "bg-[#FECDD3] text-black"
+                        }`}
+                      >
+                        {lastResult.isSuccess ? (
+                          <>
+                            <Check className="w-3 h-3 stroke-[3]" />
+                            <span>EXIT 0 // SUKSES ({lastResult.executionTimeMs ?? 0}ms)</span>
+                          </>
+                        ) : (
+                          <>
+                            <AlertCircle className="w-3 h-3 stroke-[3]" />
+                            <span>EXIT 1 // PERLU DIPERIKSA</span>
+                          </>
+                        )}
+                      </span>
+                    )}
+                  </div>
                 </div>
 
-                <div className="p-3.5 rounded-xl bg-white border-2 border-black font-mono text-xs text-black min-h-[90px] max-h-[200px] overflow-y-auto shadow-[2px_2px_0px_#000]">
+                {/* Neo-Brutalist Dark Terminal Window */}
+                <div className="p-4 bg-stone-900 border-2.5 border-black font-mono text-xs text-white min-h-[120px] max-h-[260px] overflow-y-auto shadow-[3px_3px_0px_#000] space-y-2">
                   {lastResult ? (
-                    <pre className="whitespace-pre-wrap leading-relaxed font-bold">
-                      {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa teks keluaran)"}
-                    </pre>
+                    <>
+                      {lastResult.stdout && (
+                        <div className="space-y-1">
+                          <div className="text-[10px] text-[#86EFAC] uppercase tracking-wider font-bold">
+                            &gt;&gt;&gt; STDOUT:
+                          </div>
+                          <pre className="whitespace-pre-wrap leading-relaxed font-bold font-mono text-[#86EFAC]">
+                            {lastResult.stdout}
+                          </pre>
+                        </div>
+                      )}
+
+                      {lastResult.stderr && (
+                        <div className="space-y-1 pt-1">
+                          <div className="text-[10px] text-rose-400 uppercase tracking-wider font-bold">
+                            &gt;&gt;&gt; STDERR / TRACEBACK:
+                          </div>
+                          <pre className="whitespace-pre-wrap leading-relaxed font-bold font-mono text-rose-300 bg-rose-950/40 p-2.5 border border-rose-800">
+                            {lastResult.stderr}
+                          </pre>
+                        </div>
+                      )}
+
+                      {lastResult.friendlyError && (
+                        <div className="mt-2 bg-[#FEF08A] text-black p-3 border-2 border-black font-mono shadow-[2px_2px_0px_#000]">
+                          <div className="font-black text-xs uppercase flex items-center space-x-1.5 text-red-700">
+                            <AlertCircle className="w-3.5 h-3.5 stroke-[2.5]" />
+                            <span>{lastResult.friendlyError.title}</span>
+                          </div>
+                          <p className="text-xs font-bold text-stone-900 mt-1 font-sans">
+                            {lastResult.friendlyError.explanation}
+                          </p>
+                          <div className="mt-1.5 text-[11px] font-bold text-stone-800">
+                            💡 <strong>Petunjuk:</strong> {lastResult.friendlyError.hint}
+                          </div>
+                        </div>
+                      )}
+
+                      {!lastResult.stdout && !lastResult.stderr && (
+                        <p className="text-stone-400 font-mono text-xs">
+                          &gt;&gt;&gt; (Program selesai dieksekusi tanpa luaran teks)
+                        </p>
+                      )}
+                    </>
                   ) : (
-                    <p className="text-stone-500 font-sans text-xs italic">
-                      Tekan tombol &ldquo;Jalankan Kode&rdquo; untuk menguji programmu.
-                    </p>
+                    <div className="space-y-1 text-stone-400 font-mono text-xs">
+                      <p className="text-[#86EFAC] font-bold">
+                        Python 3.11 (Pyodide WebAssembly) [Terminal Siap]
+                      </p>
+                      <p className="text-stone-300">
+                        &gt;&gt;&gt; Tekan tombol <span className="text-[#FEF08A] font-bold">&ldquo;Jalankan Kode&rdquo;</span> di atas untuk menguji programmu.
+                      </p>
+                    </div>
                   )}
                 </div>
               </div>
@@ -825,35 +897,103 @@ export default function StudentLiveSessionPage({ week, day }: Props) {
                 </div>
 
                 {/* Terminal Output */}
-                <div className="border-t-2 border-black bg-stone-100 p-4 space-y-2">
-                  <div className="flex items-center justify-between text-xs text-black font-bold">
+                <div className="border-t-2.5 border-black bg-stone-100 p-4 space-y-3">
+                  <div className="flex items-center justify-between text-xs">
                     <div className="flex items-center space-x-2">
                       <Terminal className="w-4 h-4 text-black stroke-[2.5]" />
-                      <span className="text-black font-black">Hasil Eksekusi Program:</span>
+                      <span className="text-black font-black font-mono tracking-wider uppercase">
+                        TERMINAL // HASIL EKSEKUSI
+                      </span>
                     </div>
 
-                    {lastResult && (
-                      <span
-                        className={`font-black text-xs px-2 py-0.5 rounded border-2 border-black shadow-[1.5px_1.5px_0px_#000] ${
-                          lastResult.isSuccess
-                            ? "bg-emerald-300 text-black"
-                            : "bg-rose-300 text-black"
-                        }`}
-                      >
-                        {lastResult.isSuccess ? "Berhasil Berjalan" : "Error Logika"}
-                      </span>
-                    )}
+                    <div className="flex items-center space-x-2 text-[11px]">
+                      {isRunning && (
+                        <span className="flex items-center space-x-1.5 px-2.5 py-0.5 bg-[#FEF08A] border-2 border-black font-black text-[10px] text-black uppercase shadow-[1.5px_1.5px_0px_#000]">
+                          <Loader2 className="w-3 h-3 animate-spin stroke-[2.5]" />
+                          <span>MENGEKSEKUSI...</span>
+                        </span>
+                      )}
+
+                      {!isRunning && lastResult && (
+                        <span
+                          className={`font-black text-[10px] uppercase px-2.5 py-0.5 border-2 border-black shadow-[1.5px_1.5px_0px_#000] flex items-center space-x-1 ${
+                            lastResult.isSuccess
+                              ? "bg-[#86EFAC] text-black"
+                              : "bg-[#FECDD3] text-black"
+                          }`}
+                        >
+                          {lastResult.isSuccess ? (
+                            <>
+                              <Check className="w-3 h-3 stroke-[3]" />
+                              <span>EXIT 0 // SUKSES ({lastResult.executionTimeMs ?? 0}ms)</span>
+                            </>
+                          ) : (
+                            <>
+                              <AlertCircle className="w-3 h-3 stroke-[3]" />
+                              <span>EXIT 1 // PERLU DIPERIKSA</span>
+                            </>
+                          )}
+                        </span>
+                      )}
+                    </div>
                   </div>
 
-                  <div className="p-3.5 rounded-xl bg-white border-2 border-black font-mono text-xs text-black min-h-[70px] max-h-[180px] overflow-y-auto shadow-[2px_2px_0px_#000]">
+                  {/* Neo-Brutalist Dark Terminal Window */}
+                  <div className="p-4 bg-stone-900 border-2.5 border-black font-mono text-xs text-white min-h-[100px] max-h-[220px] overflow-y-auto shadow-[3px_3px_0px_#000] space-y-2">
                     {lastResult ? (
-                      <pre className="whitespace-pre-wrap leading-relaxed font-bold">
-                        {lastResult.stdout || lastResult.stderr || "(Program selesai tanpa teks luaran)"}
-                      </pre>
+                      <>
+                        {lastResult.stdout && (
+                          <div className="space-y-1">
+                            <div className="text-[10px] text-[#86EFAC] uppercase tracking-wider font-bold">
+                              &gt;&gt;&gt; STDOUT:
+                            </div>
+                            <pre className="whitespace-pre-wrap leading-relaxed font-bold font-mono text-[#86EFAC]">
+                              {lastResult.stdout}
+                            </pre>
+                          </div>
+                        )}
+
+                        {lastResult.stderr && (
+                          <div className="space-y-1 pt-1">
+                            <div className="text-[10px] text-rose-400 uppercase tracking-wider font-bold">
+                              &gt;&gt;&gt; STDERR / TRACEBACK:
+                            </div>
+                            <pre className="whitespace-pre-wrap leading-relaxed font-bold font-mono text-rose-300 bg-rose-950/40 p-2.5 border border-rose-800">
+                              {lastResult.stderr}
+                            </pre>
+                          </div>
+                        )}
+
+                        {lastResult.friendlyError && (
+                          <div className="mt-2 bg-[#FEF08A] text-black p-3 border-2 border-black font-mono shadow-[2px_2px_0px_#000]">
+                            <div className="font-black text-xs uppercase flex items-center space-x-1.5 text-red-700">
+                              <AlertCircle className="w-3.5 h-3.5 stroke-[2.5]" />
+                              <span>{lastResult.friendlyError.title}</span>
+                            </div>
+                            <p className="text-xs font-bold text-stone-900 mt-1 font-sans">
+                              {lastResult.friendlyError.explanation}
+                            </p>
+                            <div className="mt-1.5 text-[11px] font-bold text-stone-800">
+                              💡 <strong>Petunjuk:</strong> {lastResult.friendlyError.hint}
+                            </div>
+                          </div>
+                        )}
+
+                        {!lastResult.stdout && !lastResult.stderr && (
+                          <p className="text-stone-400 font-mono text-xs">
+                            &gt;&gt;&gt; (Program selesai dieksekusi tanpa luaran teks)
+                          </p>
+                        )}
+                      </>
                     ) : (
-                      <p className="text-stone-500 font-sans text-xs italic">
-                        Klik tombol &ldquo;Jalankan Kode Praktik&rdquo; di atas untuk melihat luaran programmu di sini.
-                      </p>
+                      <div className="space-y-1 text-stone-400 font-mono text-xs">
+                        <p className="text-[#86EFAC] font-bold">
+                          Python 3.11 (Pyodide WebAssembly) [Terminal Siap]
+                        </p>
+                        <p className="text-stone-300">
+                          &gt;&gt;&gt; Klik tombol <span className="text-[#FEF08A] font-bold">&ldquo;Jalankan Kode Praktik&rdquo;</span> di atas untuk melihat luaran programmu di sini.
+                        </p>
+                      </div>
                     )}
                   </div>
                 </div>
