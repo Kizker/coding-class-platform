@@ -60,3 +60,14 @@ PHP 8.5 dan Composer dikelola via Homebrew di `$HOME/homebrew/bin`. Baris beriku
 ```bash
 export PATH="$HOME/homebrew/bin:$HOME/homebrew/sbin:$PATH"
 ```
+
+---
+
+## 4. Riwayat Deployment Produksi
+
+- **Tanggal & Waktu:** 31 Oktober 2026, 11:32 WIB
+- **Target:** Hostinger Web Hosting (`coding-class.labtry.my.id`)
+- **Tindakan:** Full Wipe & Fresh Deployment dari awal.
+- **Database:** Drop all tables, fresh migration (`0001_01_01_000000` s/d `2026_10_24_000001`), dan re-seeding database demo (`DatabaseSeeder`).
+- **Status Akhir:** `HTTP 200 OK` (Healthy, MySQL connected, Vite assets served via HCDN).
+
