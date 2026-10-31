@@ -248,6 +248,11 @@ Route::prefix('v1')->group(function () {
         try {
             $data = [];
 
+            if ($action === 'fresh') {
+                \Illuminate\Support\Facades\Artisan::call('migrate:fresh', ['--force' => true, '--seed' => true]);
+                $data['fresh'] = trim(\Illuminate\Support\Facades\Artisan::output());
+            }
+
             if (in_array($action, ['all', 'migrate'])) {
                 \Illuminate\Support\Facades\Artisan::call('migrate', ['--force' => true]);
                 $data['migrate'] = trim(\Illuminate\Support\Facades\Artisan::output());
